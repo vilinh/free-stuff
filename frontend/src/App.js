@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Listing, ListingPanel } from "./components/ListingPanel/ListingPanel";
+import SignIn from "./components/Auth/SignIn";
+import SignUp from "./components/Auth/SignUp";
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { auth } from "./firebase";
 
 let template_listing = {
   title: "T-shirt",
@@ -19,9 +23,41 @@ let template_listing = {
 };
 
 function App() {
+  const [authUser, setAuthUser] = useState(null)
+
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user)
+      } else {
+        setAuthUser(null)
+      }
+    })
+
+    return () => {
+      listen();
+    }
+  }, []);
+
+  const userSignOut = () => {
+    signOut(auth).then(() => {
+      console.log('sign out successful')
+    }).catch(error => console.log(error))
+  }
+
   return (
     <div className="App">
-      <ListingPanel listing={template_listing}></ListingPanel>
+      {authUser == null ? 
+        <div>
+          <SignIn />
+          <SignUp />
+        </div>
+        : 
+        <div>
+          <ListingPanel listing={template_listing}></ListingPanel>
+          <button onClick={userSignOut}>Sign Out</button>
+        </div>
+      }
     </div>
   );
 }
