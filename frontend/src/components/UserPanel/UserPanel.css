@@ -1,0 +1,25 @@
+.user-panel {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.user-r {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+}
+
+.user-details {
+    font-size: .9rem;
+    margin-top: .4rem;
+    color: var(--subtext-gray);
+}
+
+.user-pfp {
+    width: 4rem;
+    border-radius: 50%;
+}
