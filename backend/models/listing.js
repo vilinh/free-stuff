@@ -40,7 +40,9 @@ const ListingSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { collection: "listings" }
+  {
+      collection: "listings"
+  }
 );
 
 export default mongoose.model("Listing", ListingSchema);
