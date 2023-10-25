@@ -35,7 +35,6 @@ export const ListingPanel = ({ listing }) => {
           </button>
         </div>
       </div>
-      <UserPanel></UserPanel>
     </div>
   );
 };
