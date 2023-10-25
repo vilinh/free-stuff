@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Listing, ListingPanel } from "./components/ListingPanel/ListingPanel";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from "./firebase";
+import { ListingPage } from "./components/ListingPage/ListingPage";
 
 let template_listing = {
   title: "T-shirt",
@@ -54,7 +54,7 @@ function App() {
         </div>
         : 
         <div>
-          <ListingPanel listing={template_listing}></ListingPanel>
+          <ListingPage listing={template_listing}></ListingPage>
           <button onClick={userSignOut}>Sign Out</button>
         </div>
       }
