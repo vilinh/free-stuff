@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { auth } from '../../firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import axios from 'axios'
 
 const SignUp = () => {
   const [email, setEmail] = useState('')
@@ -9,8 +10,8 @@ const SignUp = () => {
   const signUp = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential)
+      .then((cred) => {
+        makePostCall(cred.user)
       }).catch((error) => {
         console.log(error)
       })
@@ -37,5 +38,17 @@ const SignUp = () => {
     </div>
   )
 }
+
+async function makePostCall(user) {
+  try {
+    const newUser = {
+      uid: user.uid,
+      email: user.email
+    }
+    await axios.post('http://localhost:8000/user', newUser)
+  } catch (error) {
+    console.log(error);
+  }
+} 
 
 export default SignUp
