@@ -1,0 +1,8 @@
+.user-page {
+  display: flex;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4rem;
+}

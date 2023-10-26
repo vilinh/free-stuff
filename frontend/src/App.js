@@ -5,6 +5,7 @@ import SignUp from "./components/Auth/SignUp";
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from "./firebase";
 import { ListingPage } from "./components/ListingPage/ListingPage";
+import { UserPage } from "./components/UserPage/UserPage";
 
 let template_listing = {
   title: "T-shirt",
@@ -54,6 +55,7 @@ function App() {
         </div>
         : 
         <div>
+          {/* <UserPage></UserPage> */}
           <ListingPage listing={template_listing}></ListingPage>
           <button onClick={userSignOut}>Sign Out</button>
         </div>
