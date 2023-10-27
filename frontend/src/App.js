@@ -4,6 +4,7 @@ import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from "./firebase";
+import { Outlet } from "react-router-dom";
 import { ListingPage } from "./components/ListingPage/ListingPage";
 import { UserPage } from "./components/UserPage/UserPage";
 
@@ -55,8 +56,9 @@ function App() {
         </div>
         : 
         <div>
+          <Outlet />
           {/* <UserPage></UserPage> */}
-          <ListingPage listing={template_listing}></ListingPage>
+          {/* <ListingPage listing={template_listing}></ListingPage> */}
           <button onClick={userSignOut}>Sign Out</button>
         </div>
       }
