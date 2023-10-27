@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+const condition_vars = ['new', 'gently used', 'good', 'fair', 'poor']
+const category_vars = ['clothing', 'furniture', 'electronics', 'home', 'books', 'games', 'parts', 'outdoor', 'other']
+
 const ListingSchema = new mongoose.Schema(
   {
     title: {
@@ -31,6 +34,9 @@ const ListingSchema = new mongoose.Schema(
         type: Date,
         default: Date.now,
       },
+      address: {
+        type: String,
+      },
     },
     description: {
       type: String,
@@ -45,4 +51,4 @@ const ListingSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Listing", ListingSchema);
+export default {ListingSchema, condition_vars, category_vars};
