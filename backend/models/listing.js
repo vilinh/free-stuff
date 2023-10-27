@@ -51,4 +51,6 @@ const ListingSchema = new mongoose.Schema(
   }
 );
 
-export default {ListingSchema, condition_vars, category_vars};
+const listingModel = mongoose.model("Listing", ListingSchema)
+
+export {listingModel, condition_vars, category_vars};

@@ -1,5 +1,5 @@
 import express from "express";
-import listingModel from "../models/listing.js";
+import {listingModel, condition_vars, category_vars} from "../models/listing.js";
 import sanitize from "mongo-sanitize";
 const router = express.Router();
 
@@ -115,7 +115,7 @@ async function getListings(title, claimed, condition, categories, location, radi
         }
     }
 
-    let result = await listingModel.find(query).sort(sort_by).skip(offset).limit(index);
+    let result = await listingModel.find(query)//.sort(sort_by).skip(offset).limit(index);
     return result;
 }
 
