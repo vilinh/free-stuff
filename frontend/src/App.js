@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-import { Link, Outlet, useFetcher, useRouteLoaderData } from "react-router-dom";
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { ListingPage } from "./components/ListingPage/ListingPage";
 import { UserPage } from "./components/UserPage/UserPage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 let template_listing = {
   title: "T-shirt",
@@ -24,49 +30,79 @@ let template_listing = {
     "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dHNoaXJ0fGVufDB8fDB8fHww",
 };
 
-function AuthStatus() {
-  let { user } = useRouteLoaderData("root");
-  let fetcher = useFetcher();
+const fbAuth = getAuth();
 
-  if (!user) {
-    return <p>You are not logged in</p>;
-  }
+function App() {
+  const [authUser, setAuthUser] = useState(null);
 
-  let isLoggingOut = fetcher.formData != null;
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => {
+      listen();
+    };
+  }, []);
 
   return (
-    <div>
-      <p>Welcome {user}!</p>
-      <fetcher.Form method="post" action="/logout">
-        <button type="submit" disabled={isLoggingOut}>
-          {isLoggingOut ? "Signing out..." : "Sign out"}
+    <BrowserRouter basename="/">
+      {/* remove later, replace w navbar */}
+      {authUser && (
+        <button
+          onClick={() => {
+            if (fbAuth.currentUser) {
+              signOut(auth)
+                .then(() => console.log("signed out"))
+                .catch((err) => console.log(err));
+            }
+          }}
+        >
+          signout
         </button>
-      </fetcher.Form>
-    </div>
+      )}
+
+      <Routes>
+        <Route path="/" element={<TempPublicPage></TempPublicPage>} />
+        <Route path="/login" element={<SignIn></SignIn>} />
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute user={authUser}>
+              <UserPage></UserPage>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/listing"
+          element={
+            <ProtectedRoute user={authUser}>
+              <ListingPage listing={template_listing}></ListingPage>
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-function App() {
+function TempPublicPage() {
   return (
-    <div className="App">
-      <AuthStatus />
-
-      <ul>
-        <li>
-          <Link to="/">Public Page</Link>
-        </li>
-        <li>
-          <Link to="/signup">Signup Page</Link>
-        </li>
-        <li>
-          <Link to="/protected">Protected Page</Link>
-        </li>
-        <li>
-          <Link to="/profile">My Profile</Link>
-        </li>
-      </ul>
-
-      <Outlet />
+    <div>
+      public
+      <li>
+        <Link to="/login">login</Link>
+      </li>
+      <li>
+        <Link to="/user">user page</Link>
+      </li>
+      <li>
+        <Link to="/listing">listing page</Link>
+      </li>
     </div>
   );
 }

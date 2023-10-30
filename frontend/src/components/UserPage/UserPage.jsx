@@ -2,8 +2,14 @@ import { ListingThumbnail } from "../ListingThumbnail/ListingThumbnail";
 import { UserPanel } from "../UserPanel/UserPanel";
 import Grid from "@mui/material/Grid";
 import "./UserPage.css";
+import { getAuth } from "firebase/auth";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const UserPage = () => {
+  const auth = getAuth();
+  const navigate = useNavigate();
+
   return (
     <div className="user-page">
       <div className="user-details">
