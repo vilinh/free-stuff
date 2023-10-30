@@ -18,13 +18,17 @@ import { ErrorPage } from "./components/ErrorPage/ErrorPage";
 import App from "./App";
 import { UserPage } from "./components/UserPage/UserPage";
 import { AuthProvider } from "./auth.ts";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
+console.log(auth.currentUser);
 
 const router = createBrowserRouter([
   {
     id: "root",
     path: "/",
     loader() {
-      return { user: AuthProvider.username };
+      return { user: auth.currentUser?.email };
     },
     Component: App,
     children: [
@@ -65,7 +69,12 @@ function protectedLoader({ request }) {
   // If the user is not logged in and tries to access `/protected`, we redirect
   // them to `/login` with a `from` parameter that allows login to redirect back
   // to this page upon successful authentication
-  if (!AuthProvider.isAuthenticated) {
+  console.log(auth.currentUser);
+  if (auth.currentUser) {
+    return null;
+  }
+  if (!auth.currentUser) {
+    console.log("got here");
     let params = new URLSearchParams();
     params.set("from", new URL(request.url).pathname);
     return redirect("/login?" + params.toString());
@@ -82,14 +91,14 @@ function ProtectedPage() {
 }
 
 async function signUpLoader() {
-  if (AuthProvider.isAuthenticated) {
+  if (auth.currentUser) {
     return redirect("/");
   }
   return redirect("/signup");
 }
 
 async function loginLoader() {
-  if (AuthProvider.isAuthenticated) {
+  if (auth.currentUser) {
     return redirect("/");
   }
   return null;
@@ -176,7 +185,7 @@ async function signUpAction({ request }) {
     await AuthProvider.signup(username, password);
     return redirect("/login");
   } catch (error) {
-    console.log("error")
+    console.log("error");
     return {
       error: "Invalid sign up attempt",
     };

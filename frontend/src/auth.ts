@@ -7,6 +7,7 @@ import {
 import { auth } from "./firebase";
 import axios from "axios";
 
+
 interface AuthProvider {
   isAuthenticated: boolean;
   username: null | string;
@@ -20,7 +21,7 @@ export const AuthProvider: AuthProvider = {
   username: null,
   async signin(username: string, password: string) {
     try {
-      await signInWithEmailAndPassword(auth, username, password);
+      const response = await signInWithEmailAndPassword(auth, username, password);
       AuthProvider.isAuthenticated = true;
       AuthProvider.username = username;
     } catch (error) {
@@ -33,7 +34,7 @@ export const AuthProvider: AuthProvider = {
     AuthProvider.username = "";
   },
   signup(username: string, password: string) {
-    return  signInWithEmailAndPassword(auth, username, password)
+    return createUserWithEmailAndPassword(auth, username, password)
   },
 };
 
