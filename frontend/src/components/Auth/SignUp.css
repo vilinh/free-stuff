@@ -8,3 +8,9 @@
     color: red;
     margin-top: 1rem;
 }
+
+.login-link {
+  font-size: .8rem;
+  margin-top: 1rem;
+  text-decoration: none;
+}
