@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
     try {
         const listing = new listingModel(req.body);
         await listing.save();
-        res.status(201).send(userToAdd)
+        res.status(201).send(listing)
     } catch (error) {
         console.log(error)
     }
