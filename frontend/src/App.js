@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import SignIn from "./components/Auth/SignIn";
+import SignUp from "./components/Auth/SignUp"
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
@@ -31,6 +32,7 @@ function App() {
   return (
     <BrowserRouter basename="/">
       {/* remove later, replace w navbar */}
+      <Link to="/">home</Link>
       {currentUser && (
         <button
           onClick={() => {
@@ -48,6 +50,7 @@ function App() {
       <Routes>
         <Route path="/" element={<TempPublicPage></TempPublicPage>} />
         <Route path="/login" element={<SignIn></SignIn>} />
+        <Route path="/signup" element={<SignUp user={currentUser}></SignUp>} />
         <Route
           path="/user"
           element={
@@ -75,6 +78,9 @@ function TempPublicPage() {
       public
       <li>
         <Link to="/login">login</Link>
+      </li>
+      <li>
+        <Link to="/signup">sign up</Link>
       </li>
       <li>
         <Link to="/user">user page</Link>
