@@ -59,8 +59,7 @@ const CreateListing = () => {
 		};
 		await makePostCall(listing);
 		
-		// redirect after delay
-		navigate("/user");
+		navigate("/")
 	};
 
 	const handleQuantityChange = (e) => {

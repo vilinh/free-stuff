@@ -29,9 +29,6 @@ export const UserPage = () => {
 		<div className="user-page">
 			<div className="user-details">
 				<UserPanel></UserPanel>
-				<button onClick={() => navigate("/createListing")}>
-					Create Listing
-				</button>
 			</div>
 			<div className="user-listings">
 				<Grid container spacing={2} columns={16}>
