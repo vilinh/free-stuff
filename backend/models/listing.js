@@ -19,6 +19,7 @@ const ListingSchema = new mongoose.Schema(
     },
     claim_queue: {
       type: [String],
+      default: [],
     },
     details: {
       quantity: {

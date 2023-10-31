@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -12,10 +14,12 @@ const SignIn = () => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        console.log("signed in")
+        console.log("signed in");
         navigate("/user");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+      });
   };
 
   return (
