@@ -4,16 +4,27 @@ import sanitize from "mongo-sanitize";
 const router = express.Router();
 
 /* This function is called on the front page of the website and returns all listings based on a series of user defined
- * filters as query parameters.
+ * filters as query parameters as follows:
  *
- * TODO:I am unsure if passing an address as a query parameter may be a security concern. Can
- * potentially be a POST call if this is the case. */
+ *      - title:      Searches if title contains keyword, case-insensitive.
+ *      - claimed:    A 'True' value lists both claimed and unclaimed listings, otherwise, default is only unclaimed
+ *                    listings.
+ *      - condition:  Can be any number of the following: 'new', 'great', 'good', 'fair', 'poor'. Default is all
+ *                    conditions. Multiple query parameters are separated by ','.
+ *      - categories: Can be any number of the following: 'clothing', 'furniture', 'electronics', 'home', 'books',
+ *                    'games', 'parts', 'outdoor', 'other'. Default is all categories. Multiple query parameters are
+ *                    separated by ','.
+ *      - sort:       Can be any number of the following: 'earliest', 'latest', 'title', 'location', 'condition',
+ *                    'claimed'. Default is 'latest'. Multiple query parameters are separated by ','.
+ *      - index:      Number of results shown. Default is 100.
+ *      - offset:     Starting point of results shown. Default is 0.
+ */
 router.get("/", async (req, res) => {
     const title = req.query["title"];
-    const claimed = req.query["claimed"];  //a 'True' value lists both claimed and unclaimed listings', otherwise, default is only unclaimed listings.
-    const condition = req.query["condition"];  //I'm going to use ',' to demarcate multiple query parameters.
-    const categories = req.query["categories"];  //I'm going to use ',' to demarcate multiple query parameters.
-    const sort = req.query["sort"]; //Can be 'earliest', 'latest', 'title' (alphabetical), 'location', 'condition', 'claimed', defaults to 'latest'
+    const claimed = req.query["claimed"];
+    const condition = req.query["condition"]; // Internally represented in the db by 0:'new', 1:'great', 2:'good', 3:'fair', 4:'poor'.
+    const categories = req.query["categories"];
+    const sort = req.query["sort"];
     const index = req.query["index"];
     const offset = req.query["offset"];
 
@@ -26,7 +37,7 @@ router.get("/", async (req, res) => {
         res.send({listings: result });
     } catch (error) {
         console.log(error);
-        res.status(500).send("An error ocurred in the server.");
+        res.status(500).send("An error occurred in the server.");
     }
 });
 
@@ -43,12 +54,12 @@ router.get('/:id', async (req, res) => {
 
 /* This function adds a listing based on the listing template */
 router.post("/", async (req, res) => {
-    try {
-        const listing = new listingModel(req.body);
-        await listing.save();
-        res.status(201).send(userToAdd)
-    } catch (error) {
-        console.log(error)
+    const listing = new listingModel(req.body);
+    let result = await addListing(listing);
+    if (result === undefined) {
+        res.status(500).send("An error occurred in the server.");
+    } else {
+        res.status(201).send(listing);
     }
 });
 
@@ -72,50 +83,84 @@ async function getListings(title, claimed, condition, categories, location, radi
     }
     if(condition)
     {
-        match.push({$in: sanitize(condition).split(',')});
+        let conds = [];
+        for (let s of sanitize(condition).split(','))
+        {
+            switch (s)
+            {
+                case 'new': conds.push('0');
+                    break;
+                case 'great': conds.push('1');
+                    break;
+                case 'good': conds.push('2');
+                    break;
+                case 'fair': conds.push('3');
+                    break;
+                case 'poor': conds.push('4');
+                    break;
+            }
+        }
+        match.push({$expr:{$in:[{$toString:'$details.condition'}, conds]}});
     }
     if(categories)
     {
-        match.push({$in: sanitize(categories).split(',')});
+        match.push({'details.categories':{$in: sanitize(categories).split(',')}});
     }
     //TODO:Add address verification and location here -- using an external tool almost certainly
     if(match.length > 0)
     {
         query = {$and: match};
     }
-
     /* These are all sort parameters */
     if(!sort)
     {
-        sort_by['Date'] = -1;
+        sort_by['posted_date'] = -1;
     }
     else
     {
-        for(s of sanitize(condition).split(','))
+        for(let s of sanitize(sort).split(','))
         {
             if (s === 'earliest')
             {
-                sort_by['Date'] = 1;
+                sort_by['details.posted_date'] = 1;
             }
             if (s === 'latest')
             {
-                sort_by['Date'] = -1;
+                sort_by['details.posted_date'] = -1;
             }
             if (s === 'title')
             {
                 sort_by['title'] = 1;
             }
-            //TODO:location
-            //TODO:condition
-            //TODO:claimed
-            else
+            if (s === 'condition')
             {
-                return {};
+                sort_by['details.condition'] = 1;
             }
+            if (s === 'claimed')
+            {
+                sort_by['claimed'] = 1;
+            }
+            //TODO:location
         }
     }
-
-    let result = await listingModel.find(query)//.sort(sort_by).skip(offset).limit(index);
+    if(!sort_by.keys)
+    {
+        sort_by['posted_date'] = -1;
+    }
+    /* Other stuff */
+    if(!index)
+    {
+        index = 100;
+    }
+    if(!offset)
+    {
+        offset = 0
+    }
+    if(!Number.isInteger(Number(index)) || !Number.isInteger(Number(offset)) || index < 0 || offset < 0)
+    {
+        throw new Error("index, offset must both be non-negative integer values")
+    }
+    let result = await listingModel.find(query).collation({locale:"en"}).sort(sort_by).skip(offset).limit(index);
     return result;
 }
 
@@ -146,4 +191,15 @@ async function findListingById(id) {
         return undefined;
     }
 }
-export default router;
+
+async function addListing(listing) {
+    try {
+        return await listing.save();
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
+
+export default router
+export {addListing};

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const condition_vars = ['new', 'gently used', 'good', 'fair', 'poor']
+const condition_vars = ['new', 'great', 'good', 'fair', 'poor']
 const category_vars = ['clothing', 'furniture', 'electronics', 'home', 'books', 'games', 'parts', 'outdoor', 'other']
 
 const ListingSchema = new mongoose.Schema(
@@ -30,10 +30,6 @@ const ListingSchema = new mongoose.Schema(
       categories: {
         type: [String],
       },
-      posted_date: {
-        type: Date,
-        default: Date.now,
-      },
       address: {
         type: String,
       },
@@ -42,6 +38,10 @@ const ListingSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    posted_date: {
+      type: Date,
+      default: Date.now,
+      },
     image: {
       type: String,
     },
