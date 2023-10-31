@@ -39,7 +39,7 @@ const CreateListing = () => {
 		}
 	}, [title, description, categories, quantity, condition, image]);
 
-	const submitListing = () => {
+	const submitListing = async () => {
 		setCanSubmit(false);
 
 		const details = {
@@ -57,7 +57,9 @@ const CreateListing = () => {
 			details: details,
 			image: image,
 		};
-		makePostCall(listing);
+		await makePostCall(listing);
+		
+		// redirect after delay
 		navigate("/user");
 	};
 
@@ -131,7 +133,6 @@ const CreateListing = () => {
 				id="image"
 				type="file"
 				accept="image/*"
-				// onChange={(e) => Image.uploadBackgroundImage(e, refresh, setRefresh)}
 				onChange={handleImageUpload}
 			/>
 

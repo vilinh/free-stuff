@@ -41,6 +41,17 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+/* This function returns all listings belonging to a user id */
+router.get('/user/:id', async (req, res) => {
+    const uid = req.params['id'];
+    let result = await getLisingByUId(uid);
+    if (result == undefined || result.length == 0) {
+        res.status(404).send('Resource not found.');
+    } else {
+        res.status(200).send(result);
+    }
+})
+
 /* This function adds a listing based on the listing template */
 router.post("/", async (req, res) => {
     try {
@@ -146,4 +157,14 @@ async function findListingById(id) {
         return undefined;
     }
 }
+
+async function getLisingByUId(uid) {
+    try {
+        return await listingModel.find({ user_id: uid });
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
+
 export default router;
