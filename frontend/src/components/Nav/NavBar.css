@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-text {
+  margin: 0rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbar-l {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-r {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.view-listings-link {
+  font-size: 0.8rem;
+}

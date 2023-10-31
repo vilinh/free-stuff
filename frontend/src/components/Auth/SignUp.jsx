@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import "./SignUp.css";
 import { Box, Button } from "@mui/material";
@@ -68,6 +68,7 @@ const SignUp = ({ user }) => {
           Sign Up
         </Button>
       </Box>
+      <Link className="login-link" to="/login"><span>Already have an account? Login.</span></Link>
       <span className="err-msg">{err && errMsg}</span>
     </div>
   );
