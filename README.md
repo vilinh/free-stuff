@@ -1,0 +1,1 @@
+- Install 'Prettier - Code formatter' extension in VSCode

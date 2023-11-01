@@ -6,8 +6,11 @@ import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import dotenv from "dotenv";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyDInPcTQd-bJf5uy8R8oGe9ASIk0GmTmH4";
+dotenv.config();
+
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 
 export const UserPage = () => {
 	const auth = getAuth();
