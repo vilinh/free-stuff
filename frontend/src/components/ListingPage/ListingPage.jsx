@@ -21,8 +21,7 @@ export const ListingPage = ({ listing }) => {
 
   return (
     <div className="listing-page">
-      {/* <ListingPanel listing={listing}></ListingPanel> */}
-      {listings.map((listing, key) => (
+      {listings && listings.map((listing, key) => (
         <ListingPanel listing={listing} key={key}/>
       ))}
       <UserPanel></UserPanel>
