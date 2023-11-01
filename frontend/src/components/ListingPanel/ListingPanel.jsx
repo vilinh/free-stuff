@@ -2,8 +2,6 @@ import { UserPanel } from "../UserPanel/UserPanel";
 import "./ListingPanel.css";
 
 export const ListingPanel = ({ listing }) => {
-  console.log(listing);
-
   const hasAddress = listing.hasOwnProperty('location');
 
   return (

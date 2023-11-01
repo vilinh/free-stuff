@@ -5,8 +5,6 @@ import Selector from "../Selector/Selector";
 import { useNavigate } from "react-router-dom";
 import Image from "../../imageService";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyDInPcTQd-bJf5uy8R8oGe9ASIk0GmTmH4";
-
 const categoryOptions = [
 	{ value: "Clothes", label: "Clothes" },
 	{ value: "Books", label: "Books" },
@@ -50,8 +48,6 @@ const CreateListing = () => {
 			const request = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API_KEY}`
 			try {
 			  const res = await axios.get(request);	
-			  console.log("worked!");
-			  console.log(res.data.results);
 			  return res.data.results[0].formatted_address;
 			} catch(error) {
 			  console.log("could not fetch address");
@@ -78,9 +74,6 @@ const CreateListing = () => {
 	const submitListing = async () => {
 		setCanSubmit(false);
 
-		console.log("LOCATION");
-		console.log(location);
-
 		const details = {
 			quantity: quantity,
 			condition: condition,
@@ -96,11 +89,9 @@ const CreateListing = () => {
 			details: details,
 			image: image,
 		};
-		console.log("LISTING");
-		console.log(listing);
 		await makePostCall(listing);
 		
-		//navigate("/")
+		navigate("/")
 	};
 
 	const handleQuantityChange = (e) => {
