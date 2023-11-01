@@ -22,22 +22,54 @@ const CreateListing = () => {
 	const { currentUser } = useAuth();
 	const navigate = useNavigate();
 
+	const [loading, setLoading] = useState(true);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [categories, setCategories] = useState([]);
 	const [quantity, setQuantity] = useState(1);
 	const [condition, setCondition] = useState("");
 	const [image, setImage] = useState("")
+	const [location, setLocation] = useState({});
 	const [canSubmit, setCanSubmit] = useState(false);
 
 	useEffect(() => {
 		// check for valid form input
-		if (!title || !description || !categories || !condition || !image) {
+		if (!title || !description || !categories || !condition || !image || !location) {
 			setCanSubmit(false);
 		} else {
 			setCanSubmit(true);
 		}
-	}, [title, description, categories, quantity, condition, image]);
+	}, [title, description, categories, quantity, condition, image, location]);
+
+	useEffect(() => {
+		async function getAddress(coords) {
+			const lat = coords.lat;
+			const lng = coords.lng;
+			const request = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API_KEY}`
+			try {
+			  const res = await axios.get(request);	
+			  return res.data.results[0].formatted_address;
+			} catch(error) {
+			  console.log("could not fetch address");
+			}
+		}
+
+		navigator.geolocation.getCurrentPosition(async (position) => {
+    	    const latitude = position.coords.latitude;
+    	    const longitude = position.coords.longitude;
+			const address = await getAddress({ lat: latitude, lng:longitude });
+			console.log("Address" + address);
+			const loc = {
+				address: address,
+				latitude: latitude,
+				longitude: longitude
+			};
+			console.log(loc)
+			setLocation(loc)
+			setLoading(false);
+		})
+
+	}, [])
 
 	const submitListing = async () => {
 		setCanSubmit(false);
@@ -47,10 +79,10 @@ const CreateListing = () => {
 			condition: condition,
 			posted_date: new Date(),
 			categories: categories,
-			address: "test address",
 		};
 		const listing = {
 			title: title,
+			location: location,
 			description: description,
 			user_id: currentUser.uid,
 			claimed: false,
@@ -76,6 +108,10 @@ const CreateListing = () => {
 		setImage(base64)
 	}
 
+	if(loading) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<div>
 			<h1>Item Information</h1>
@@ -97,6 +133,11 @@ const CreateListing = () => {
 				rows="10"
 				onChange={(e) => setDescription(e.target.value)}
 			></textarea>
+
+
+			<div className="flocation">
+				<h4>Address: {location.address}</h4>
+			</div>
 
 			<div className="details">
 				<div className="category">

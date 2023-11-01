@@ -65,6 +65,7 @@ router.get('/user/:id', async (req, res) => {
 
 /* This function adds a listing based on the listing template */
 router.post("/", async (req, res) => {
+    console.log(req.body);
     const listing = new listingModel(req.body);
     let result = await addListing(listing);
     if (result === undefined) {
@@ -150,7 +151,6 @@ async function getListings(title, claimed, condition, categories, location, radi
             {
                 sort_by['claimed'] = 1;
             }
-            //TODO:location
         }
     }
     /* Other stuff */
