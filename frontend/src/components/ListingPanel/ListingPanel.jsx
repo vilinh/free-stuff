@@ -2,6 +2,10 @@ import { UserPanel } from "../UserPanel/UserPanel";
 import "./ListingPanel.css";
 
 export const ListingPanel = ({ listing }) => {
+  console.log(listing);
+
+  const hasAddress = listing.hasOwnProperty('location');
+
   return (
     <div className="listing-wrapper">
       <div className="listing">
@@ -11,6 +15,7 @@ export const ListingPanel = ({ listing }) => {
         <div className="listing-l">
           <span className="listing-date">Posted X Days Ago</span>
           <h2 className="listing-title">{listing.title}</h2>
+          <h3 className="listing-address">{hasAddress ? listing.location.address : "No Address"}</h3>
           <div className="listing-details">
             <h4>Details</h4>
             <div className="details">
@@ -29,6 +34,9 @@ export const ListingPanel = ({ listing }) => {
           <div className="listing-description">
             <h4>Description</h4>
             <p className="description-text">{listing.description}</p>
+          </div>
+          <div>
+
           </div>
           <button className="claim-btn" disabled={listing.claimed}>
             Claim

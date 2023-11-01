@@ -10,6 +10,18 @@ const ListingSchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
+    location: {
+      address: {
+        type: String,
+        required: true,
+      },
+      latitude: {
+        type: Number
+      },
+      longitude: {
+        type: Number
+      },
+    },
     user_id: {
       type: String,
       required: true,
