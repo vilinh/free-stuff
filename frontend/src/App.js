@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
-import SignIn from "./components/Auth/SignIn";
-import SignUp from "./components/Auth/SignUp";
+import SignUp from "./components/SignUpPage/SignUp";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
@@ -37,7 +36,6 @@ function App() {
       <NavBar></NavBar>
       <Routes>
         <Route path="/" element={<TempPublicPage></TempPublicPage>} />
-        <Route path="/logincomp" element={<SignIn></SignIn>} />
         <Route path="/login" element={<LoginPage></LoginPage>} />
         <Route path="/signup" element={<SignUp user={currentUser}></SignUp>} />
         <Route

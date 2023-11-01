@@ -31,21 +31,31 @@ const SignUp = ({ user }) => {
       .catch((error) => {
         console.log(error);
         setErr(true);
-        console.log(error.message);
-        setErrMsg(error.message.slice(10));
+        switch (error.code) {
+          case "auth/weak-password":
+            setErrMsg(
+              "Weak password: Password should be at least 6 characters."
+            );
+            break;
+          case "auth/email-already-in-use":
+            setErrMsg("Account already exists with this email.");
+            break;
+          default:
+            setErrMsg("Error");
+        }
       });
   };
 
   return (
     <div className="sign-up-container">
-      <h1>Create an Account</h1>
+      <h1 className="signup-title">Create an Account</h1>
       <Box
         onSubmit={signUp}
         component="form"
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: "1rem"
+          gap: "1rem",
         }}
         noValidate
         autoComplete="off"
@@ -68,7 +78,9 @@ const SignUp = ({ user }) => {
           Sign Up
         </Button>
       </Box>
-      <Link className="login-link" to="/login"><span>Already have an account? Login.</span></Link>
+      <Link className="login-link" to="/login">
+        <span>Already have an account? Login.</span>
+      </Link>
       <span className="err-msg">{err && errMsg}</span>
     </div>
   );

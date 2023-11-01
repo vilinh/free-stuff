@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.signup-title {
+  margin-bottom: 1rem;
+}
+
 .err-msg {
     color: red;
     margin-top: 1rem;
