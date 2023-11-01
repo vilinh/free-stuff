@@ -1,4 +1,6 @@
 import "./UserPanel.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 let template_user = {
   _id: "12345",
@@ -8,7 +10,8 @@ let template_user = {
     "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
 };
 
-export const UserPanel = () => {
+export const UserPanel = ({ address }) => {
+
   return (
     <div className="user-panel">
       <div className="user-l">
@@ -16,7 +19,7 @@ export const UserPanel = () => {
       </div>
       <div className="user-r">
         <span className="user-name">User Name</span>
-        <span className="user-details">Location | # listed # given</span>
+        <span className="user-details">{address} | # listed # given</span>
       </div>
     </div>
   );
