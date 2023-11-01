@@ -9,7 +9,7 @@ const router = express.Router();
  *      - title:      Searches if title contains keyword, case-insensitive.
  *      - claimed:    A 'True' value lists both claimed and unclaimed listings, otherwise, default is only unclaimed
  *                    listings.
- *      - condition:  Can be any number of the following: 'new', 'great', 'good', 'fair', 'poor'. Default is all
+ *      - condition:  Can be any number of the following: 'great', 'good', 'okay', 'poor'. Default is all
  *                    conditions. Multiple query parameters are separated by ','.
  *      - categories: Can be any number of the following: 'clothing', 'furniture', 'electronics', 'home', 'books',
  *                    'games', 'parts', 'outdoor', 'other'. Default is all categories. Multiple query parameters are
@@ -22,7 +22,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const title = req.query["title"];
     const claimed = req.query["claimed"];
-    const condition = req.query["condition"]; // Internally represented in the db by 0:'new', 1:'great', 2:'good', 3:'fair', 4:'poor'.
+    const condition = req.query["condition"]; // Internally represented in the db by 0:'great', 1:'good', 2:'okay', 3:'poor'
     const categories = req.query["categories"];
     const sort = req.query["sort"];
     const index = req.query["index"];
@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
 
     try {
         const result = await getListings(title, claimed, condition, categories, location, radius, sort, offset, index);
-        res.send({listings: result });
+        res.send(result);
     } catch (error) {
         console.log(error);
         res.status(500).send("An error occurred in the server.");
@@ -55,7 +55,7 @@ router.get('/:id', async (req, res) => {
 /* This function returns all listings belonging to a user id */
 router.get('/user/:id', async (req, res) => {
     const uid = req.params['id'];
-    let result = await getLisingByUId(uid);
+    let result = await getListingByUId(uid);
     if (result == undefined || result.length == 0) {
         res.status(404).send('Resource not found.');
     } else {
@@ -99,15 +99,13 @@ async function getListings(title, claimed, condition, categories, location, radi
         {
             switch (s)
             {
-                case 'new': conds.push('0');
+                case 'great': conds.push('0');
                     break;
-                case 'great': conds.push('1');
+                case 'good': conds.push('1');
                     break;
-                case 'good': conds.push('2');
+                case 'okay': conds.push('2');
                     break;
-                case 'fair': conds.push('3');
-                    break;
-                case 'poor': conds.push('4');
+                case 'poor': conds.push('3');
                     break;
             }
         }
@@ -126,7 +124,7 @@ async function getListings(title, claimed, condition, categories, location, radi
     /* These are all sort parameters */
     if(!sort)
     {
-        sort_by['posted_date'] = -1;
+        sort_by['details.posted_date'] = -1;
     }
     else
     {
@@ -154,10 +152,6 @@ async function getListings(title, claimed, condition, categories, location, radi
             }
             //TODO:location
         }
-    }
-    if(!sort_by.keys)
-    {
-        sort_by['posted_date'] = -1;
     }
     /* Other stuff */
     if(!index)
@@ -204,7 +198,7 @@ async function findListingById(id) {
     }
 }
 
-async function getLisingByUId(uid) {
+async function getListingByUId(uid) {
     try {
         return await listingModel.find({ user_id: uid });
     } catch (error) {
