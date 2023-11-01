@@ -45,7 +45,7 @@ const CreateListing = () => {
 		async function getAddress(coords) {
 			const lat = coords.lat;
 			const lng = coords.lng;
-			const request = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API_KEY}`
+			const request = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
 			try {
 			  const res = await axios.get(request);	
 			  return res.data.results[0].formatted_address;
