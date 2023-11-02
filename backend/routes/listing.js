@@ -1,7 +1,9 @@
 import express from "express";
 import {listingModel, condition_vars, category_vars} from "../models/listing.js";
 import sanitize from "mongo-sanitize";
+import haversine from "haversine-distance";
 const router = express.Router();
+
 
 /* This function is called on the front page of the website and returns all listings based on a series of user defined
  * filters as query parameters as follows:
@@ -65,7 +67,6 @@ router.get('/user/:id', async (req, res) => {
 
 /* This function adds a listing based on the listing template */
 router.post("/", async (req, res) => {
-    console.log(req.body);
     const listing = new listingModel(req.body);
     let result = await addListing(listing);
     if (result === undefined) {
@@ -73,6 +74,25 @@ router.post("/", async (req, res) => {
     } else {
         res.status(201).send(listing);
     }
+});
+
+/* Gets passed user location and max distance(m) and returns listing within that distance */
+router.post("/distance-search", async (req, res) => { 
+    try {
+        const max_dist = req.body.max_dist;
+        const user_coords = { lat: req.body.location.latitude, lon: req.body.location.longitude };        
+        let result = await listingModel.find().limit(10);
+        const output = result.filter((listing) => {
+            const listing_coords = { lat: listing.location.latitude, lon: listing.location.longitude };
+            const dist = haversine(user_coords, listing_coords);
+            console.log(dist);
+            return dist <= max_dist ? true : false;
+        })
+        res.status(200).send(output);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("An error occured in the system");
+    } 
 });
 
 async function getListings(title, claimed, condition, categories, location, radius, sort, offset, index) {
