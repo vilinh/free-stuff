@@ -57,9 +57,6 @@ const ListingSchema = new mongoose.Schema(
         type: Date,
         default: Date.now(),
       },
-      address: {
-        type: String,
-      },
     },
     description: {
       type: String,
