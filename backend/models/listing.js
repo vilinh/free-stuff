@@ -1,11 +1,36 @@
 import mongoose from "mongoose";
 
+const condition_vars = ["great", "good", "okay", "poor"];
+const category_vars = [
+	"clothing",
+	"furniture",
+	"electronics",
+	"home",
+	"books",
+	"games",
+	"parts",
+	"outdoor",
+	"other",
+];
+
 const ListingSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       trim: true,
       default: "",
+    },
+    location: {
+      address: {
+        type: String,
+        required: true,
+      },
+      latitude: {
+        type: Number
+      },
+      longitude: {
+        type: Number
+      },
     },
     user_id: {
       type: String,
@@ -49,6 +74,6 @@ const ListingSchema = new mongoose.Schema(
   }
 );
 
-const listingModel = mongoose.model("Listing", ListingSchema)
+const listingModel = mongoose.model("Listing", ListingSchema);
 
 export {listingModel};

@@ -1,3 +1,4 @@
+import axios from "axios";
 
 export default class Image {
 	static convertBase64 = (file) => {
@@ -14,4 +15,13 @@ export default class Image {
 			};
 		});
 	};
+
+	static getImageFromId = async (id) => {
+		try {
+			return await axios.get(`http://localhost:8000/listing/image/${id}`);
+		} catch (error) {
+			console.log(error)
+			return undefined;
+		}
+	}
 }

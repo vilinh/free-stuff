@@ -4,6 +4,7 @@ import { useAuth } from "../../context/Auth/AuthContext";
 import Selector from "../Selector/Selector";
 import { useNavigate } from "react-router-dom";
 import Image from "../../imageService";
+import { Condition } from "../../enum";
 
 const categoryOptions = [
 	{ value: "Clothes", label: "Clothes" },
@@ -12,52 +13,89 @@ const categoryOptions = [
 ];
 
 const conditionOptions = [
-	{ value: "Poor", label: "Poor" },
-	{ value: "Okay", label: "Okay" },
-	{ value: "Good", label: "Good" },
-	{ value: "Great", label: "Great" },
+	{ value: Condition.Poor, label: "Poor" },
+	{ value: Condition.Okay, label: "Okay" },
+	{ value: Condition.Good, label: "Good" },
+	{ value: Condition.Great, label: "Great" },
 ];
 
 const CreateListing = () => {
 	const { currentUser } = useAuth();
 	const navigate = useNavigate();
 
+	const [loading, setLoading] = useState(true);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [categories, setCategories] = useState([]);
 	const [quantity, setQuantity] = useState(1);
-	const [condition, setCondition] = useState("");
+	const [condition, setCondition] = useState(0);
 	const [image, setImage] = useState("")
+	const [location, setLocation] = useState({});
 	const [canSubmit, setCanSubmit] = useState(false);
 
 	useEffect(() => {
 		// check for valid form input
-		if (!title || !description || !categories || !condition || !image) {
+		if (!title || !description || !categories || !condition || !image || !location) {
 			setCanSubmit(false);
 		} else {
 			setCanSubmit(true);
 		}
-	}, [title, description, categories, quantity, condition, image]);
+	}, [title, description, categories, quantity, condition, image, location]);
+
+	useEffect(() => {
+		async function getAddress(coords) {
+			const lat = coords.lat;
+			const lng = coords.lng;
+			const request = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
+			try {
+			  const res = await axios.get(request);	
+			  return res.data.results[0].formatted_address;
+			} catch(error) {
+			  console.log("could not fetch address");
+			}
+		}
+
+		navigator.geolocation.getCurrentPosition(async (position) => {
+    	    const latitude = position.coords.latitude;
+    	    const longitude = position.coords.longitude;
+			const address = await getAddress({ lat: latitude, lng:longitude });
+			console.log("Address" + address);
+			const loc = {
+				address: address,
+				latitude: latitude,
+				longitude: longitude
+			};
+			console.log(loc)
+			setLocation(loc)
+			setLoading(false);
+		})
+
+	}, [])
 
 	const submitListing = async () => {
 		setCanSubmit(false);
+
+		/* get imageId after posting to database */
+		const imageRes = await postImage({
+			base64: image
+		})
 
 		const details = {
 			quantity: quantity,
 			condition: condition,
 			posted_date: new Date(),
 			categories: categories,
-			address: "test address",
 		};
 		const listing = {
 			title: title,
+			location: location,
 			description: description,
 			user_id: currentUser.uid,
 			claimed: false,
 			details: details,
-			image: image,
+			image: imageRes.data._id,
 		};
-		await makePostCall(listing);
+		await postListing(listing);
 		
 		navigate("/")
 	};
@@ -74,6 +112,10 @@ const CreateListing = () => {
 		const file = e.target.files[0];
 		const base64 = await Image.convertBase64(file);
 		setImage(base64)
+	}
+
+	if(loading) {
+		return <div>Loading...</div>;
 	}
 
 	return (
@@ -97,6 +139,11 @@ const CreateListing = () => {
 				rows="10"
 				onChange={(e) => setDescription(e.target.value)}
 			></textarea>
+
+
+			<div className="flocation">
+				<h4>Address: {location.address}</h4>
+			</div>
 
 			<div className="details">
 				<div className="category">
@@ -142,9 +189,17 @@ const CreateListing = () => {
 	);
 };
 
-async function makePostCall(listing) {
+async function postListing(listing) {
 	try {
 		await axios.post("http://localhost:8000/listing", listing);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function postImage(image) {
+	try {
+		return await axios.post("http://localhost:8000/listing/image", image);
 	} catch (error) {
 		console.log(error);
 	}

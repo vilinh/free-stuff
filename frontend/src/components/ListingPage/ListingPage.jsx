@@ -11,7 +11,7 @@ export const ListingPage = ({ listing }) => {
     const getListings = async () => {
       try {
 				let res = await axios.get("http://localhost:8000/listing");
-				setListings(res.data.listings);
+				setListings(res.data);
 			} catch (error) {
 				console.log(error);
 			}
@@ -21,11 +21,10 @@ export const ListingPage = ({ listing }) => {
 
   return (
     <div className="listing-page">
-      {/* <ListingPanel listing={listing}></ListingPanel> */}
-      {listings.map((listing, key) => (
+      <UserPanel></UserPanel>
+      {listings && listings.map((listing, key) => (
         <ListingPanel listing={listing} key={key}/>
       ))}
-      <UserPanel></UserPanel>
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import express from "express";
+import imageModel from "../models/image.js";
 import {listingModel} from "../models/listing.js";
 import sanitize from "mongo-sanitize";
+import haversine from "haversine-distance";
 const router = express.Router();
+
 
 /* This function is called on the front page of the website and returns all listings based on a series of user defined
  * filters as query parameters as follows:
@@ -84,6 +87,47 @@ router.delete('/:id', async  (req, res) => {
     }
 });
 
+/* Gets passed user location and max distance(m) and returns listing within that distance */
+router.post("/distance-search", async (req, res) => {
+    try {
+        const max_dist = req.body.max_dist;
+        const user_coords = { lat: req.body.location.latitude, lon: req.body.location.longitude };
+        let result = await listingModel.find().limit(10);
+        const output = result.filter((listing) => {
+            const listing_coords = { lat: listing.location.latitude, lon: listing.location.longitude };
+            const dist = haversine(user_coords, listing_coords);
+            console.log(dist);
+            return dist <= max_dist ? true : false;
+        })
+        res.status(200).send(output);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("An error occured in the system");
+    }
+});
+
+/* This function gets an image based on its object id */
+router.get("/image/:id", async (req, res) => {
+    const id = req.params['id'];
+    let result = await getImageById(id);
+    if (result == undefined || result.length == 0) {
+        res.status(404).send('Resource not found.');
+    } else {
+        res.status(200).send(result);
+    }
+})
+
+/* This function adds image to image collection */
+router.post("/image", async (req, res) => {
+    const image = new imageModel(req.body)
+    let result = await addImage(image);
+    if (result === undefined) {
+        res.status(500).send("An error occurred in the server.");
+    } else {
+        res.status(201).send(image);
+    }
+})
+
 async function getListings(title, claimed, condition, categories, location, radius, sort, offset, index) {
     let query = {};
     let match = [];
@@ -160,7 +204,6 @@ async function getListings(title, claimed, condition, categories, location, radi
             {
                 sort_by['claimed'] = 1;
             }
-            //TODO:location
         }
     }
     /* Other stuff */
@@ -212,6 +255,24 @@ async function addListing(listing) {
         return await listing.save();
     } catch (error) {
         console.log(error);
+        return undefined;
+    }
+}
+
+async function getImageById(id) {
+    try {
+        return await imageModel.findOne({ _id: id });
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
+
+async function addImage(image) {
+    try {
+        return await image.save();
+    } catch (error) {
+        console.log(error)
         return undefined;
     }
 }
