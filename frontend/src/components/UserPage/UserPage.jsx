@@ -17,26 +17,6 @@ export const UserPage = () => {
   const [address, setAddress] = useState("");
 
   useEffect(() => {
-    async function getAddress(coords) {
-      const lat = coords.lat;
-      const lng = coords.lng;
-      const request = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API_KEY}`;
-      try {
-        const res = await axios.get(request);
-        setAddress(res.data.results[0].formatted_address);
-      } catch (error) {
-        console.log("could not fetch address");
-      }
-    }
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        getAddress({ lat: latitude, lng: longitude });
-      });
-    }
-
     const getListings = async () => {
       try {
         let res = await axios.get(
@@ -53,7 +33,7 @@ export const UserPage = () => {
   return (
     <div className="user-page">
       <div className="user-details">
-        <UserPanel address={address.split(",")[0]} />
+        <UserPanel/>
       </div>
       <div className="user-listings">
         <Grid container spacing={2} columns={16}>
