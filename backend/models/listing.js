@@ -38,7 +38,7 @@ const ListingSchema = new mongoose.Schema(
         type: Number,
       },
       condition: {
-        type: Number,
+        type: String,
       },
       categories: {
         type: [String],
