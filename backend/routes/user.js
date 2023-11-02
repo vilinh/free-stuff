@@ -15,12 +15,12 @@ router.get('/:uid', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  try {
-    const userToAdd = new userModel(req.body);
-    await userToAdd.save();
-    res.status(201).send(userToAdd)
-  } catch (error) {
-    console.log(error)
+  const userToAdd = new userModel(req.body);
+  let result = await addUser(userToAdd);
+  if (result === undefined) {
+    res.status(500).send("An error occurred in the server.");
+  } else {
+    res.status(201).send(userToAdd);
   }
 });
 
@@ -54,4 +54,18 @@ async function removeUserByUid(uid) {
   }
 }
 
+async function addUser(user) {
+  try {
+    return await user.save();
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
 export default router
+export {
+  findUserByUid,
+  addUser,
+  removeUserByUid,
+}

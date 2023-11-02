@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
 
-const condition_vars = ['great', 'good', 'okay', 'poor'];
-const category_vars = ['clothing', 'furniture', 'electronics', 'home', 'books', 'games', 'parts', 'outdoor', 'other'];
-
 const ListingSchema = new mongoose.Schema(
   {
     title: {
@@ -54,4 +51,4 @@ const ListingSchema = new mongoose.Schema(
 
 const listingModel = mongoose.model("Listing", ListingSchema)
 
-export {listingModel, condition_vars, category_vars};
+export {listingModel};

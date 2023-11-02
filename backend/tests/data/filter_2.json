@@ -1,0 +1,121 @@
+[
+  {
+    "details": {
+      "quantity": 5,
+      "condition": 1,
+      "categories": [
+        "parts",
+        "games"
+      ],
+      "posted_date": "2023-11-01T06:49:57.994Z",
+      "address": "52517 King Stravenue"
+    },
+    "_id": "6541fbcd0013ebede75a6d9c",
+    "title": "Chips",
+    "user_id": "1af36ac7faf2bdb49fbabbac",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Cado vere testimonium condico veritatis crinis quaerat eligendi culpa.",
+    "image": "09b9e18c63cfdd05319f1ad5",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 9,
+      "condition": 1,
+      "categories": [
+        "home",
+        "furniture"
+      ],
+      "posted_date": "2023-11-01T03:31:28.175Z",
+      "address": "500 Sawayn Port"
+    },
+    "_id": "6541fbcd0013ebede75a6d84",
+    "title": "Tuna",
+    "user_id": "2cbfaaadbd113cc669a1749f",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Ustulo coadunatio cupiditas.",
+    "image": "e8d747eae3ca19e4cb3bc166",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 2,
+      "condition": 1,
+      "categories": [
+        "clothing",
+        "electronics"
+      ],
+      "posted_date": "2023-10-31T20:16:50.573Z",
+      "address": "99689 Weimann Fords"
+    },
+    "_id": "6541fbcd0013ebede75a6d86",
+    "title": "Salad",
+    "user_id": "6b4f31f85cbd8eceb39c3b6d",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Annus accommodo civitas venia veritatis tergo.",
+    "image": "f46dfe9eb63da3ff934aff8e",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 3,
+      "condition": 0,
+      "categories": [
+        "books"
+      ],
+      "posted_date": "2023-10-31T16:20:11.747Z",
+      "address": "6155 Hudson Ways"
+    },
+    "_id": "6541fbcd0013ebede75a6d96",
+    "title": "Gloves",
+    "user_id": "2adecbfaabebfc6af60dcbef",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Eos terminatio conservo.",
+    "image": "64ea8dadab2f306f52f31c15",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 8,
+      "condition": 1,
+      "categories": [
+        "games"
+      ],
+      "posted_date": "2023-10-31T15:30:17.211Z",
+      "address": "93538 Prince Green"
+    },
+    "_id": "6541fbcd0013ebede75a6d82",
+    "title": "Shirt",
+    "user_id": "dbfb5dd788e284dbf085bd4e",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Careo denego sordeo cohibeo et carus apud.",
+    "image": "daa2c9bd9f2a8d9ea3359bae",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 4,
+      "condition": 0,
+      "categories": [
+        "clothes",
+        "parts",
+        "games"
+      ],
+      "posted_date": "2023-10-31T09:30:58.580Z",
+      "address": "36227 Joaquin Cove"
+    },
+    "_id": "6541fbcd0013ebede75a6d88",
+    "title": "Mouse",
+    "user_id": "3cb2e20e80d07b1ad9afbbdf",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Crastinus avarus adulatio.",
+    "image": "628cc83aa830fb2b6f6335e0",
+    "__v": 0
+  }
+]

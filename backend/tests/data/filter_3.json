@@ -1,0 +1,122 @@
+[
+  {
+    "details": {
+      "quantity": 2,
+      "condition": 1,
+      "categories": [
+        "clothing",
+        "electronics"
+      ],
+      "posted_date": "2023-10-31T20:16:50.573Z",
+      "address": "99689 Weimann Fords"
+    },
+    "_id": "6541fbcd0013ebede75a6d86",
+    "title": "Salad",
+    "user_id": "6b4f31f85cbd8eceb39c3b6d",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Annus accommodo civitas venia veritatis tergo.",
+    "image": "f46dfe9eb63da3ff934aff8e",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 4,
+      "condition": 3,
+      "categories": [
+        "other",
+        "clothing"
+      ],
+      "posted_date": "2023-10-31T19:07:52.837Z",
+      "address": "513 Tyra Glen"
+    },
+    "_id": "6541fbcd0013ebede75a6d90",
+    "title": "Bike",
+    "user_id": "7fe4a71e9040c0a1aecc0f78",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Peior arca curiositas carmen officia tredecim.",
+    "image": "0bd3abacfbfc5dabe0ada105",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 3,
+      "condition": 0,
+      "categories": [
+        "books"
+      ],
+      "posted_date": "2023-10-31T16:20:11.747Z",
+      "address": "6155 Hudson Ways"
+    },
+    "_id": "6541fbcd0013ebede75a6d96",
+    "title": "Gloves",
+    "user_id": "2adecbfaabebfc6af60dcbef",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Eos terminatio conservo.",
+    "image": "64ea8dadab2f306f52f31c15",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 10,
+      "condition": 2,
+      "categories": [
+        "outdoor",
+        "books"
+      ],
+      "posted_date": "2023-10-31T15:39:58.749Z",
+      "address": "95746 Church Close"
+    },
+    "_id": "6541fbcd0013ebede75a6d7e",
+    "title": "Ball",
+    "user_id": "eace1b0747aaf2489cd2b6fd",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Decimus uterque demergo tribuo aegrotatio validus.",
+    "image": "bf6ef899bf3dbe3ebb6dcb3e",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 1,
+      "condition": 2,
+      "categories": [
+        "clothing",
+        "other",
+        "electronics"
+      ],
+      "posted_date": "2023-10-31T15:20:02.581Z",
+      "address": "7732 West Avenue"
+    },
+    "_id": "6541fbcd0013ebede75a6d7c",
+    "title": "Chair",
+    "user_id": "1fcdefce0a741aa1e0f60b6c",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Concedo vinculum theologus carcer voluptas temptatio clibanus speculum.",
+    "image": "455c3d2242ccda4ace070cd5",
+    "__v": 0
+  },
+  {
+    "details": {
+      "quantity": 5,
+      "condition": 3,
+      "categories": [
+        "clothing",
+        "home"
+      ],
+      "posted_date": "2023-10-31T15:14:08.116Z",
+      "address": "7994 Franklin Road"
+    },
+    "_id": "6541fbcd0013ebede75a6d94",
+    "title": "Gloves",
+    "user_id": "426b2af645feefcebfaa9a59",
+    "claimed": false,
+    "claim_queue": [],
+    "description": "Cilicium antepono assentator harum.",
+    "image": "ad3e72d2aed834cae4eacb96",
+    "__v": 0
+  }
+]

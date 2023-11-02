@@ -1,5 +1,5 @@
 import express from "express";
-import {listingModel, condition_vars, category_vars} from "../models/listing.js";
+import {listingModel} from "../models/listing.js";
 import sanitize from "mongo-sanitize";
 const router = express.Router();
 
@@ -55,7 +55,7 @@ router.get('/:id', async (req, res) => {
 /* This function returns all listings belonging to a user id */
 router.get('/user/:id', async (req, res) => {
     const uid = req.params['id'];
-    let result = await getListingByUId(uid);
+    let result = await findListingByUId(uid);
     if (result == undefined || result.length == 0) {
         res.status(404).send('Resource not found.');
     } else {
@@ -71,6 +71,16 @@ router.post("/", async (req, res) => {
         res.status(500).send("An error occurred in the server.");
     } else {
         res.status(201).send(listing);
+    }
+});
+
+router.delete('/:id', async  (req, res) => {
+    const id = req.params['id'];
+    const result = await deleteListingById(id);
+    if (result === undefined)
+        res.status(404).send('Resource not found.');
+    else {
+        res.status(204).end();
     }
 });
 
@@ -170,16 +180,6 @@ async function getListings(title, claimed, condition, categories, location, radi
     return result;
 }
 
-router.delete('/:id', async  (req, res) => {
-    const id = req.params['id'];
-    const result = await deleteListingById(id);
-    if (result === undefined)
-        res.status(404).send('Resource not found.');
-    else {
-        res.status(204).end();
-    }
-});
-
 async function deleteListingById(id) {
     try {
         return await listingModel.findByIdAndDelete(id);
@@ -198,7 +198,7 @@ async function findListingById(id) {
     }
 }
 
-async function getListingByUId(uid) {
+async function findListingByUId(uid) {
     try {
         return await listingModel.find({ user_id: uid });
     } catch (error) {
@@ -217,4 +217,10 @@ async function addListing(listing) {
 }
 
 export default router
-export {addListing};
+export {
+    getListings,
+    deleteListingById,
+    findListingById,
+    findListingByUId,
+    addListing,
+};
