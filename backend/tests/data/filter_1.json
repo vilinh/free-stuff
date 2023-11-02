@@ -7,7 +7,9 @@
         "parts",
         "games"
       ],
-      "posted_date": "2023-11-01T06:49:57.994Z",
+      "posted_date": "2023-11-01T06:49:57.994Z"
+    },
+    "location": {
       "address": "52517 King Stravenue"
     },
     "_id": "6541fbcd0013ebede75a6d9c",
@@ -26,7 +28,9 @@
       "categories": [
         "parts"
       ],
-      "posted_date": "2023-11-01T00:57:20.241Z",
+      "posted_date": "2023-11-01T00:57:20.241Z"
+    },
+    "location": {
       "address": "8095 Skiles Underpass"
     },
     "_id": "6541fbcd0013ebede75a6d7a",
@@ -45,7 +49,9 @@
       "categories": [
         "games"
       ],
-      "posted_date": "2023-10-31T15:30:17.211Z",
+      "posted_date": "2023-10-31T15:30:17.211Z"
+    },
+    "location": {
       "address": "93538 Prince Green"
     },
     "_id": "6541fbcd0013ebede75a6d82",

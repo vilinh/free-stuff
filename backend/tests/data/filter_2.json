@@ -7,7 +7,9 @@
         "parts",
         "games"
       ],
-      "posted_date": "2023-11-01T06:49:57.994Z",
+      "posted_date": "2023-11-01T06:49:57.994Z"
+    },
+    "location": {
       "address": "52517 King Stravenue"
     },
     "_id": "6541fbcd0013ebede75a6d9c",
@@ -27,7 +29,9 @@
         "home",
         "furniture"
       ],
-      "posted_date": "2023-11-01T03:31:28.175Z",
+      "posted_date": "2023-11-01T03:31:28.175Z"
+    },
+    "location": {
       "address": "500 Sawayn Port"
     },
     "_id": "6541fbcd0013ebede75a6d84",
@@ -47,7 +51,9 @@
         "clothing",
         "electronics"
       ],
-      "posted_date": "2023-10-31T20:16:50.573Z",
+      "posted_date": "2023-10-31T20:16:50.573Z"
+    },
+    "location": {
       "address": "99689 Weimann Fords"
     },
     "_id": "6541fbcd0013ebede75a6d86",
@@ -66,7 +72,9 @@
       "categories": [
         "books"
       ],
-      "posted_date": "2023-10-31T16:20:11.747Z",
+      "posted_date": "2023-10-31T16:20:11.747Z"
+    },
+    "location": {
       "address": "6155 Hudson Ways"
     },
     "_id": "6541fbcd0013ebede75a6d96",
@@ -85,7 +93,9 @@
       "categories": [
         "games"
       ],
-      "posted_date": "2023-10-31T15:30:17.211Z",
+      "posted_date": "2023-10-31T15:30:17.211Z"
+    },
+    "location": {
       "address": "93538 Prince Green"
     },
     "_id": "6541fbcd0013ebede75a6d82",
@@ -106,7 +116,9 @@
         "parts",
         "games"
       ],
-      "posted_date": "2023-10-31T09:30:58.580Z",
+      "posted_date": "2023-10-31T09:30:58.580Z"
+    },
+    "location": {
       "address": "36227 Joaquin Cove"
     },
     "_id": "6541fbcd0013ebede75a6d88",

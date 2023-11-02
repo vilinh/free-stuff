@@ -121,7 +121,9 @@ test('delete_listing_by_id', async () => {
             categories: [
                 "clothes"
             ],
-            posted_date: "2023-01-01T00:00:00.000Z",
+            posted_date: "2023-01-01T00:00:00.000Z"
+        },
+        location: {
             address: "12345 Poly Place"
         },
         _id: "6542f9fa0963950be0cd43ea",
@@ -152,7 +154,9 @@ test('find_listing_by_id', async () => {
             categories: [
                 "clothes"
             ],
-            posted_date: "2023-01-01T00:00:00.000Z",
+            posted_date: "2023-01-01T00:00:00.000Z"
+        },
+        location: {
             address: "12345 Poly Place"
         },
         _id: "6542f9fa0963950be0cd43ea",
@@ -182,7 +186,9 @@ test('find_listing_by_uid', async () => {
             categories: [
                 "clothes"
             ],
-            posted_date: "2023-01-01T00:00:00.000Z",
+            posted_date: "2023-01-01T00:00:00.000Z"
+        },
+        location: {
             address: "12345 Poly Place"
         },
         _id: "6542f9fa0963950be0cd43ea",
@@ -212,7 +218,9 @@ test('add_listing', async () => {
             categories: [
                 "clothes"
             ],
-            posted_date: "2023-01-01T00:00:00.000Z",
+            posted_date: "2023-01-01T00:00:00.000Z"
+        },
+        location: {
             address: "12345 Poly Place"
         },
         _id: "6542f9fa0963950be0cd43ea",

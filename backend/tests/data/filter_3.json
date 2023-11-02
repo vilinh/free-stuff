@@ -7,7 +7,9 @@
         "clothing",
         "electronics"
       ],
-      "posted_date": "2023-10-31T20:16:50.573Z",
+      "posted_date": "2023-10-31T20:16:50.573Z"
+    },
+    "location": {
       "address": "99689 Weimann Fords"
     },
     "_id": "6541fbcd0013ebede75a6d86",
@@ -27,7 +29,9 @@
         "other",
         "clothing"
       ],
-      "posted_date": "2023-10-31T19:07:52.837Z",
+      "posted_date": "2023-10-31T19:07:52.837Z"
+    },
+    "location": {
       "address": "513 Tyra Glen"
     },
     "_id": "6541fbcd0013ebede75a6d90",
@@ -46,7 +50,9 @@
       "categories": [
         "books"
       ],
-      "posted_date": "2023-10-31T16:20:11.747Z",
+      "posted_date": "2023-10-31T16:20:11.747Z"
+    },
+    "location": {
       "address": "6155 Hudson Ways"
     },
     "_id": "6541fbcd0013ebede75a6d96",
@@ -66,7 +72,9 @@
         "outdoor",
         "books"
       ],
-      "posted_date": "2023-10-31T15:39:58.749Z",
+      "posted_date": "2023-10-31T15:39:58.749Z"
+    },
+    "location": {
       "address": "95746 Church Close"
     },
     "_id": "6541fbcd0013ebede75a6d7e",
@@ -87,7 +95,9 @@
         "other",
         "electronics"
       ],
-      "posted_date": "2023-10-31T15:20:02.581Z",
+      "posted_date": "2023-10-31T15:20:02.581Z"
+    },
+    "location": {
       "address": "7732 West Avenue"
     },
     "_id": "6541fbcd0013ebede75a6d7c",
@@ -107,7 +117,9 @@
         "clothing",
         "home"
       ],
-      "posted_date": "2023-10-31T15:14:08.116Z",
+      "posted_date": "2023-10-31T15:14:08.116Z"
+    },
+    "location": {
       "address": "7994 Franklin Road"
     },
     "_id": "6541fbcd0013ebede75a6d94",

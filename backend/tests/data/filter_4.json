@@ -8,7 +8,9 @@
         "parts",
         "games"
       ],
-      "posted_date": "2023-10-31T09:30:58.580Z",
+      "posted_date": "2023-10-31T09:30:58.580Z"
+    },
+    "location": {
       "address": "36227 Joaquin Cove"
     },
     "_id": "6541fbcd0013ebede75a6d88",
@@ -28,7 +30,9 @@
         "clothing",
         "home"
       ],
-      "posted_date": "2023-10-31T15:14:08.116Z",
+      "posted_date": "2023-10-31T15:14:08.116Z"
+    },
+    "location": {
       "address": "7994 Franklin Road"
     },
     "_id": "6541fbcd0013ebede75a6d94",
@@ -49,7 +53,9 @@
         "other",
         "electronics"
       ],
-      "posted_date": "2023-10-31T15:20:02.581Z",
+      "posted_date": "2023-10-31T15:20:02.581Z"
+    },
+    "location": {
       "address": "7732 West Avenue"
     },
     "_id": "6541fbcd0013ebede75a6d7c",
@@ -68,7 +74,9 @@
       "categories": [
         "games"
       ],
-      "posted_date": "2023-10-31T15:30:17.211Z",
+      "posted_date": "2023-10-31T15:30:17.211Z"
+    },
+    "location": {
       "address": "93538 Prince Green"
     },
     "_id": "6541fbcd0013ebede75a6d82",
@@ -88,7 +96,9 @@
         "outdoor",
         "books"
       ],
-      "posted_date": "2023-10-31T15:39:58.749Z",
+      "posted_date": "2023-10-31T15:39:58.749Z"
+    },
+    "location": {
       "address": "95746 Church Close"
     },
     "_id": "6541fbcd0013ebede75a6d7e",
@@ -107,7 +117,9 @@
       "categories": [
         "books"
       ],
-      "posted_date": "2023-10-31T16:20:11.747Z",
+      "posted_date": "2023-10-31T16:20:11.747Z"
+    },
+    "location": {
       "address": "6155 Hudson Ways"
     },
     "_id": "6541fbcd0013ebede75a6d96",
@@ -126,7 +138,9 @@
       "categories": [
         "furniture"
       ],
-      "posted_date": "2023-10-31T16:35:08.184Z",
+      "posted_date": "2023-10-31T16:35:08.184Z"
+    },
+    "location": {
       "address": "1308 Bernier Springs"
     },
     "_id": "6541fbcd0013ebede75a6d8e",
@@ -147,7 +161,9 @@
         "home",
         "other"
       ],
-      "posted_date": "2023-10-31T17:56:19.217Z",
+      "posted_date": "2023-10-31T17:56:19.217Z"
+    },
+    "location": {
       "address": "20571 Hugh Pike"
     },
     "_id": "6541fbcd0013ebede75a6d9a",
@@ -167,7 +183,9 @@
         "other",
         "clothing"
       ],
-      "posted_date": "2023-10-31T19:07:52.837Z",
+      "posted_date": "2023-10-31T19:07:52.837Z"
+    },
+    "location": {
       "address": "513 Tyra Glen"
     },
     "_id": "6541fbcd0013ebede75a6d90",
@@ -187,7 +205,9 @@
         "outdoor",
         "parts"
       ],
-      "posted_date": "2023-10-31T19:48:08.170Z",
+      "posted_date": "2023-10-31T19:48:08.170Z"
+    },
+    "location": {
       "address": "248 Silas Freeway"
     },
     "_id": "6541fbcd0013ebede75a6d80",
@@ -207,7 +227,9 @@
         "clothing",
         "electronics"
       ],
-      "posted_date": "2023-10-31T20:16:50.573Z",
+      "posted_date": "2023-10-31T20:16:50.573Z"
+    },
+    "location": {
       "address": "99689 Weimann Fords"
     },
     "_id": "6541fbcd0013ebede75a6d86",
@@ -227,7 +249,9 @@
         "electronics",
         "outdoor"
       ],
-      "posted_date": "2023-10-31T22:21:28.261Z",
+      "posted_date": "2023-10-31T22:21:28.261Z"
+    },
+    "location": {
       "address": "72212 School Close"
     },
     "_id": "6541fbcd0013ebede75a6d8c",
@@ -248,7 +272,9 @@
         "other",
         "furniture"
       ],
-      "posted_date": "2023-10-31T22:42:20.862Z",
+      "posted_date": "2023-10-31T22:42:20.862Z"
+    },
+    "location": {
       "address": "95100 The Avenue"
     },
     "_id": "6541fbcd0013ebede75a6d98",
@@ -268,7 +294,9 @@
         "other",
         "furniture"
       ],
-      "posted_date": "2023-10-31T23:25:03.848Z",
+      "posted_date": "2023-10-31T23:25:03.848Z"
+    },
+    "location": {
       "address": "4141 Daryl Junctions"
     },
     "_id": "6541fbcd0013ebede75a6d78",
@@ -287,7 +315,9 @@
       "categories": [
         "parts"
       ],
-      "posted_date": "2023-11-01T00:57:20.241Z",
+      "posted_date": "2023-11-01T00:57:20.241Z"
+    },
+    "location": {
       "address": "8095 Skiles Underpass"
     },
     "_id": "6541fbcd0013ebede75a6d7a",
@@ -306,7 +336,9 @@
       "categories": [
         "home"
       ],
-      "posted_date": "2023-11-01T01:27:08.932Z",
+      "posted_date": "2023-11-01T01:27:08.932Z"
+    },
+    "location": {
       "address": "93629 Aric Harbor"
     },
     "_id": "6541fbcd0013ebede75a6d92",
@@ -326,7 +358,9 @@
         "home",
         "furniture"
       ],
-      "posted_date": "2023-11-01T03:31:28.175Z",
+      "posted_date": "2023-11-01T03:31:28.175Z"
+    },
+    "location": {
       "address": "500 Sawayn Port"
     },
     "_id": "6541fbcd0013ebede75a6d84",
@@ -343,7 +377,9 @@
       "quantity": 6,
       "condition": 2,
       "categories": [],
-      "posted_date": "2023-11-01T04:20:22.527Z",
+      "posted_date": "2023-11-01T04:20:22.527Z"
+    },
+    "location": {
       "address": "59343 Kling Crest"
     },
     "_id": "6541fbcd0013ebede75a6d8a",
@@ -364,7 +400,9 @@
         "electronics",
         "outdoor"
       ],
-      "posted_date": "2023-11-01T05:01:42.772Z",
+      "posted_date": "2023-11-01T05:01:42.772Z"
+    },
+    "location": {
       "address": "861 Farrell Stravenue"
     },
     "_id": "6541fbcd0013ebede75a6d9e",
@@ -384,7 +422,9 @@
         "parts",
         "games"
       ],
-      "posted_date": "2023-11-01T06:49:57.994Z",
+      "posted_date": "2023-11-01T06:49:57.994Z"
+    },
+    "location": {
       "address": "52517 King Stravenue"
     },
     "_id": "6541fbcd0013ebede75a6d9c",
