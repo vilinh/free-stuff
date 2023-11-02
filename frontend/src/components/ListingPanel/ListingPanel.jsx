@@ -1,14 +1,28 @@
+import { useEffect, useState } from "react";
 import { UserPanel } from "../UserPanel/UserPanel";
+import Image from "../../imageService";
 import "./ListingPanel.css";
 
 export const ListingPanel = ({ listing }) => {
   const hasAddress = listing.hasOwnProperty('location');
+  const [image, setImage] = useState("")
+
+  useEffect(() => {
+    const getImage = async () => {
+      const res = await Image.getImageFromId(listing.image)
+      if (res) {
+        setImage(res.data.base64)
+      }
+    }
+
+    getImage()
+  }, [])
 
   return (
     <div className="listing-wrapper">
       <div className="listing">
         <div className="listing-r">
-          <img className="listing-img" src={listing.image} />
+          <img className="listing-img" src={image} />
         </div>
         <div className="listing-l">
           <span className="listing-date">Posted X Days Ago</span>

@@ -1,5 +1,6 @@
 import express from "express";
 import {listingModel, condition_vars, category_vars} from "../models/listing.js";
+import imageModel from "../models/image.js"
 import sanitize from "mongo-sanitize";
 import haversine from "haversine-distance";
 const router = express.Router();
@@ -94,6 +95,28 @@ router.post("/distance-search", async (req, res) => {
         res.status(500).send("An error occured in the system");
     } 
 });
+
+/* This function gets an image based on its object id */
+router.get("/image/:id", async (req, res) => {
+    const id = req.params['id'];
+    let result = await getImageById(id);
+    if (result == undefined || result.length == 0) {
+        res.status(404).send('Resource not found.');
+    } else {
+        res.status(200).send(result);
+    }
+})
+
+/* This function adds image to image collection */
+router.post("/image", async (req, res) => {
+    const image = new imageModel(req.body)
+    let result = await addImage(image);
+    if (result === undefined) {
+        res.status(500).send("An error occurred in the server.");
+    } else {
+        res.status(201).send(image);
+    }
+})
 
 async function getListings(title, claimed, condition, categories, location, radius, sort, offset, index) {
     let query = {};
@@ -232,6 +255,24 @@ async function addListing(listing) {
         return await listing.save();
     } catch (error) {
         console.log(error);
+        return undefined;
+    }
+}
+
+async function getImageById(id) {
+    try {
+        return await imageModel.findOne({ _id: id });
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
+
+async function addImage(image) {
+    try {
+        return await image.save();
+    } catch (error) {
+        console.log(error)
         return undefined;
     }
 }

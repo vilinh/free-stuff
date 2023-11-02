@@ -4,6 +4,7 @@ import { useAuth } from "../../context/Auth/AuthContext";
 import Selector from "../Selector/Selector";
 import { useNavigate } from "react-router-dom";
 import Image from "../../imageService";
+import { Condition } from "../../enum";
 
 const categoryOptions = [
 	{ value: "Clothes", label: "Clothes" },
@@ -12,10 +13,10 @@ const categoryOptions = [
 ];
 
 const conditionOptions = [
-	{ value: "Poor", label: "Poor" },
-	{ value: "Okay", label: "Okay" },
-	{ value: "Good", label: "Good" },
-	{ value: "Great", label: "Great" },
+	{ value: Condition.Poor, label: "Poor" },
+	{ value: Condition.Okay, label: "Okay" },
+	{ value: Condition.Good, label: "Good" },
+	{ value: Condition.Great, label: "Great" },
 ];
 
 const CreateListing = () => {
@@ -27,7 +28,7 @@ const CreateListing = () => {
 	const [description, setDescription] = useState("");
 	const [categories, setCategories] = useState([]);
 	const [quantity, setQuantity] = useState(1);
-	const [condition, setCondition] = useState("");
+	const [condition, setCondition] = useState(0);
 	const [image, setImage] = useState("")
 	const [location, setLocation] = useState({});
 	const [canSubmit, setCanSubmit] = useState(false);
@@ -74,6 +75,11 @@ const CreateListing = () => {
 	const submitListing = async () => {
 		setCanSubmit(false);
 
+		/* get imageId after posting to database */
+		const imageRes = await postImage({
+			base64: image
+		})
+
 		const details = {
 			quantity: quantity,
 			condition: condition,
@@ -87,9 +93,9 @@ const CreateListing = () => {
 			user_id: currentUser.uid,
 			claimed: false,
 			details: details,
-			image: image,
+			image: imageRes.data._id,
 		};
-		await makePostCall(listing);
+		await postListing(listing);
 		
 		navigate("/")
 	};
@@ -183,9 +189,17 @@ const CreateListing = () => {
 	);
 };
 
-async function makePostCall(listing) {
+async function postListing(listing) {
 	try {
 		await axios.post("http://localhost:8000/listing", listing);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function postImage(image) {
+	try {
+		return await axios.post("http://localhost:8000/listing/image", image);
 	} catch (error) {
 		console.log(error);
 	}
