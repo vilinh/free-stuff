@@ -1,8 +1,10 @@
-import { Chip } from "@mui/material";
+import { Chip, CircularProgress } from "@mui/material";
 import "./HomePage.css";
 import { ListingThumbnail } from "../ListingThumbnail/ListingThumbnail";
+import { useLocationContext } from "../../context/Location/LocationContext";
 
 export const HomePage = () => {
+  const { address } = useLocationContext() 
   return (
     <div className="container">
       <div className="hero">
@@ -14,7 +16,7 @@ export const HomePage = () => {
         </div>
       </div>
       <div className="featured-listings-div">
-        <h4>Showing listings in [location] </h4>
+        <h4>Showing listings in {address ? address?.split(",")[0] : <CircularProgress />} </h4>
 
         <span className="near-you">Near you</span>
         <span className="sub-link"> See all</span>

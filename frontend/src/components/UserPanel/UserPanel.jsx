@@ -13,7 +13,6 @@ let template_user = {
 
 export const UserPanel = () => {
   const { address } = useLocationContext();
-  // const address = ""
 
   return (
     <div className="user-panel">
