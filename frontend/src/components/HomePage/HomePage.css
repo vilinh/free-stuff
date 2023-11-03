@@ -1,0 +1,35 @@
+.hero {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 35vh;
+    justify-content: center;
+    background-color: rgb(228, 239, 243);
+}
+
+.featured-listings-div {
+    padding: 1rem 2rem;
+}
+
+.featured-listings-div h4 {
+    text-align: center;
+}
+
+.cat-buttons {
+    display: flex;
+    gap: .5rem;
+}
+
+.sub-link {
+    font-size: .7rem;
+    margin-left: .5rem;
+    cursor: pointer;
+}
+
+.listings {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+
