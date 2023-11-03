@@ -15,7 +15,7 @@ export const ListingPage = () => {
   useEffect(() => {
     const getListings = async () => {
       try {
-        let res = await axios.get("http://localhost:8000/listing" + location.search);
+        let res = await axios.get(`http://localhost:8000/listing?location=${location.search}`);
         setListings(res.data);
       } catch (error) {
         console.log(error);

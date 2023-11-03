@@ -2,9 +2,27 @@ import { Chip, CircularProgress } from "@mui/material";
 import "./HomePage.css";
 import { ListingThumbnail } from "../ListingThumbnail/ListingThumbnail";
 import { useLocationContext } from "../../context/Location/LocationContext";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const HomePage = () => {
   const { address } = useLocationContext() 
+  const [locationListings, setLocationListings] = useState([]);
+
+  useEffect(() => {
+    const getListings = async () => {
+      try {
+        let res = await axios.get(
+          `http://localhost:8000/listing?location=${address}`
+        );
+        setLocationListings(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getListings();
+  }, []);
+
   return (
     <div className="container">
       <div className="hero">
@@ -22,14 +40,9 @@ export const HomePage = () => {
         <span className="sub-link"> See all</span>
 
         <div className="listings">
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
-          <div style={{backgroundColor: "lightblue", width: "8rem", height: "8rem"}}></div>
+          {locationListings.map((listing, key) => (
+            <ListingThumbnail listing={listing} key={key}/>
+          ))}
         </div>
       </div>
     </div>

@@ -19,7 +19,6 @@ export const UserPage = () => {
   useEffect(() => {
     const getListings = async () => {
       try {
-        console.log(auth.currentUser.uid);
         let res = await axios.get(
           `http://localhost:8000/listing/user/${auth.currentUser.uid}`
         );
