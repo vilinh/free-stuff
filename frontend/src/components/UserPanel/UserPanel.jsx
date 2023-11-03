@@ -1,6 +1,7 @@
 import "./UserPanel.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocationContext } from "../../context/Location/LocationContext";
 
 let template_user = {
   _id: "12345",
@@ -11,30 +12,8 @@ let template_user = {
 };
 
 export const UserPanel = () => {
-
-  const [address, setAddress] = useState("");
-
-  useEffect(() => {
-    async function getAddress(coords) {
-      const lat = coords.lat;
-      const lng = coords.lng;
-      const request = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
-      try {
-        const res = await axios.get(request);
-        setAddress(res.data.results[0].formatted_address);
-      } catch (error) {
-        console.log("could not fetch address");
-      }
-    }
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        getAddress({ lat: latitude, lng: longitude });
-      });
-    }
-  }, [])
+  const { address } = useLocationContext();
+  // const address = ""
 
   return (
     <div className="user-panel">
@@ -43,7 +22,7 @@ export const UserPanel = () => {
       </div>
       <div className="user-r">
         <span className="user-name">User Name</span>
-        <span className="user-details">{address.split(",")[0]} | # listed # given</span>
+        <span className="user-details">{address?.split(",")[0]} | # listed # given</span>
       </div>
     </div>
   );
