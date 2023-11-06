@@ -6,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 import Image from "../../imageService";
 import { Condition } from "../../enum";
 import Autocomplete from "react-google-autocomplete";
+import "./CreateListing.css"
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField, styled } from "@mui/material";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import InputFileUpload from "../InputFileUpload/InputFileUpload";
 
 const categoryOptions = [
 	{ value: "Clothes", label: "Clothes" },
@@ -73,7 +77,7 @@ const CreateListing = () => {
 			image: imageRes.data._id,
 		};
 		await postListing(listing);
-		
+
 		navigate("/")
 	};
 
@@ -104,26 +108,18 @@ const CreateListing = () => {
 	}
 
 	return (
-		<div>
+		<div className="create-listing-div">
 			<h1>Item Information</h1>
-
-			<label for="ftitle">Title</label>
-			<br></br>
-			<input
-				type="text"
-				id="ftitle"
-				onChange={(e) => setTitle(e.target.value)}
-			/>
-			<br></br>
-
-			<label for="fdesc">Description</label>
-			<br></br>
-			<textarea
-				id="fdesc"
-				cols="30"
-				rows="10"
+			<TextField id="filled-basic" label="Title" variant="filled" onChange={(e) => setTitle(e.target.value)} />
+			<TextField
+				id="filled-textarea"
+				label="Description"
+				placeholder="Description"
+				multiline
+				variant="filled"
 				onChange={(e) => setDescription(e.target.value)}
-			></textarea>
+				rows={4}
+			/>
 
 			<div className="flocation">
 				<Autocomplete
@@ -145,17 +141,6 @@ const CreateListing = () => {
 						isMulti={true}
 					/>
 				</div>
-
-				<div className="quantity">
-					<p>Quantity:</p>
-					<input
-						type="number"
-						min={1}
-						value={quantity}
-						onChange={handleQuantityChange}
-					/>
-				</div>
-
 				<div className="condition">
 					<p>Condition:</p>
 					<Selector
@@ -164,14 +149,12 @@ const CreateListing = () => {
 						isMulti={false}
 					/>
 				</div>
+				<div className="quantity">
+					<TextField id="filled-basic" label="Quantity" type="number" variant="filled" onChange={handleQuantityChange} />
+				</div>
 			</div>
-
-			<input
-				id="image"
-				type="file"
-				accept="image/*"
-				onChange={handleImageUpload}
-			/>
+			
+			<InputFileUpload handleImageUpload={handleImageUpload}></InputFileUpload>
 
 			<button onClick={submitListing} disabled={!canSubmit}>
 				Submit
