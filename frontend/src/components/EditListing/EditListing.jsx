@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { convertBase64, postImage } from "../../utils/imageService";
-import { categoryOptions, conditionOptions, postListing } from "../../utils/listingService";
+import {
+	convertBase64,
+	postImage,
+	getImageFromId,
+	updateImageById,
+} from "../../utils/imageService";
+import {
+	categoryOptions,
+	conditionOptions,
+	getListingById,
+	updateListingById,
+} from "../../utils/listingService";
 import Autocomplete from "react-google-autocomplete";
 import CustomAutocomplete from "@mui/material/Autocomplete";
-import "./CreateListing.css";
+import "../CreateListing/CreateListing.css";
 import {
 	Button,
 	FormControl,
@@ -16,9 +26,11 @@ import {
 	styled,
 } from "@mui/material";
 import InputFileUpload from "../InputFileUpload/InputFileUpload";
+import { useParams } from "react-router-dom";
 
-const CreateListing = () => {
+export const EditListing = ({ listing }) => {
 	const { currentUser } = useAuth();
+	const { id } = useParams();
 	const navigate = useNavigate();
 
 	const [title, setTitle] = useState("");
@@ -26,10 +38,46 @@ const CreateListing = () => {
 	const [categories, setCategories] = useState([]);
 	const [quantity, setQuantity] = useState(1);
 	const [condition, setCondition] = useState("");
-	const [image, setImage] = useState("");
-  const [imageName, setImageName] = useState("");
+	const [imageId, setImageId] = useState("");
+	const [base64, setBase64] = useState("");
+	const [imageName, setImageName] = useState("");
 	const [location, setLocation] = useState({});
+	const [postedDate, setPostedDate] = useState("");
 	const [canSubmit, setCanSubmit] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+
+	// load initial data
+	useEffect(() => {
+		const getListingData = async () => {
+			try {
+				const data = await getListingById(id);
+				const { title, description, details, image, location } = data.data;
+				const { categories, condition, quantity, posted_date } = details;
+
+				const imageRes = await getImageFromId(image);
+				const { base64, name } = imageRes.data;
+
+				// set initial states
+				setTitle(title);
+				setDescription(description);
+				setCondition(condition);
+				setQuantity(quantity);
+				setCategories(categories);
+				setLocation(location);
+				setPostedDate(posted_date);
+				setImageId(image);
+				setBase64(base64);
+				setImageName(name);
+
+				setIsLoading(false)
+			} catch (error) {
+				// TODO: Error Page
+				navigate('/')
+			}
+		};
+
+		getListingData();
+	}, []);
 
 	useEffect(() => {
 		// check for valid form input
@@ -38,28 +86,27 @@ const CreateListing = () => {
 			!description ||
 			!categories ||
 			!condition ||
-			!image ||
+			!base64 ||
 			Object.keys(location).length === 0
 		) {
 			setCanSubmit(false);
 		} else {
 			setCanSubmit(true);
 		}
-	}, [title, description, categories, quantity, condition, image, location]);
+	}, [title, description, categories, quantity, condition, base64, location]);
 
 	const submitListing = async () => {
 		setCanSubmit(false);
 
-		/* get imageId after posting to database */
-		const imageRes = await postImage({
-			base64: image,
-      name: imageName
-		});
+		await updateImageById(imageId, {
+			base64: base64,
+			name: imageName
+		})
 
 		const details = {
 			quantity: quantity,
 			condition: condition,
-			posted_date: new Date(),
+			posted_date: postedDate,
 			categories: categories,
 		};
 		const listing = {
@@ -69,9 +116,9 @@ const CreateListing = () => {
 			user_id: currentUser.uid,
 			claimed: false,
 			details: details,
-			image: imageRes.data._id,
+			image: imageId,
 		};
-		await postListing(listing);
+		await updateListingById(id, listing);
 
 		navigate("/");
 	};
@@ -104,27 +151,33 @@ const CreateListing = () => {
 		const file = e.target.files[0];
 		if (file) {
 			const base64 = await convertBase64(file);
-			setImage(base64);
-      setImageName(file.name)
+			setBase64(base64);
+			setImageName(file.name);
 		}
 	};
 
+	if (isLoading) {
+		return (
+			<p>Loading ...</p>
+		)
+	}
+
 	return (
 		<div className="create-listing-div">
-			<h1>List an Item</h1>
+			<h1>Edit Listing</h1>
 			<InputFileUpload handleImageUpload={handleImageUpload}></InputFileUpload>
-      { image && <img src={image} width={200} height={200}/>}
+			{ base64 && <img src={base64} width={200} height={200}/>}
       { imageName && <p>{imageName}</p>}
 
 			<TextField
 				id="filled-basic"
-				label="Title"
 				variant="filled"
+				value={title}
 				onChange={(e) => setTitle(e.target.value)}
 			/>
 			<TextField
 				id="filled-textarea"
-				label="Description"
+				value={description}
 				placeholder="Description"
 				multiline
 				variant="filled"
@@ -140,6 +193,7 @@ const CreateListing = () => {
 						width: "90%",
 						fontSize: "1rem",
 					}}
+					value={location ? location.address : ""}
 					apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
 					onPlaceSelected={handlePlaceSelected}
 					options={{
@@ -150,7 +204,7 @@ const CreateListing = () => {
 				<TextField
 					size="small"
 					id="filled-basic"
-					label="Quantity"
+					value={quantity}
 					type="number"
 					variant="filled"
 					onChange={handleQuantityChange}
@@ -177,7 +231,7 @@ const CreateListing = () => {
 					multiple
 					id="tags-categories"
 					options={categoryOptions}
-					defaultValue={[]}
+					value={categories}
 					onChange={(event, value) => {
 						setCategories(value);
 					}}
@@ -193,5 +247,3 @@ const CreateListing = () => {
 		</div>
 	);
 };
-
-export default CreateListing;

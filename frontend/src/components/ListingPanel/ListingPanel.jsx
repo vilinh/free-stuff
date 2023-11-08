@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserPanel } from "../UserPanel/UserPanel";
-import Image from "../../imageService";
+import { getImageFromId } from "../../utils/imageService";
 import "./ListingPanel.css";
 
 export const ListingPanel = ({ listing }) => {
@@ -9,7 +9,7 @@ export const ListingPanel = ({ listing }) => {
 
   useEffect(() => {
     const getImage = async () => {
-      const res = await Image.getImageFromId(listing.image)
+      const res = await getImageFromId(listing.image)
       if (res) {
         setImage(res.data.base64)
       }

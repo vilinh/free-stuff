@@ -38,8 +38,11 @@ export const UserPage = () => {
       <div className="user-listings">
         <Grid container spacing={2} columns={16}>
           {listings.map((listing, key) => (
-            <Grid item xs={4}>
-              <ListingThumbnail listing={listing} />
+            <Grid item xs={4} key={key}>
+              <ListingThumbnail 
+                listing={listing} 
+                editListing={true}
+              />
             </Grid>
           ))}
         </Grid>

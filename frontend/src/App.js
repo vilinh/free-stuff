@@ -10,6 +10,7 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import { NavBar } from "./components/Nav/NavBar";
 import CreateListing from "./components/CreateListing/CreateListing";
 import { HomePage } from "./components/HomePage/HomePage";
+import { EditListing } from "./components/EditListing/EditListing";
 
 let template_listing = {
   title: "T-shirt",
@@ -31,38 +32,46 @@ function App() {
   const { currentUser } = useAuth();
 
   return (
-    <BrowserRouter basename="/">
-      <NavBar></NavBar>
-      <Routes>
-        <Route path="/" element={<HomePage></HomePage>} />
-        <Route path="/login" element={<LoginPage></LoginPage>} />
-        <Route path="/signup" element={<SignUp user={currentUser}></SignUp>} />
-        <Route
-          path="/user"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <UserPage></UserPage>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/listing"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <ListingPage listing={template_listing}></ListingPage>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/createListing"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <CreateListing />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+		<BrowserRouter basename="/">
+			<NavBar></NavBar>
+			<Routes>
+				<Route path="/" element={<HomePage></HomePage>} />
+				<Route path="/login" element={<LoginPage></LoginPage>} />
+				<Route path="/signup" element={<SignUp user={currentUser}></SignUp>} />
+				<Route
+					path="/user"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<UserPage></UserPage>
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/listing"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<ListingPage listing={template_listing}></ListingPage>
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/createListing"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<CreateListing />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/editListing/:id"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<EditListing />
+						</ProtectedRoute>
+					}
+				/>
+			</Routes>
+		</BrowserRouter>
+	);
 }
 export default App;

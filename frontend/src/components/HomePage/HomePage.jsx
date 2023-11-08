@@ -41,7 +41,11 @@ export const HomePage = () => {
 
         <div className="listings">
           {locationListings.map((listing, key) => (
-            <ListingThumbnail listing={listing} key={key}/>
+            <ListingThumbnail 
+              listing={listing} 
+              key={key}
+              editListing={false}
+            />
           ))}
         </div>
       </div>
