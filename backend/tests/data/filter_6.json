@@ -3,9 +3,7 @@
     "details": {
       "quantity": 8,
       "condition": 3,
-      "categories": [
-        "parts"
-      ],
+      "categories": ["parts"],
       "posted_date": "2023-11-01T00:57:20.241Z"
     },
     "location": {
@@ -24,10 +22,7 @@
     "details": {
       "quantity": 8,
       "condition": 3,
-      "categories": [
-        "other",
-        "furniture"
-      ],
+      "categories": ["other", "furniture"],
       "posted_date": "2023-10-31T23:25:03.848Z"
     },
     "location": {
@@ -46,11 +41,7 @@
     "details": {
       "quantity": 7,
       "condition": 2,
-      "categories": [
-        "home",
-        "other",
-        "furniture"
-      ],
+      "categories": ["home", "other", "furniture"],
       "posted_date": "2023-10-31T22:42:20.862Z"
     },
     "location": {
@@ -69,10 +60,7 @@
     "details": {
       "quantity": 2,
       "condition": 3,
-      "categories": [
-        "electronics",
-        "outdoor"
-      ],
+      "categories": ["electronics", "outdoor"],
       "posted_date": "2023-10-31T22:21:28.261Z"
     },
     "location": {
@@ -91,10 +79,7 @@
     "details": {
       "quantity": 2,
       "condition": 1,
-      "categories": [
-        "clothing",
-        "electronics"
-      ],
+      "categories": ["clothing", "electronics"],
       "posted_date": "2023-10-31T20:16:50.573Z"
     },
     "location": {
@@ -113,10 +98,7 @@
     "details": {
       "quantity": 1,
       "condition": 2,
-      "categories": [
-        "outdoor",
-        "parts"
-      ],
+      "categories": ["outdoor", "parts"],
       "posted_date": "2023-10-31T19:48:08.170Z"
     },
     "location": {
@@ -135,10 +117,7 @@
     "details": {
       "quantity": 4,
       "condition": 3,
-      "categories": [
-        "other",
-        "clothing"
-      ],
+      "categories": ["other", "clothing"],
       "posted_date": "2023-10-31T19:07:52.837Z"
     },
     "location": {
@@ -157,11 +136,7 @@
     "details": {
       "quantity": 2,
       "condition": 3,
-      "categories": [
-        "electronics",
-        "home",
-        "other"
-      ],
+      "categories": ["electronics", "home", "other"],
       "posted_date": "2023-10-31T17:56:19.217Z"
     },
     "location": {
@@ -180,9 +155,7 @@
     "details": {
       "quantity": 4,
       "condition": 2,
-      "categories": [
-        "furniture"
-      ],
+      "categories": ["furniture"],
       "posted_date": "2023-10-31T16:35:08.184Z"
     },
     "location": {
@@ -201,9 +174,7 @@
     "details": {
       "quantity": 3,
       "condition": 0,
-      "categories": [
-        "books"
-      ],
+      "categories": ["books"],
       "posted_date": "2023-10-31T16:20:11.747Z"
     },
     "location": {

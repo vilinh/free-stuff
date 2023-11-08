@@ -5,7 +5,7 @@
   "type": "module",
   "main": "backend.js",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "prettier --check .",
     "dev": "nodemon backend.js",
     "start": "node backend.js"
   },

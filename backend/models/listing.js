@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 
 const condition_vars = ["great", "good", "okay", "poor"];
 const category_vars = [
-	"clothing",
-	"furniture",
-	"electronics",
-	"home",
-	"books",
-	"games",
-	"parts",
-	"outdoor",
-	"other",
+  "clothing",
+  "furniture",
+  "electronics",
+  "home",
+  "books",
+  "games",
+  "parts",
+  "outdoor",
+  "other",
 ];
 
 const ListingSchema = new mongoose.Schema(
@@ -26,10 +26,10 @@ const ListingSchema = new mongoose.Schema(
         required: true,
       },
       latitude: {
-        type: Number
+        type: Number,
       },
       longitude: {
-        type: Number
+        type: Number,
       },
     },
     user_id: {
@@ -67,10 +67,10 @@ const ListingSchema = new mongoose.Schema(
     },
   },
   {
-      collection: "listings"
-  }
+    collection: "listings",
+  },
 );
 
 const listingModel = mongoose.model("Listing", ListingSchema);
 
-export {listingModel};
+export { listingModel };

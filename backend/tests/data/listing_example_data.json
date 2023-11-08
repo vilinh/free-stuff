@@ -3,12 +3,9 @@
     "details": {
       "quantity": 5,
       "condition": 1,
-      "categories": [
-        "parts",
-        "games"
-      ],
+      "categories": ["parts", "games"],
       "posted_date": "2023-11-01T06:49:57.994Z"
-      },
+    },
     "location": {
       "address": "52517 King Stravenue"
     },
@@ -25,13 +22,9 @@
     "details": {
       "quantity": 5,
       "condition": 3,
-      "categories": [
-        "other",
-        "electronics",
-        "outdoor"
-      ],
+      "categories": ["other", "electronics", "outdoor"],
       "posted_date": "2023-11-01T05:01:42.772Z"
-      },
+    },
     "location": {
       "address": "861 Farrell Stravenue"
     },
@@ -50,7 +43,7 @@
       "condition": 2,
       "categories": [],
       "posted_date": "2023-11-01T04:20:22.527Z"
-      },
+    },
     "location": {
       "address": "59343 Kling Crest"
     },
@@ -67,12 +60,9 @@
     "details": {
       "quantity": 9,
       "condition": 1,
-      "categories": [
-        "home",
-        "furniture"
-      ],
+      "categories": ["home", "furniture"],
       "posted_date": "2023-11-01T03:31:28.175Z"
-      },
+    },
     "location": {
       "address": "500 Sawayn Port"
     },
@@ -89,9 +79,7 @@
     "details": {
       "quantity": 6,
       "condition": 2,
-      "categories": [
-        "home"
-      ],
+      "categories": ["home"],
       "posted_date": "2023-11-01T01:27:08.932Z"
     },
     "location": {
@@ -110,11 +98,9 @@
     "details": {
       "quantity": 8,
       "condition": 3,
-      "categories": [
-        "parts"
-      ],
+      "categories": ["parts"],
       "posted_date": "2023-11-01T00:57:20.241Z"
-      },
+    },
     "location": {
       "address": "8095 Skiles Underpass"
     },
@@ -131,12 +117,9 @@
     "details": {
       "quantity": 8,
       "condition": 3,
-      "categories": [
-        "other",
-        "furniture"
-      ],
+      "categories": ["other", "furniture"],
       "posted_date": "2023-10-31T23:25:03.848Z"
-      },
+    },
     "location": {
       "address": "4141 Daryl Junctions"
     },
@@ -153,13 +136,9 @@
     "details": {
       "quantity": 7,
       "condition": 2,
-      "categories": [
-        "home",
-        "other",
-        "furniture"
-      ],
+      "categories": ["home", "other", "furniture"],
       "posted_date": "2023-10-31T22:42:20.862Z"
-      },
+    },
     "location": {
       "address": "95100 The Avenue"
     },
@@ -176,12 +155,9 @@
     "details": {
       "quantity": 2,
       "condition": 3,
-      "categories": [
-        "electronics",
-        "outdoor"
-      ],
+      "categories": ["electronics", "outdoor"],
       "posted_date": "2023-10-31T22:21:28.261Z"
-      },
+    },
     "location": {
       "address": "72212 School Close"
     },
@@ -198,14 +174,11 @@
     "details": {
       "quantity": 2,
       "condition": 1,
-      "categories": [
-        "clothing",
-        "electronics"
-      ],
+      "categories": ["clothing", "electronics"],
       "posted_date": "2023-10-31T20:16:50.573Z"
-      },
+    },
     "location": {
-        "address": "99689 Weimann Fords"
+      "address": "99689 Weimann Fords"
     },
     "_id": "6541fbcd0013ebede75a6d86",
     "title": "Salad",
@@ -220,12 +193,9 @@
     "details": {
       "quantity": 1,
       "condition": 2,
-      "categories": [
-        "outdoor",
-        "parts"
-      ],
+      "categories": ["outdoor", "parts"],
       "posted_date": "2023-10-31T19:48:08.170Z"
-      },
+    },
     "location": {
       "address": "248 Silas Freeway"
     },
@@ -242,12 +212,9 @@
     "details": {
       "quantity": 4,
       "condition": 3,
-      "categories": [
-        "other",
-        "clothing"
-      ],
+      "categories": ["other", "clothing"],
       "posted_date": "2023-10-31T19:07:52.837Z"
-      },
+    },
     "location": {
       "address": "513 Tyra Glen"
     },
@@ -264,13 +231,9 @@
     "details": {
       "quantity": 2,
       "condition": 3,
-      "categories": [
-        "electronics",
-        "home",
-        "other"
-      ],
+      "categories": ["electronics", "home", "other"],
       "posted_date": "2023-10-31T17:56:19.217Z"
-      },
+    },
     "location": {
       "address": "20571 Hugh Pike"
     },
@@ -287,11 +250,9 @@
     "details": {
       "quantity": 4,
       "condition": 2,
-      "categories": [
-        "furniture"
-      ],
+      "categories": ["furniture"],
       "posted_date": "2023-10-31T16:35:08.184Z"
-      },
+    },
     "location": {
       "address": "1308 Bernier Springs"
     },
@@ -308,11 +269,9 @@
     "details": {
       "quantity": 3,
       "condition": 0,
-      "categories": [
-        "books"
-      ],
+      "categories": ["books"],
       "posted_date": "2023-10-31T16:20:11.747Z"
-      },
+    },
     "location": {
       "address": "6155 Hudson Ways"
     },
@@ -329,12 +288,9 @@
     "details": {
       "quantity": 10,
       "condition": 2,
-      "categories": [
-        "outdoor",
-        "books"
-      ],
+      "categories": ["outdoor", "books"],
       "posted_date": "2023-10-31T15:39:58.749Z"
-      },
+    },
     "location": {
       "address": "95746 Church Close"
     },
@@ -351,11 +307,9 @@
     "details": {
       "quantity": 8,
       "condition": 1,
-      "categories": [
-        "games"
-      ],
+      "categories": ["games"],
       "posted_date": "2023-10-31T15:30:17.211Z"
-      },
+    },
     "location": {
       "address": "93538 Prince Green"
     },
@@ -372,13 +326,9 @@
     "details": {
       "quantity": 1,
       "condition": 2,
-      "categories": [
-        "clothing",
-        "other",
-        "electronics"
-      ],
+      "categories": ["clothing", "other", "electronics"],
       "posted_date": "2023-10-31T15:20:02.581Z"
-      },
+    },
     "location": {
       "address": "7732 West Avenue"
     },
@@ -395,12 +345,9 @@
     "details": {
       "quantity": 5,
       "condition": 3,
-      "categories": [
-        "clothing",
-        "home"
-      ],
+      "categories": ["clothing", "home"],
       "posted_date": "2023-10-31T15:14:08.116Z"
-      },
+    },
     "location": {
       "address": "7994 Franklin Road"
     },
@@ -417,13 +364,9 @@
     "details": {
       "quantity": 4,
       "condition": 0,
-      "categories": [
-        "clothes",
-        "parts",
-        "games"
-      ],
+      "categories": ["clothes", "parts", "games"],
       "posted_date": "2023-10-31T09:30:58.580Z"
-      },
+    },
     "location": {
       "address": "36227 Joaquin Cove"
     },

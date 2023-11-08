@@ -3,10 +3,7 @@
     "details": {
       "quantity": 2,
       "condition": 1,
-      "categories": [
-        "clothing",
-        "electronics"
-      ],
+      "categories": ["clothing", "electronics"],
       "posted_date": "2023-10-31T20:16:50.573Z"
     },
     "location": {
@@ -25,10 +22,7 @@
     "details": {
       "quantity": 4,
       "condition": 3,
-      "categories": [
-        "other",
-        "clothing"
-      ],
+      "categories": ["other", "clothing"],
       "posted_date": "2023-10-31T19:07:52.837Z"
     },
     "location": {
@@ -47,9 +41,7 @@
     "details": {
       "quantity": 3,
       "condition": 0,
-      "categories": [
-        "books"
-      ],
+      "categories": ["books"],
       "posted_date": "2023-10-31T16:20:11.747Z"
     },
     "location": {
@@ -68,10 +60,7 @@
     "details": {
       "quantity": 10,
       "condition": 2,
-      "categories": [
-        "outdoor",
-        "books"
-      ],
+      "categories": ["outdoor", "books"],
       "posted_date": "2023-10-31T15:39:58.749Z"
     },
     "location": {
@@ -90,11 +79,7 @@
     "details": {
       "quantity": 1,
       "condition": 2,
-      "categories": [
-        "clothing",
-        "other",
-        "electronics"
-      ],
+      "categories": ["clothing", "other", "electronics"],
       "posted_date": "2023-10-31T15:20:02.581Z"
     },
     "location": {
@@ -113,10 +98,7 @@
     "details": {
       "quantity": 5,
       "condition": 3,
-      "categories": [
-        "clothing",
-        "home"
-      ],
+      "categories": ["clothing", "home"],
       "posted_date": "2023-10-31T15:14:08.116Z"
     },
     "location": {
