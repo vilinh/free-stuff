@@ -1,6 +1,4 @@
 import "./UserPanel.css";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { useLocationContext } from "../../context/Location/LocationContext";
 
 let template_user = {
@@ -11,7 +9,7 @@ let template_user = {
     "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
 };
 
-export const UserPanel = () => {
+export const UserPanel = ({username, listings}) => {
   const { address } = useLocationContext();
 
   return (
@@ -20,8 +18,8 @@ export const UserPanel = () => {
         <img className="user-pfp" src={template_user.profile_pic} />
       </div>
       <div className="user-r">
-        <span className="user-name">User Name</span>
-        <span className="user-details">{address?.split(",")[0]} | # listed # given</span>
+        <span className="user-name">{username}</span>
+        <span className="user-details">{address?.split(",")[0]} | {listings ?? "0"} listings</span>
       </div>
     </div>
   );

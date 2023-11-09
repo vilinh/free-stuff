@@ -4,20 +4,14 @@ import Grid from "@mui/material/Grid";
 import "./UserPage.css";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Alert } from "@mui/material";
 import { useNotif } from "../../context/Notifications/NotificationContext";
 
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
 export const UserPage = () => {
   const auth = getAuth();
   const { notif, notifObj, closeNotif } = useNotif();
-  const navigate = useNavigate();
-
   const [listings, setListings] = useState([]);
-  const [address, setAddress] = useState("");
   const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
@@ -48,7 +42,7 @@ export const UserPage = () => {
         </Alert>
       )}
       <div className="user-details">
-        <UserPanel />
+        <UserPanel username={auth.currentUser.email} listings={listings.length}/>
       </div>
       <div className="user-listings">
         <Grid container spacing={2} columns={16}>
