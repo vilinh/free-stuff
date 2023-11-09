@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { convertBase64, postImage } from "../../utils/imageService";
-import { categoryOptions, conditionOptions, postListing } from "../../utils/listingService";
+import {
+	categoryOptions,
+	conditionOptions,
+	postListing,
+} from "../../utils/listingService";
 import Autocomplete from "react-google-autocomplete";
 import CustomAutocomplete from "@mui/material/Autocomplete";
 import "./CreateListing.css";
@@ -27,7 +31,7 @@ const CreateListing = () => {
 	const [quantity, setQuantity] = useState(1);
 	const [condition, setCondition] = useState("");
 	const [image, setImage] = useState("");
-  const [imageName, setImageName] = useState("");
+	const [imageName, setImageName] = useState("");
 	const [location, setLocation] = useState({});
 	const [canSubmit, setCanSubmit] = useState(false);
 
@@ -53,7 +57,7 @@ const CreateListing = () => {
 		/* get imageId after posting to database */
 		const imageRes = await postImage({
 			base64: image,
-      name: imageName
+			name: imageName,
 		});
 
 		const details = {
@@ -105,7 +109,7 @@ const CreateListing = () => {
 		if (file) {
 			const base64 = await convertBase64(file);
 			setImage(base64);
-      setImageName(file.name)
+			setImageName(file.name);
 		}
 	};
 
@@ -113,8 +117,8 @@ const CreateListing = () => {
 		<div className="create-listing-div">
 			<h1>List an Item</h1>
 			<InputFileUpload handleImageUpload={handleImageUpload}></InputFileUpload>
-      { image && <img src={image} width={200} height={200}/>}
-      { imageName && <p>{imageName}</p>}
+			{image && <img src={image} width={200} height={200} />}
+			{imageName && <p>{imageName}</p>}
 
 			<TextField
 				id="filled-basic"
@@ -153,6 +157,10 @@ const CreateListing = () => {
 					label="Quantity"
 					type="number"
 					variant="filled"
+					InputProps={{
+						inputProps: { min: 1 },
+					}}
+					value={quantity}
 					onChange={handleQuantityChange}
 				/>
 			</div>
