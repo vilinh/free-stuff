@@ -40,11 +40,12 @@ const CreateListing = () => {
 
   useEffect(() => {
     // check for valid form input
+    console.log(condition)
     if (
       !title ||
       !description ||
       !categories ||
-      !condition ||
+      condition === "" ||
       !image ||
       Object.keys(location).length === 0
     ) {
