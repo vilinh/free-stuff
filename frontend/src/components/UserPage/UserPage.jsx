@@ -45,18 +45,14 @@ export const UserPage = () => {
         <UserPanel username={auth.currentUser.email} listings={listings.length}/>
       </div>
       <div className="user-listings">
-        <Grid container spacing={2} columns={16}>
           {listings.map((listing, key) => (
-            <Grid item xs={4} key={key}>
               <ListingThumbnail 
                 listing={listing} 
                 editListing={true}
                 setRefresh={setRefresh}
                 refresh={refresh}
               />
-            </Grid>
           ))}
-        </Grid>
       </div>
     </div>
   );

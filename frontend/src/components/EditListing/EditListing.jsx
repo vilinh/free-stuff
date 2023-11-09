@@ -10,6 +10,7 @@ import {
 import {
 	categoryOptions,
 	conditionOptions,
+	deleteListingById,
 	getListingById,
 	updateListingById,
 } from "../../utils/listingService";
@@ -29,6 +30,7 @@ import InputFileUpload from "../InputFileUpload/InputFileUpload";
 import { useParams } from "react-router-dom";
 import { isEqual } from "lodash";
 import { NotifMsg, NotifType, useNotif } from "../../context/Notifications/NotificationContext";
+import { DeleteModal } from "../DeleteModal/DeleteModal";
 
 export const EditListing = ({ listing }) => {
 	const { currentUser } = useAuth();
@@ -50,6 +52,8 @@ export const EditListing = ({ listing }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [ogListing, setOgListing] = useState({});
 	const [updatedListing, setUpdatedListing] = useState({});
+
+	const [deleteModal, setDeleteModal] = useState(false);
 
 	// load initial data
 	useEffect(() => {
@@ -176,6 +180,12 @@ export const EditListing = ({ listing }) => {
 		return <p>Loading ...</p>;
 	}
 
+	const deleteListing = async () => {
+		await deleteListingById(id);
+		createNotif(NotifMsg.DELETE_LISTING_SUCCESS, NotifType.SUCCESS)
+    	navigate("/user");
+	};
+
 	return (
 		<div className="create-listing-div">
 			<h1>Edit Listing</h1>
@@ -259,10 +269,11 @@ export const EditListing = ({ listing }) => {
 					)}
 				/>
 			</div>
-
+			<Button color="error" variant="outlined" onClick={() => setDeleteModal(true)}>Delete Listing</Button>
 			<Button variant="contained" onClick={submitListing} disabled={!canSubmit}>
 				Submit
 			</Button>
+			<DeleteModal deleteListing={deleteListing} open={deleteModal} setOpen={setDeleteModal}></DeleteModal>
 		</div>
 	);
 };
