@@ -15,6 +15,7 @@ async function postListing(listing) {
 		await axios.post("http://localhost:8000/listing", listing);
 	} catch (error) {
 		console.log(error);
+
 	}
 }
 
