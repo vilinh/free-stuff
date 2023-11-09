@@ -3,7 +3,9 @@ const NotifContext = createContext();
 
 export const NotifMsg = {
   CREATE_LISTING_SUCCESS: "Listing Successfully Created",
-  CREATE_LISTING_ERROR: "Failed to Create Listing"
+  CREATE_LISTING_ERROR: "Failed to Create Listing",
+  EDIT_LISTING_SUCCESS: "Listing Successfully Updated",
+  EDIT_LISTING_ERROR: "Failed to Update Listing"
 }
 
 export const NotifType = {

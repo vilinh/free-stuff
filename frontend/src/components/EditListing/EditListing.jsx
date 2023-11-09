@@ -28,9 +28,11 @@ import {
 import InputFileUpload from "../InputFileUpload/InputFileUpload";
 import { useParams } from "react-router-dom";
 import { isEqual } from "lodash";
+import { NotifMsg, NotifType, useNotif } from "../../context/Notifications/NotificationContext";
 
 export const EditListing = ({ listing }) => {
 	const { currentUser } = useAuth();
+	const { createNotif } = useNotif();
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -133,7 +135,8 @@ export const EditListing = ({ listing }) => {
 		});
 		await updateListingById(id, updatedListing);
 
-		navigate("/");
+		createNotif(NotifMsg.EDIT_LISTING_SUCCESS, NotifType.SUCCESS);
+    	navigate("/user");
 	};
 
 	const handleConditionSelected = (event) => {
