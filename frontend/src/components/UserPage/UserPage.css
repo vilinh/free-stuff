@@ -6,3 +6,8 @@
   flex-direction: column;
   gap: 4rem;
 }
+
+.create-listing-notif {
+  position: absolute;
+  top: 2rem;
+}
