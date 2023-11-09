@@ -27,6 +27,7 @@ import {
 } from "@mui/material";
 import InputFileUpload from "../InputFileUpload/InputFileUpload";
 import { useParams } from "react-router-dom";
+import { isEqual } from "lodash";
 
 export const EditListing = ({ listing }) => {
 	const { currentUser } = useAuth();
@@ -45,19 +46,26 @@ export const EditListing = ({ listing }) => {
 	const [postedDate, setPostedDate] = useState("");
 	const [canSubmit, setCanSubmit] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [ogListing, setOgListing] = useState({});
+	const [updatedListing, setUpdatedListing] = useState({});
 
 	// load initial data
 	useEffect(() => {
 		const getListingData = async () => {
 			try {
 				const data = await getListingById(id);
-				const { title, description, details, image, location } = data.data;
+				const listing = data.data
+				const { title, description, details, image, location } = listing;
 				const { categories, condition, quantity, posted_date } = details;
 
 				const imageRes = await getImageFromId(image);
 				const { base64, name } = imageRes.data;
 
-				// set initial states
+				delete listing['_id'];
+				delete listing['claim_queue'];
+				delete listing['__v'];
+				setOgListing(listing)
+				
 				setTitle(title);
 				setDescription(description);
 				setCondition(condition);
@@ -69,10 +77,10 @@ export const EditListing = ({ listing }) => {
 				setBase64(base64);
 				setImageName(name);
 
-				setIsLoading(false)
+				setIsLoading(false);
 			} catch (error) {
 				// TODO: Error Page
-				navigate('/')
+				navigate("/");
 			}
 		};
 
@@ -80,29 +88,7 @@ export const EditListing = ({ listing }) => {
 	}, []);
 
 	useEffect(() => {
-		// check for valid form input
-		if (
-			!title ||
-			!description ||
-			!categories ||
-			!condition ||
-			!base64 ||
-			Object.keys(location).length === 0
-		) {
-			setCanSubmit(false);
-		} else {
-			setCanSubmit(true);
-		}
-	}, [title, description, categories, quantity, condition, base64, location]);
-
-	const submitListing = async () => {
-		setCanSubmit(false);
-
-		await updateImageById(imageId, {
-			base64: base64,
-			name: imageName
-		})
-
+		// check if listing has been changed
 		const details = {
 			quantity: quantity,
 			condition: condition,
@@ -118,7 +104,34 @@ export const EditListing = ({ listing }) => {
 			details: details,
 			image: imageId,
 		};
-		await updateListingById(id, listing);
+
+		if (isEqual(listing, ogListing)) {
+			setCanSubmit(false)
+		}
+		else if (
+			!title ||
+			!description ||
+			!categories ||
+			!condition ||
+			!base64 ||
+			Object.keys(location).length === 0
+		) {
+			setCanSubmit(false);
+		} 
+		else {
+			setUpdatedListing(listing)
+			setCanSubmit(true);
+		}
+	}, [title, description, categories, quantity, condition, base64, location]);
+
+	const submitListing = async () => {
+		setCanSubmit(false);
+
+		await updateImageById(imageId, {
+			base64: base64,
+			name: imageName,
+		});
+		await updateListingById(id, updatedListing);
 
 		navigate("/");
 	};
@@ -157,19 +170,18 @@ export const EditListing = ({ listing }) => {
 	};
 
 	if (isLoading) {
-		return (
-			<p>Loading ...</p>
-		)
+		return <p>Loading ...</p>;
 	}
 
 	return (
 		<div className="create-listing-div">
 			<h1>Edit Listing</h1>
 			<InputFileUpload handleImageUpload={handleImageUpload}></InputFileUpload>
-			{ base64 && <img src={base64} width={200} height={200}/>}
-      { imageName && <p>{imageName}</p>}
+			{base64 && <img src={base64} width={200} height={200} />}
+			{imageName && <p>{imageName}</p>}
 
 			<TextField
+				label="Title"
 				id="filled-basic"
 				variant="filled"
 				value={title}
@@ -177,6 +189,7 @@ export const EditListing = ({ listing }) => {
 			/>
 			<TextField
 				id="filled-textarea"
+				label="Description"
 				value={description}
 				placeholder="Description"
 				multiline
@@ -204,6 +217,9 @@ export const EditListing = ({ listing }) => {
 				<TextField
 					size="small"
 					id="filled-basic"
+					InputProps={{
+						inputProps: { min: 1 },
+					}}
 					value={quantity}
 					type="number"
 					variant="filled"

@@ -37,4 +37,13 @@ async function updateListingById(id, listing) {
 	}
 }
 
-export { categoryOptions, conditionOptions, postListing, getListingById, updateListingById }
+async function deleteListingById(id) {
+	try {
+		await axios.delete(`http://localhost:8000/listing/${id}`);
+	} catch (error) {
+		console.log(error);
+		return undefined;
+	}
+}
+
+export { categoryOptions, conditionOptions, postListing, getListingById, updateListingById, deleteListingById }

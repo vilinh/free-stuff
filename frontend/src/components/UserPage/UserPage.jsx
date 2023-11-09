@@ -18,6 +18,7 @@ export const UserPage = () => {
 
   const [listings, setListings] = useState([]);
   const [address, setAddress] = useState("");
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     const getListings = async () => {
@@ -31,7 +32,7 @@ export const UserPage = () => {
       }
     };
     getListings();
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="user-page">
@@ -53,7 +54,12 @@ export const UserPage = () => {
         <Grid container spacing={2} columns={16}>
           {listings.map((listing, key) => (
             <Grid item xs={4} key={key}>
-              <ListingThumbnail listing={listing} editListing={true} />
+              <ListingThumbnail 
+                listing={listing} 
+                editListing={true}
+                setRefresh={setRefresh}
+                refresh={refresh}
+              />
             </Grid>
           ))}
         </Grid>

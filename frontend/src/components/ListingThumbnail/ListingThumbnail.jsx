@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { getImageFromId } from "../../utils/imageService";
 import { Skeleton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { deleteListingById } from "../../utils/listingService";
 
-export const ListingThumbnail = ({ listing, editListing }) => {
+export const ListingThumbnail = ({ listing, editListing, refresh, setRefresh }) => {
 	const [image, setImage] = useState("");
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const getImage = async () => {
@@ -18,6 +19,11 @@ export const ListingThumbnail = ({ listing, editListing }) => {
 
 		getImage();
 	});
+
+	const deleteListing = async () => {
+		await deleteListingById(listing._id)
+		setRefresh(!refresh)
+	}
 
 	return (
 		<div className="listing-thumbnail">
@@ -35,7 +41,16 @@ export const ListingThumbnail = ({ listing, editListing }) => {
 				<Skeleton variant="rectangular" width={150} height={150} />
 			)}
 			<span>{listing.title}</span>
-			{editListing && <button onClick={() => navigate(`/editListing/${listing._id}`)}>Edit Listing</button>}
+			{editListing && (
+				<div>
+					<button onClick={() => navigate(`/editListing/${listing._id}`)}>
+						Edit Listing
+					</button>
+					<button onClick={deleteListing}>
+						Delete Listing
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
