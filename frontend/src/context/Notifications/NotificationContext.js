@@ -5,7 +5,9 @@ export const NotifMsg = {
   CREATE_LISTING_SUCCESS: "Listing Successfully Created",
   CREATE_LISTING_ERROR: "Failed to Create Listing",
   EDIT_LISTING_SUCCESS: "Listing Successfully Updated",
-  EDIT_LISTING_ERROR: "Failed to Update Listing"
+  EDIT_LISTING_ERROR: "Failed to Update Listing",
+  DELETE_LISTING_SUCCESS: "Listing Successfully Deleted",
+  DELETE_LISTING_ERROR: "Failed to Delete Listing"
 }
 
 export const NotifType = {
