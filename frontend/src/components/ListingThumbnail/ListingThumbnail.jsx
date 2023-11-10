@@ -69,6 +69,9 @@ export const ListingThumbnail = ({
                 top: ".25rem",
                 right: ".25rem",
 				color: "white",
+				backgroundColor: "rgba(0, 0, 0, 0.8)",
+				padding: ".25rem",
+				borderRadius: ".25rem"
               }}
               onClick={() => 
 				{
