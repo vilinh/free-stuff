@@ -44,7 +44,7 @@ const CreateListing = () => {
     if (
       !title ||
       !description ||
-      !categories ||
+      categories.length === 0 ||
       condition === "" ||
       !image ||
       Object.keys(location).length === 0
@@ -54,7 +54,7 @@ const CreateListing = () => {
       setCanSubmit(true);
     }
   }, [title, description, categories, quantity, condition, image, location]);
-
+	
   const submitListing = async () => {
     setCanSubmit(false);
 

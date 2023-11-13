@@ -11,6 +11,7 @@ import { NavBar } from "./components/Nav/NavBar";
 import CreateListing from "./components/CreateListing/CreateListing";
 import { HomePage } from "./components/HomePage/HomePage";
 import { EditListing } from "./components/EditListing/EditListing";
+import ListingDetail from "./components/ListingDetail/ListingDetail";
 
 let template_listing = {
   title: "T-shirt",
@@ -51,6 +52,14 @@ function App() {
 					element={
 						<ProtectedRoute user={currentUser}>
 							<ListingPage listing={template_listing}></ListingPage>
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/listing/:id"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<ListingDetail />
 						</ProtectedRoute>
 					}
 				/>
