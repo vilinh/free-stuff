@@ -8,6 +8,11 @@
   height: "8rem";
 }
 
+.listing-thumbnail .image {
+  display: flex;
+  flex-direction: column;
+}
+
 .listing {
   display: flex;
   flex-direction: column;

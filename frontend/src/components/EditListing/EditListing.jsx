@@ -19,6 +19,7 @@ import CustomAutocomplete from "@mui/material/Autocomplete";
 import "../CreateListing/CreateListing.css";
 import {
 	Button,
+	CircularProgress,
 	FormControl,
 	InputLabel,
 	MenuItem,
@@ -60,18 +61,18 @@ export const EditListing = ({ listing }) => {
 		const getListingData = async () => {
 			try {
 				const data = await getListingById(id);
-				const listing = data.data
+				const listing = data.data;
 				const { title, description, details, image, location } = listing;
 				const { categories, condition, quantity, posted_date } = details;
 
 				const imageRes = await getImageFromId(image);
 				const { base64, name } = imageRes.data;
 
-				delete listing['_id'];
-				delete listing['claim_queue'];
-				delete listing['__v'];
-				setOgListing(listing)
-				
+				delete listing["_id"];
+				delete listing["claim_queue"];
+				delete listing["__v"];
+				setOgListing(listing);
+
 				setTitle(title);
 				setDescription(description);
 				setCondition(condition);
@@ -112,20 +113,18 @@ export const EditListing = ({ listing }) => {
 		};
 
 		if (isEqual(listing, ogListing)) {
-			setCanSubmit(false)
-		}
-		else if (
+			setCanSubmit(false);
+		} else if (
 			!title ||
 			!description ||
-			!categories ||
+			categories.length === 0 ||
 			!condition ||
 			!base64 ||
 			Object.keys(location).length === 0
 		) {
 			setCanSubmit(false);
-		} 
-		else {
-			setUpdatedListing(listing)
+		} else {
+			setUpdatedListing(listing);
 			setCanSubmit(true);
 		}
 	}, [title, description, categories, quantity, condition, base64, location]);
@@ -177,7 +176,7 @@ export const EditListing = ({ listing }) => {
 	};
 
 	if (isLoading) {
-		return <p>Loading ...</p>;
+		return <CircularProgress />
 	}
 
 	const deleteListing = async () => {

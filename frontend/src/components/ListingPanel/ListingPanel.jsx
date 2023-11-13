@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { UserPanel } from "../UserPanel/UserPanel";
 import { getImageFromId } from "../../utils/imageService";
 import "./ListingPanel.css";
+import { useAuth } from "../../context/Auth/AuthContext";
+import { updateListingById } from "../../utils/listingService";
 
 export const ListingPanel = ({ listing }) => {
   const hasAddress = listing.hasOwnProperty('location');
   const [image, setImage] = useState("")
+  const { currentUser } = useAuth();
+
+  console.log(listing.claim_queue)
 
   useEffect(() => {
     const getImage = async () => {
@@ -17,6 +22,12 @@ export const ListingPanel = ({ listing }) => {
 
     getImage()
   }, [])
+
+  const addUserToClaimQueue = async () => {
+    listing.claim_queue.push(currentUser.uid);
+    listing.claimed = true;
+    await updateListingById(listing._id, listing);
+  }
 
   return (
     <div className="listing-wrapper">
@@ -50,7 +61,7 @@ export const ListingPanel = ({ listing }) => {
           <div>
 
           </div>
-          <button className="claim-btn" disabled={listing.claimed}>
+          <button className="claim-btn" disabled={listing.claimed} onClick={addUserToClaimQueue}>
             Claim
           </button>
         </div>
