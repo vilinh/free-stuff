@@ -47,7 +47,7 @@ export const ListingThumbnail = ({
         className="listing"
       >
         {image ? (
-          <img
+          <> <img
             className="listing-thumbnail-img"
             src={image}
             alt="listing post"
@@ -57,6 +57,10 @@ export const ListingThumbnail = ({
               objectFit: "cover",
             }}
           />
+          <span className="listing-title">{listing.title}
+            </span>
+          </>
+         
         ) : (
           <Skeleton variant="rectangular" width={150} height={150} />
         )}
