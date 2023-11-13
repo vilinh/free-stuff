@@ -24,6 +24,7 @@ app.use("/image", image);
 app.get("/", (req, res) => {
   res.send("Backend!");
 });
+
 mongoose.connect(process.env.DATABASE_URL).then(() => {
   console.log("Connected to server successfully!");
 });
