@@ -22,10 +22,21 @@
   gap: 1rem;
 }
 
+.navbar-m {
+  min-width: 30%;
+}
+
+.search-input {
+  border: .05rem solid black;
+  padding: .5rem;
+  width: 30rem;
+}
+
 .navbar-r {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  align-items: center;
 }
 
 .view-listings-link {
