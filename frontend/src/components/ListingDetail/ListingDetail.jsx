@@ -9,7 +9,7 @@ export default function ListingDetail() {
 	const [listing, setListing] = useState();
 
 	useEffect(() => {
-		const getListings = async () => {
+		const getListing = async () => {
 			try {
 				let res = await axios.get(`http://localhost:8000/listing/${id}`);
 				setListing(res.data);
@@ -17,7 +17,8 @@ export default function ListingDetail() {
 				console.log(error);
 			}
 		};
-		getListings();
+
+		getListing();
 	}, []);
 
 	return (
