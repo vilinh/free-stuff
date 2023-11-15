@@ -5,14 +5,15 @@ import "./ListingPanel.css";
 import { useAuth } from "../../context/Auth/AuthContext";
 import { updateListingById } from "../../utils/listingService";
 import Button from "@cloudscape-design/components/button";
-import { getUserById } from "../../utils/userService";
+import { getUserById, updateUserById } from "../../utils/userService";
 import { auth } from "../../firebase";
 
 export const ListingPanel = ({ listing }) => {
 	const hasAddress = listing.hasOwnProperty("location");
 	const [image, setImage] = useState("");
 	const [claimListing, setClaimListing] = useState(true);
-  const [author, setAuthor] = useState("")
+	const [author, setAuthor] = useState("");
+	const [user, setUser] = useState();
 	const { currentUser } = useAuth();
 
 	useEffect(() => {
@@ -23,17 +24,25 @@ export const ListingPanel = ({ listing }) => {
 			}
 		};
 
-    const getUserName = async () => {
-      const res = await getUserById(listing.user_id)
+		const getListingAuthor = async () => {
+			const res = await getUserById(listing.user_id);
+			if (res) {
+				setAuthor(res.data.email);
+			}
+		};
+
+    const getCurrentUser = async () => {
+      const res = await getUserById(currentUser.uid);
       if (res) {
-        setAuthor(res.data.email)
+        setUser(res.data)
       }
     }
 
 		const userInQueue = listing.claim_queue.indexOf(currentUser.uid) !== -1;
 		setClaimListing(userInQueue);
-    getImage();
-    getUserName();
+		getImage();
+		getListingAuthor();
+    getCurrentUser();
 	}, []);
 
 	const addUserToClaimQueue = async () => {
@@ -44,7 +53,32 @@ export const ListingPanel = ({ listing }) => {
 			listing.claimed = true;
 			await updateListingById(listing._id, listing);
 		}
+
+		if (user.claimed_listings.indexOf(listing._id) === -1) {
+			user.claimed_listings.push(listing._id);
+			await updateUserById(user._id, user);
+		}
 	};
+
+  const removeUserFromClaimQueue = async () => {
+    setClaimListing(false);
+
+    const userIdx = listing.claim_queue.indexOf(currentUser.uid);
+    const listingIdx = user.claimed_listings.indexOf(listing._id);
+    if (userIdx !== -1) {
+			listing.claim_queue.splice(userIdx, 1);
+
+      if (listing.claim_queue.length === 0) {
+        listing.claimed = false;
+      }
+			await updateListingById(listing._id, listing);
+		}
+
+    if (listingIdx !== -1) {
+			user.claimed_listings.splice(listingIdx, 1);
+      await updateUserById(user);
+		}
+  }
 
 	return (
 		<div className="listing-wrapper">
@@ -53,7 +87,9 @@ export const ListingPanel = ({ listing }) => {
 					<img className="listing-img" src={image} />
 				</div>
 				<div className="listing-l">
-					<span className="listing-date">Posted X Days Ago {author && `by ${author}`}</span>
+					<span className="listing-date">
+						Posted X Days Ago {author && `by ${author}`}
+					</span>
 					<h2 className="listing-title">{listing.title}</h2>
 					<h3 className="listing-address">
 						{hasAddress ? listing.location.address : "No Address"}
@@ -79,18 +115,28 @@ export const ListingPanel = ({ listing }) => {
 					</div>
 					<div></div>
 					{currentUser.uid !== listing.user_id && (
-						<Button
-							variant="primary"
-							disabled={claimListing}
-							onClick={addUserToClaimQueue}
-						>
-							{claimListing ? "Claimed" : "Claim"}
-						</Button>
+						<div>
+							{claimListing ? (
+								<Button
+									variant="primary"
+									onClick={removeUserFromClaimQueue}
+								>
+									Unclaim
+								</Button>
+							) : (
+								<Button
+									variant="primary"
+									onClick={addUserToClaimQueue}
+								>
+									Claim
+								</Button>
+							)}
+						</div>
 					)}
 					<p>
 						{listing.claim_queue.length}
 						{listing.claim_queue.length === 1 ? " user has " : " users have "}
-						claimed
+						claimed this listing
 					</p>
 				</div>
 			</div>

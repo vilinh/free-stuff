@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getUserById(id) {
+async function getUserById(id) {
 	try {
 		return await axios.get(`http://localhost:8000/user/${id}`);
 	} catch (error) {
@@ -8,3 +8,14 @@ export async function getUserById(id) {
 		return undefined;
 	}
 }
+
+async function updateUserById(id, user) {
+	try {
+		await axios.put(`http://localhost:8000/user/${id}`, user);
+	} catch (error) {
+		console.log(error);
+		return undefined;
+	}
+}
+
+export { getUserById, updateUserById }
