@@ -74,7 +74,7 @@ async function addUser(user) {
 }
 
 async function updateUserById(id, user) {
-  try {
+	try {
 		await userModel.findByIdAndUpdate(id, user);
 	} catch (error) {
 		console.log(error);
