@@ -4,3 +4,15 @@ export const Condition = {
   Good: 1,
   Great: 0
 }
+
+export const ListingStatus = {
+  Any: "Any",
+  Claimed: "Claimed",
+  Unclaimed: "Unclaimed"
+}
+
+export const Categories = {
+  Clothes: "Clothes",
+  Books: "Books",
+  Furniture: "Furniture"
+}

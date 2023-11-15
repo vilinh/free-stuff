@@ -5,10 +5,12 @@ import { ListingThumbnail } from "../ListingThumbnail/ListingThumbnail";
 import { useLocationContext } from "../../context/Location/LocationContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
   const { address } = useLocationContext();
   const [locationListings, setLocationListings] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getListings = async () => {
@@ -43,7 +45,7 @@ export const HomePage = () => {
           <h4>Select a location to show listings near that location</h4>
         )}
         <span className="near-you">Near you</span>
-        <span className="sub-link"> See all</span>
+        <span className="sub-link" onClick={() => navigate("/search")}> See all</span>
 
         <div className="listings">
           {locationListings.map((listing, key) => (

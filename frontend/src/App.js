@@ -12,6 +12,7 @@ import CreateListing from "./components/CreateListing/CreateListing";
 import { HomePage } from "./components/HomePage/HomePage";
 import { EditListing } from "./components/EditListing/EditListing";
 import ListingDetail from "./components/ListingDetail/ListingDetail";
+import { SearchResults } from "./components/SearchResults/SearchResults";
 import ClaimedListing from "./components/ClaimedListingPage/ClaimedListing";
 
 let template_listing = {
@@ -81,6 +82,13 @@ function App() {
 					}
 				/>
 				<Route
+					path="/search"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<SearchResults />
+            </ProtectedRoute>}
+        />
+        <Route
 					path="/claimedListing"
 					element={
 						<ProtectedRoute user={currentUser}>
