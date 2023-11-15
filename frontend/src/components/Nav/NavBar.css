@@ -19,15 +19,58 @@
 .navbar-l {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: .5rem;
+}
+
+.location-pref {
+  cursor: pointer;
+}
+
+.navbar-m {
+  min-width: 30%;
+}
+
+.search-input {
+  border: .05rem solid black;
+  padding: .5rem;
+  width: 30rem;
 }
 
 .navbar-r {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  align-items: center;
 }
 
 .view-listings-link {
   font-size: 0.8rem;
+}
+
+.manual-input {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.autolocate-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.autolocate-result {
+  display: flex;
+  gap: 1rem;
+}
+
+#check-icon {
+  cursor: pointer;
+}
+
+/* z index for Google Autocomplete Results */
+.pac-container {
+  z-index: 6000 !important;
 }

@@ -24,6 +24,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const id = req.params["id"];
+  const result = await updateUserById(id, req.body);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.status(204).end();
+  }
+});
+
 // delete user by firebase uid
 router.delete("/:uid", async (req, res) => {
   const uid = req.params["uid"];
@@ -57,6 +67,15 @@ async function removeUserByUid(uid) {
 async function addUser(user) {
   try {
     return await user.save();
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+}
+
+async function updateUserById(id, user) {
+  try {
+    await userModel.findByIdAndUpdate(id, user);
   } catch (error) {
     console.log(error);
     return undefined;

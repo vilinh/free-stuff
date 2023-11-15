@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema(
     profile_pic: {
       type: String,
     },
+    claimed_listings: {
+      type: [String],
+      default: [],
+    },
   },
   { collection: "users_list" },
 );

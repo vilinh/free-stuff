@@ -1,6 +1,4 @@
 import "./UserPanel.css";
-import { useLocationContext } from "../../context/Location/LocationContext";
-
 let template_user = {
   _id: "12345",
   display_name: "Char Lee",
@@ -9,9 +7,7 @@ let template_user = {
     "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
 };
 
-export const UserPanel = ({username, listings}) => {
-  const { address } = useLocationContext();
-
+export const UserPanel = ({ username, listings }) => {
   return (
     <div className="user-panel">
       <div className="user-l">
@@ -19,7 +15,10 @@ export const UserPanel = ({username, listings}) => {
       </div>
       <div className="user-r">
         <span className="user-name">{username}</span>
-        <span className="user-details">{address?.split(",")[0]} | {listings ?? "0"} listings</span>
+        <span className="user-details">
+          user-defined location
+          | {listings ?? "0"} listings
+        </span>
       </div>
     </div>
   );

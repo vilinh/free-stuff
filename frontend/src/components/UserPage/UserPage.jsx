@@ -5,12 +5,14 @@ import "./UserPage.css";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Alert } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import { useNotif } from "../../context/Notifications/NotificationContext";
 import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const UserPage = () => {
 	const auth = getAuth();
+	const navigate = useNavigate();
 	const { notif, notifObj, closeNotif } = useNotif();
 
 	const [listings, setListings] = useState([]);
@@ -54,6 +56,11 @@ export const UserPage = () => {
 					username={auth.currentUser.email}
 					listings={listings.length}
 				/>
+			</div>
+			<div className="claimed-listings">
+				<Button onClick={() => navigate("/claimedListing")}>
+					Claimed Listings
+				</Button>
 			</div>
 			<div className="user-listings">
 				{listings.map((listing, key) => (
