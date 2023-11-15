@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import RadioGroup from "@cloudscape-design/components/radio-group";
 import ButtonDropdown from "@cloudscape-design/components/button-dropdown";
 import axios from "axios";
+import { Categories, ListingStatus } from "../../utils/enum";
+import Spinner from "@cloudscape-design/components/spinner";
+
 
 export const SearchResults = () => {
   const [locationListings, setLocationListings] = useState([]);
@@ -29,14 +32,7 @@ export const SearchResults = () => {
   return (
     <div className="search-results">
       <div className="search-bar">
-
       </div>
-      {/* <div className="cat-bar">
-        <button className="cat-bar-button">Clothes</button>
-        <button className="cat-bar-button">Books</button>
-        <button className="cat-bar-button">Furniture</button>
-      </div> */}
-
       <h3 className="search-results-title">Search results</h3>
       <div className="search-results-main">
         <div className="filter-bar">
@@ -49,9 +45,9 @@ export const SearchResults = () => {
                 onChange={({ detail }) => setStatus(detail.value)}
                 value={status}
                 items={[
-                  { value: "any", label: "Any" },
-                  { value: "claimed", label: "Claimed" },
-                  { value: "unclaimed", label: "Unclaimed" },
+                  { value: ListingStatus.Any, label: ListingStatus.Any },
+                  { value: ListingStatus.Claimed, label: ListingStatus.Claimed },
+                  { value: ListingStatus.Unclaimed, label: ListingStatus.Unclaimed },
                 ]}
               />
             </div>
@@ -59,9 +55,7 @@ export const SearchResults = () => {
             <div className="category">
               <h4>Category</h4>
               <div className="category-options">
-                <span className="cat-opt">Clothes</span>
-                <span className="cat-opt">Books</span>
-                <span className="cat-opt">Furniture</span>
+                {Object.keys(Categories).map((k) => (<span className="cat-opt">{k}</span>))}
               </div>
             </div>
           </div>
@@ -76,7 +70,8 @@ export const SearchResults = () => {
       Sort By
     </ButtonDropdown>
           <div className="listings">
-            {locationListings.map((listing, key) => (
+            {locationListings.length ? 
+            <>{locationListings.map((listing, key) => (
               <ListingThumbnail
                 listing={listing}
                 key={key}
@@ -90,6 +85,7 @@ export const SearchResults = () => {
                 editListing={false}
               />
             ))}
+            </> : <Spinner/>}
           </div>
         </div>
       </div>
