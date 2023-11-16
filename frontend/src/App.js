@@ -86,9 +86,18 @@ function App() {
 					element={
 						<ProtectedRoute user={currentUser}>
 							<SearchResults />
-            </ProtectedRoute>}
-        />
-        <Route
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/search/:term"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<SearchResults />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
 					path="/claimedListing"
 					element={
 						<ProtectedRoute user={currentUser}>

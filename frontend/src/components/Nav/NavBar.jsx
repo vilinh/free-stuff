@@ -1,7 +1,7 @@
 import { Avatar } from "@mui/material";
 import Button from "@cloudscape-design/components/button";
 import "./NavBar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Auth/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
@@ -17,11 +17,24 @@ import Icon from "@cloudscape-design/components/icon";
 
 export const NavBar = () => {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [locationPref, setLocationPref] = useState(false);
   const [searchLoc, setSearchLoc] = useState("");
 
   const { findLocation, setAddress, loading, address } = useLocationContext();
+
+  useEffect(() => {
+    // set search bar value from url
+    const pathArray = window.location.pathname.split("/")
+    const idx = pathArray.indexOf('search')
+
+    if (idx !== -1 && idx !== pathArray.length - 1) {
+      setSearch(pathArray[idx + 1])
+    }
+
+  }, [])
 
   const handlePlaceSelected = (place) => {
     const latitude = place.geometry.location.lat();
@@ -115,11 +128,13 @@ export const NavBar = () => {
           </span>
         </div>
         <div className="navbar-m">
-          <Input
-            onChange={({ detail }) => setSearch(detail.value)}
-            value={search}
-            placeholder="Search"
-          />
+          <form onSubmit={() => navigate(`/search/${search}`)}>
+            <Input
+              onChange={({ detail }) => setSearch(detail.value)}
+              value={search}
+              placeholder="Search"
+            />
+          </form>
         </div>
         <div className="navbar-r">
           {currentUser ? (
