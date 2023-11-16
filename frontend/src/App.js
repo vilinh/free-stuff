@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import SignUp from "./components/SignUpPage/SignUp";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";

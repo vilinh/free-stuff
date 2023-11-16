@@ -35,7 +35,7 @@ const CreateListing = () => {
   const [condition, setCondition] = useState("");
   const [image, setImage] = useState("");
   const [imageName, setImageName] = useState("");
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState();
   const [canSubmit, setCanSubmit] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const CreateListing = () => {
       categories.length === 0 ||
       condition === "" ||
       !image ||
-      Object.keys(location).length === 0
+      !location
     ) {
       setCanSubmit(false);
     } else {
@@ -154,7 +154,7 @@ const CreateListing = () => {
           options={{
             types: ["address"],
           }}
-          onChange={() => setLocation({})}
+          onChange={() => setLocation()}
         />
         <TextField
           size="small"

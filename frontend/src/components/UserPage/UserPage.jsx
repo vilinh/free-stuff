@@ -26,10 +26,10 @@ export const UserPage = () => {
 					`http://localhost:8000/listing/user/${auth.currentUser.uid}`
 				);
 				setListings(res.data);
-				setIsLoading(false);
 			} catch (error) {
 				console.log(error);
 			}
+			setIsLoading(false);
 		};
 		getListings();
 	}, []);
@@ -53,7 +53,7 @@ export const UserPage = () => {
 			)}
 			<div className="user-details">
 				<UserPanel
-					username={auth.currentUser.email}
+					user={auth.currentUser}
 					listings={listings.length}
 				/>
 			</div>
