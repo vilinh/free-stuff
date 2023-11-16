@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
       radius,
       sort,
       offset,
-      index,
+      index
     );
     res.send(result);
   } catch (error) {
@@ -67,7 +67,7 @@ router.get("/:id", async (req, res) => {
 router.get("/user/:id", async (req, res) => {
   const uid = req.params["id"];
   let result = await findListingByUId(uid);
-  if (result == undefined || result.length == 0) {
+  if (result === undefined) {
     res.status(404).send("Resource not found.");
   } else {
     res.status(200).send(result);
@@ -139,7 +139,7 @@ async function getListings(
   radius,
   sort,
   offset,
-  index,
+  index
 ) {
   let query = {};
   let match = [];
