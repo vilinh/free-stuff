@@ -118,20 +118,20 @@ export const SearchResults = () => {
 								]}
 							/>
 						</div>
-						<hr />
-						<div className="category">
-							<h4>Category</h4>
-							<div className="category-options">
-								{Object.keys(Categories).map((k) => (
-									<span
-										key={k}
-										className="cat-opt"
-										onClick={() => handleSelectCategory(k)}
-									>
-										{k}
-									</span>
+					</div>
+					<hr />
+					<div className="category">
+						<h4>Category</h4>
+						<div className="category-options">
+							{Object.keys(Categories).map((k) => (
+								<span
+									key={k}
+									className="cat-opt"
+									onClick={() => handleSelectCategory(k)}
+								>
+									{k}
+								</span>
 								))}
-							</div>
 						</div>
 					</div>
 				</div>
