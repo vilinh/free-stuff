@@ -24,7 +24,7 @@
 .listing-thumbnail-img {
   /* width: 7rem;
   height: auto; */
-  border-radius: .1rem;
+  border-radius: 0.1rem;
 }
 
 .listing-thumbnail span {
@@ -33,7 +33,7 @@
 }
 
 .thumbnail-icons {
-  font-size: .5rem;
+  font-size: 0.5rem;
 }
 
 .delete-modal-div {
@@ -44,22 +44,33 @@
   background-color: white;
   width: 400px;
   padding: 1rem;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
 }
 
 .delete-modal-div h4 {
   margin: 0;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .delete-modal-div span {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .delete-modal-buttons {
   display: flex;
   margin-top: 1rem;
-  gap: .5rem;
+  gap: 0.5rem;
   width: 100%;
   justify-content: flex-end;
+}
+
+.claimed-tag {
+  font-size: 0.8rem;
+  position: absolute;
+  top: 0.01rem;
+  left: 0.35rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0.25rem;
+  border-radius: 0.25rem;
 }
