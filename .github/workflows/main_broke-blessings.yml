@@ -30,6 +30,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           echo ${{ secrets.TEST }}
+          echo "HI"
           npm install
           npm start
           npm run build --if-present
