@@ -27,12 +27,8 @@ jobs:
 
       - name: npm install, build, and test
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: $(DATABASE_URL)
         run: |
-          echo ${{ secrets.TEST }}
-          echo $(TEST)
-          echo ${TEST}
-          echo "HI"
           npm install
           npm start
           npm run build --if-present
