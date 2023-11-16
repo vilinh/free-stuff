@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
       radius,
       sort,
       offset,
-      index
+      index,
     );
     res.send(result);
   } catch (error) {
@@ -139,7 +139,7 @@ async function getListings(
   radius,
   sort,
   offset,
-  index
+  index,
 ) {
   let query = {};
   let match = [];
