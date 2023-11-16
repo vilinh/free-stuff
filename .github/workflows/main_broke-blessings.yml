@@ -20,14 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x' 
-
       - name: npm install, build, and test
         env:
-          DATABASE_URL: $(DATABASE_URL)
+          DATABASE_URL: ${{ env.DATABASE_URL }}
         run: |
           npm install
           npm start
