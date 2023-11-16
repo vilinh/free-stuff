@@ -68,7 +68,7 @@ const ListingSchema = new mongoose.Schema(
   },
   {
     collection: "listings",
-  },
+  }
 );
 
 const listingModel = mongoose.model("Listing", ListingSchema);
