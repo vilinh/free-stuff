@@ -150,8 +150,6 @@ async function getListings(
     match.push({ title: new RegExp(sanitize(title), "i") });
   }
   if (claimed) {
-    match.push({ claimed: false });
-  } else {
     match.push({ claimed: true });
   }
   if (condition) {
