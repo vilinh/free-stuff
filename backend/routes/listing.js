@@ -1,7 +1,6 @@
 import express from "express";
 import { listingModel } from "../models/listing.js";
 import sanitize from "mongo-sanitize";
-import haversine from "haversine-distance";
 const router = express.Router();
 
 /* This function is called on the front page of the website and returns all listings based on a series of user defined
@@ -106,31 +105,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-/* Gets passed user location and max distance(m) and returns listing within that distance */
-router.post("/distance-search", async (req, res) => {
-  try {
-    const max_dist = req.body.max_dist;
-    const user_coords = {
-      lat: req.body.location.latitude,
-      lon: req.body.location.longitude,
-    };
-    let result = await listingModel.find().limit(10);
-    const output = result.filter((listing) => {
-      const listing_coords = {
-        lat: listing.location.latitude,
-        lon: listing.location.longitude,
-      };
-      const dist = haversine(user_coords, listing_coords);
-      console.log(dist);
-      return dist <= max_dist ? true : false;
-    });
-    res.status(200).send(output);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("An error occured in the system");
-  }
-});
-
 async function getListings(
   title,
   claimed,
@@ -149,23 +123,21 @@ async function getListings(
   let lat = 0;
   let lng = 0;
 
-  console.log(latlng);
-  console.log(sanitize(latlng));
-  console.log(sanitize(latlng).split(","));
   try {
-    lat = sanitize(latlng).split(",")[0];
-    lng = sanitize(latlng).split(",")[1];
+    lat = parseFloat(sanitize(latlng).split(",")[0]);
+    lng = parseFloat(sanitize(latlng).split(",")[1]);
   } catch {}
-
-  console.log(lat);
-  console.log(lng);
 
   /* These are all query filters */
   if (title && title !== "") {
     match.push({ title: new RegExp(sanitize(title), "i") });
   }
   if (claimed) {
-    match.push({ claimed: claimed });
+    if (claimed === "true") {
+      match.push({ claimed: true });
+    } else {
+      match.push({ claimed: false });
+    }
   } else {
     match.push({ claimed: false });
   }
@@ -192,9 +164,13 @@ async function getListings(
     });
   }
   if (categories) {
+    console.log(sanitize(categories).split(","));
     match.push({
       "details.categories": { $in: sanitize(categories).split(",") },
     });
+  }
+  if (radius) {
+    match.push({ distance: { $lte: parseFloat(sanitize(radius)) } });
   }
   if (match.length > 0) {
     query = { $and: match };
@@ -247,13 +223,16 @@ async function getListings(
         $geoNear: {
           near: {
             type: "Point",
-            coordinates: [parseFloat(lng), parseFloat(lat)],
+            coordinates: [lng, lat],
           },
-          key: "location2",
+          key: "location.latlng",
           spherical: true,
           distanceField: "distance",
           distanceMultiplier: 0.000621371, // meters to miles
         },
+      },
+      {
+        $match: query,
       },
     ])
     .collation({ locale: "en" })

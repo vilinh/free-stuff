@@ -6,28 +6,29 @@ import { useAuth } from "../../context/Auth/AuthContext";
 import { updateListingById } from "../../utils/listingService";
 
 export const ListingPanel = ({ listing }) => {
-  const hasAddress = listing.hasOwnProperty('location');
-  const [image, setImage] = useState("")
+  const hasAddress = listing.hasOwnProperty("location");
+  const hasDistance = listing.hasOwnProperty("distance");
+  const [image, setImage] = useState("");
   const { currentUser } = useAuth();
 
-  console.log(listing.claim_queue)
+  console.log(listing.claim_queue);
 
   useEffect(() => {
     const getImage = async () => {
-      const res = await getImageFromId(listing.image)
+      const res = await getImageFromId(listing.image);
       if (res) {
-        setImage(res.data.base64)
+        setImage(res.data.base64);
       }
-    }
+    };
 
-    getImage()
-  }, [])
+    getImage();
+  }, []);
 
   const addUserToClaimQueue = async () => {
     listing.claim_queue.push(currentUser.uid);
     listing.claimed = true;
     await updateListingById(listing._id, listing);
-  }
+  };
 
   return (
     <div className="listing-wrapper">
@@ -38,7 +39,16 @@ export const ListingPanel = ({ listing }) => {
         <div className="listing-l">
           <span className="listing-date">Posted X Days Ago</span>
           <h2 className="listing-title">{listing.title}</h2>
-          <h3 className="listing-address">{hasAddress ? listing.location.address : "No Address"}</h3>
+          <h3 className="listing-address">
+            {hasAddress ? listing.location.address : "No Address"}
+          </h3>
+          <div className="listing-proximity">
+            {hasDistance ? (
+              <span>{listing.distance} miles away</span>
+            ) : (
+              <span></span>
+            )}
+          </div>
           <div className="listing-details">
             <h4>Details</h4>
             <div className="details">
@@ -58,10 +68,12 @@ export const ListingPanel = ({ listing }) => {
             <h4>Description</h4>
             <p className="description-text">{listing.description}</p>
           </div>
-          <div>
-
-          </div>
-          <button className="claim-btn" disabled={listing.claimed} onClick={addUserToClaimQueue}>
+          <div></div>
+          <button
+            className="claim-btn"
+            disabled={listing.claimed}
+            onClick={addUserToClaimQueue}
+          >
             Claim
           </button>
         </div>

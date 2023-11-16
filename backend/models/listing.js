@@ -23,13 +23,14 @@ const ListingSchema = new mongoose.Schema(
     location: {
       address: {
         type: String,
-        required: true,
       },
-      latitude: {
-        type: Number,
-      },
-      longitude: {
-        type: Number,
+      latlng: {
+        type: {
+          type: String,
+        },
+        coordinates: {
+          type: [Number],
+        },
       },
     },
     user_id: {

@@ -12,10 +12,15 @@ export const HomePage = () => {
 
   useEffect(() => {
     const getListings = async () => {
+      let lat = address.lat;
+      let lng = address.lng;
+      let query = `http://localhost:8000/listing?sort=latest`;
+      if (lat && lng) {
+        query = `http://localhost:8000/listing?latlng=${lat},${lng}&radius=10&sort=location`;
+      }
+      console.log(query);
       try {
-        let res = await axios.get(
-          `http://localhost:8000/listing?location=${address}`
-        );
+        let res = await axios.get(query);
         setLocationListings(res.data);
       } catch (error) {
         console.log(error);

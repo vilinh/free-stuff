@@ -3,9 +3,9 @@ import { useAuth } from "../../context/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { convertBase64, postImage } from "../../utils/imageService";
 import {
-	categoryOptions,
-	conditionOptions,
-	postListing,
+  categoryOptions,
+  conditionOptions,
+  postListing,
 } from "../../utils/listingService";
 import Autocomplete from "react-google-autocomplete";
 import CustomAutocomplete from "@mui/material/Autocomplete";
@@ -21,7 +21,11 @@ import {
   styled,
 } from "@mui/material";
 import InputFileUpload from "../InputFileUpload/InputFileUpload";
-import { NotifMsg, NotifType, useNotif } from "../../context/Notifications/NotificationContext";
+import {
+  NotifMsg,
+  NotifType,
+  useNotif,
+} from "../../context/Notifications/NotificationContext";
 
 const CreateListing = () => {
   const { currentUser } = useAuth();
@@ -40,7 +44,6 @@ const CreateListing = () => {
 
   useEffect(() => {
     // check for valid form input
-    console.log(condition)
     if (
       !title ||
       !description ||
@@ -54,14 +57,14 @@ const CreateListing = () => {
       setCanSubmit(true);
     }
   }, [title, description, categories, quantity, condition, image, location]);
-	
+
   const submitListing = async () => {
     setCanSubmit(false);
 
     /* get imageId after posting to database */
     const imageRes = await postImage({
       base64: image,
-      name: imageName
+      name: imageName,
     });
 
     const details = {
@@ -81,7 +84,7 @@ const CreateListing = () => {
     };
     await postListing(listing);
 
-    createNotif(NotifMsg.CREATE_LISTING_SUCCESS, NotifType.SUCCESS)
+    createNotif(NotifMsg.CREATE_LISTING_SUCCESS, NotifType.SUCCESS);
     navigate("/user");
   };
 
@@ -90,14 +93,19 @@ const CreateListing = () => {
   };
 
   const handlePlaceSelected = (place) => {
-    const latitude = place.geometry.location.lat();
-    const longitude = place.geometry.location.lng();
+    const latlng = {
+      type: "Point",
+      coordinates: [
+        place.geometry.location.lng(),
+        place.geometry.location.lat(),
+      ],
+    };
     const address = place.formatted_address;
     const loc = {
       address,
-      latitude,
-      longitude,
+      latlng,
     };
+    console.log(loc);
     setLocation(loc);
   };
 
@@ -114,12 +122,12 @@ const CreateListing = () => {
     if (file) {
       const base64 = await convertBase64(file);
       setImage(base64);
-      setImageName(file.name)
+      setImageName(file.name);
     }
   };
 
   return (
-    <div className="create-listing-div">		
+    <div className="create-listing-div">
       <h1>List an Item</h1>
       <InputFileUpload handleImageUpload={handleImageUpload}></InputFileUpload>
       {image && <img src={image} width={200} height={200} />}
