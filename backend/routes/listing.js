@@ -150,10 +150,8 @@ async function getListings(
     match.push({ title: new RegExp(sanitize(title), "i") });
   }
   if (claimed) {
-    match.push({ claimed: false });
-  } else {
     match.push({ claimed: true });
-  }
+  } 
   if (condition) {
     let conds = [];
     for (let s of sanitize(condition).split(",")) {

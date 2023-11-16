@@ -16,3 +16,8 @@ export const Categories = {
   Books: "Books",
   Furniture: "Furniture"
 }
+
+export const SortBy = {
+  DatePosted: "Date Posted",
+  Distance: "Distance"
+}

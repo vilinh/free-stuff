@@ -46,6 +46,12 @@
     border: 0;
 }
 
+.results-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .results {
     display: flex;
     flex: 5;
@@ -75,6 +81,7 @@
 
 .cat-opt {
     font-size: .8rem;
+    cursor: pointer;
 }
 
 .sort-button {
