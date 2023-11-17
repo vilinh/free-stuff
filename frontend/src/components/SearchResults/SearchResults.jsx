@@ -11,8 +11,10 @@ import TokenGroup from "@cloudscape-design/components/token-group";
 import { useParams } from "react-router-dom";
 import Button from "@cloudscape-design/components/button";
 import { LocationModal } from "../../modal/LocationModal";
+import Input from "@cloudscape-design/components/input";
 
 export const SearchResults = () => {
+	const [searchTerm, setSearchTerm] = useState("");
 	const [listings, setListings] = useState([]);
 	const [allListings, setAllListings] = useState([]);
 	const [status, setStatus] = useState(ListingStatus.Any);
@@ -103,6 +105,14 @@ export const SearchResults = () => {
 				<div className="filter-bar">
 					<h4>Filter By</h4>
 					<hr />
+					<div className="search-term">
+						<Input
+							onChange={({ detail }) => setSearchTerm(detail.value)}
+							value={searchTerm}
+							placeholder="Search"
+						/>
+					</div>
+					<hr />
 					<div className="location">
 						<span>
 							<h4>Location</h4>
@@ -110,7 +120,9 @@ export const SearchResults = () => {
 							<Button 
 								variant="primary"
 								onClick={() => setShowLocationModal(true)}
-							>Set Location</Button>
+							>
+								Set Location
+							</Button>
 							<LocationModal
 								show={showLocationModal}
 								onClose={() => setShowLocationModal(false)}
@@ -175,6 +187,15 @@ export const SearchResults = () => {
 								</span>
 								))}
 						</div>
+					</div>
+					<hr />
+					<div className="search-button">
+						<Button 
+							variant="primary"
+							onClick={() => {}}
+						>
+							Search
+						</Button>	
 					</div>
 				</div>
 				<div className="results">
