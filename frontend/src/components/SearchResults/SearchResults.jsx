@@ -21,6 +21,7 @@ export const SearchResults = () => {
 	const [catTokens, setCatTokens] = useState([]);
 	const [catTokensSet, setCatTokensSet] = useState(new Set());
 	const [showLocationModal, setShowLocationModal] = useState(false);
+	const [searchDistance, setSearchDistance] = useState(50);
 
 	const { address } = useLocationContext();
 
@@ -117,6 +118,29 @@ export const SearchResults = () => {
 						</span>
 					</div>
 					<hr />
+					<div className="distance">
+						<h4>Distance</h4>
+						<ButtonDropdown
+							className="distance-selector"
+							onItemClick={(e) => {
+								console.log(e);
+								setSearchDistance(parseInt(e.detail.id));
+							}}
+							items={[
+								{ text: "1", id: "1" },
+								{ text: "2", id: "2" },
+								{ text: "5", id: "5" },
+								{ text: "10", id: "10" },
+								{ text: "20", id: "20" },
+								{ text: "40", id: "40" },
+								{ text: "80", id: "80" },
+								{ text: "100", id: "100" },
+							]}
+						>
+							{searchDistance} Miles
+						</ButtonDropdown>
+					</div>
+					<hr />
 					<div className="status">
 						<h4>Status</h4>
 						<div className="status-buttons">
@@ -164,6 +188,7 @@ export const SearchResults = () => {
 						<ButtonDropdown
 							className="sort-button"
 							onItemClick={(e) => {
+								console.log(e);
 								setSort(e.detail.id);
 							}}
 							items={[

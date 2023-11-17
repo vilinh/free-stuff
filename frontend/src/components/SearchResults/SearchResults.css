@@ -89,8 +89,10 @@
     align-self: self-end;
 }
 
-.location {
-    /* display: flex;
-    flex-direction: column;
-    gap: 1rem; */
+.distance-selector {
+    justify-content: flex-end;
+    align-self: self-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

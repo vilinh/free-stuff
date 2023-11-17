@@ -28,8 +28,6 @@ export const NavBar = () => {
 
   }, [])
 
-
-
   return (
     <>
       <LocationModal
