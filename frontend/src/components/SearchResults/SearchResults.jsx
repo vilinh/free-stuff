@@ -23,7 +23,7 @@ export const SearchResults = () => {
 	const [catTokens, setCatTokens] = useState([]);
 	const [catTokensSet, setCatTokensSet] = useState(new Set());
 	const [showLocationModal, setShowLocationModal] = useState(false);
-	const [searchDistance, setSearchDistance] = useState(50);
+	const [searchDistance, setSearchDistance] = useState(20);
 
 	const { address } = useLocationContext();
 
@@ -80,6 +80,21 @@ export const SearchResults = () => {
 		}
 	}, [sort]);
 
+	const searchListingsByDistance = async () => {
+		try {
+			const payload = {
+				max_dist: searchDistance,
+				address: address
+			};	
+			const request = "http://localhost:8000/listing/distance-search";
+			let result = await axios.post(request, payload);
+			setListings(result.data);
+			setAllListings(result.data);
+		} catch (error) {
+			console.log("Unable to search listing");
+		}
+	}
+
 	const handleSelectCategory = (k) => {
 		if (catTokensSet.has(k) === false) {
 			setCatTokensSet(new Set([...catTokensSet, k]));
@@ -104,14 +119,6 @@ export const SearchResults = () => {
 			<div className="search-results-main">
 				<div className="filter-bar">
 					<h4>Filter By</h4>
-					<hr />
-					<div className="search-term">
-						<Input
-							onChange={({ detail }) => setSearchTerm(detail.value)}
-							value={searchTerm}
-							placeholder="Search"
-						/>
-					</div>
 					<hr />
 					<div className="location">
 						<span>
@@ -192,7 +199,7 @@ export const SearchResults = () => {
 					<div className="search-button">
 						<Button 
 							variant="primary"
-							onClick={() => {}}
+							onClick={() => {searchListingsByDistance()}}
 						>
 							Search
 						</Button>	
