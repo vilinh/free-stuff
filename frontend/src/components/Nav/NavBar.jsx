@@ -14,6 +14,7 @@ import Autocomplete from "react-google-autocomplete";
 import { LocationSVG } from "../../svgs/LocationSVG";
 import { useLocationContext } from "../../context/Location/LocationContext";
 import Icon from "@cloudscape-design/components/icon";
+import { LocationModal } from "../../modal/LocationModal";
 
 export const NavBar = () => {
   const { currentUser } = useAuth();
@@ -22,6 +23,7 @@ export const NavBar = () => {
   const [search, setSearch] = useState("");
   const [locationPref, setLocationPref] = useState(false);
   const [searchLoc, setSearchLoc] = useState("");
+  const [showLocationModal, setShowLocationModal] = useState(false);
 
   const { findLocation, setAddress, loading, address } = useLocationContext();
 
@@ -61,6 +63,10 @@ export const NavBar = () => {
 
   return (
     <>
+      <LocationModal
+        show={showLocationModal}
+        onClose={() => setShowLocationModal(false)}
+      ></LocationModal>
       <Modal
         onDismiss={() => setLocationPref(false)}
         visible={locationPref}
@@ -123,7 +129,7 @@ export const NavBar = () => {
           <Link className="link" to="/">
             <h3 className="logo-text">Broke Blessings</h3>
           </Link>
-          <span className="location-pref" onClick={() => setLocationPref(true)}>
+          <span className="location-pref" onClick={() => setShowLocationModal(true)}>
             <LocationSVG></LocationSVG>
           </span>
         </div>
