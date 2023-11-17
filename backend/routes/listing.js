@@ -2,7 +2,10 @@ import express from "express";
 import { listingModel } from "../models/listing.js";
 import sanitize from "mongo-sanitize";
 import haversine from "haversine-distance";
+import axios from "axios";
 const router = express.Router();
+
+const METERS_TO_MILES_CONVERSION = 1609;
 
 /* This function is called on the front page of the website and returns all listings based on a series of user defined
  * filters as query parameters as follows:
@@ -109,18 +112,21 @@ router.put("/:id", async (req, res) => {
 router.post("/distance-search", async (req, res) => {
   try {
     const max_dist = req.body.max_dist;
-    const user_coords = {
-      lat: req.body.location.latitude,
-      lon: req.body.location.longitude,
-    };
+    const address = req.body.address;
+    const addressToCoordsRequest = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}`;
+    let mapsResult = await axios.get(addressToCoordsRequest);
+    const user_coords = mapsResult.data.results[0].geometry.location;
+    console.log(user_coords);
+  
     let result = await listingModel.find().limit(10);
     const output = result.filter((listing) => {
       if('location' in listing && 'latlng' in listing.location && 'coordinates' in listing.location.latlng) {
         const listing_coords = {
-          lat: listing.location.latlng.coordinates[0],
-          lon: listing.location.latlng.coordinates[1],
+          lat: listing.location.latlng.coordinates[1],
+          lon: listing.location.latlng.coordinates[0],
         };
-        const dist = haversine(user_coords, listing_coords);
+        const dist = haversine(user_coords, listing_coords) / METERS_TO_MILES_CONVERSION;
+        console.log(dist);
         return dist <= max_dist ? true : false;
       } else{
         return false;
