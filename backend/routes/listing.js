@@ -115,13 +115,16 @@ router.post("/distance-search", async (req, res) => {
     };
     let result = await listingModel.find().limit(10);
     const output = result.filter((listing) => {
-      const listing_coords = {
-        lat: listing.location.latitude,
-        lon: listing.location.longitude,
-      };
-      const dist = haversine(user_coords, listing_coords);
-      console.log(dist);
-      return dist <= max_dist ? true : false;
+      if('location' in listing && 'latlng' in listing.location && 'coordinates' in listing.location.latlng) {
+        const listing_coords = {
+          lat: listing.location.latlng.coordinates[0],
+          lon: listing.location.latlng.coordinates[1],
+        };
+        const dist = haversine(user_coords, listing_coords);
+        return dist <= max_dist ? true : false;
+      } else{
+        return false;
+      }
     });
     res.status(200).send(output);
   } catch (error) {

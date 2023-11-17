@@ -25,12 +25,16 @@ const ListingSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      latitude: {
-        type: Number,
-      },
-      longitude: {
-        type: Number,
-      },
+      latlng: {
+        type: {
+          type: String,
+          required: false
+        },
+        coordinates: {
+          type: Array,
+          required: true
+        }
+      }
     },
     user_id: {
       type: String,
