@@ -151,10 +151,12 @@ export const EditListing = ({ listing }) => {
 		const longitude = place.geometry.location.lng();
 		const address = place.formatted_address;
 		const loc = {
-			address,
-			latitude,
-			longitude,
-		};
+      address,
+      latlng: {
+        type: "Point",
+        coordinates: [longitude, latitude]
+      }
+    };
 		setLocation(loc);
 	};
 

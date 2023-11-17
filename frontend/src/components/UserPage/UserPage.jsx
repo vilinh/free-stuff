@@ -25,6 +25,7 @@ export const UserPage = () => {
 				let res = await axios.get(
 					`http://localhost:8000/listing/user/${auth.currentUser.uid}`
 				);
+				console.log(res)
 				setListings(res.data);
 			} catch (error) {
 				console.log(error);

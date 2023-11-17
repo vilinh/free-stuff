@@ -76,7 +76,7 @@ export const ListingPanel = ({ listing }) => {
 
     if (listingIdx !== -1) {
 			user.claimed_listings.splice(listingIdx, 1);
-      await updateUserById(user);
+      await updateUserById(user._id, user);
 		}
   }
 
