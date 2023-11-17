@@ -38,7 +38,7 @@ export const LocationModal = ({show, onClose}) => {
         <Modal
             onDismiss={() => onClose()}
             visible={show}
-            header="Test"
+            header="Pick a Location"
         >
             <SpaceBetween direction="vertical">
                 <div className="modal-contents">
