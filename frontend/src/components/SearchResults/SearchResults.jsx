@@ -9,6 +9,8 @@ import { Categories, ListingStatus, SortBy } from "../../utils/enum";
 import Spinner from "@cloudscape-design/components/spinner";
 import TokenGroup from "@cloudscape-design/components/token-group";
 import { useParams } from "react-router-dom";
+import Button from "@cloudscape-design/components/button";
+import { LocationModal } from "../../modal/LocationModal";
 
 export const SearchResults = () => {
 	const [listings, setListings] = useState([]);
@@ -16,11 +18,12 @@ export const SearchResults = () => {
 	const [status, setStatus] = useState(ListingStatus.Any);
 	const [sort, setSort] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
-
 	const [catTokens, setCatTokens] = useState([]);
 	const [catTokensSet, setCatTokensSet] = useState(new Set());
+	const [showLocationModal, setShowLocationModal] = useState(false);
 
 	const { address } = useLocationContext();
+
 	const { term } = useParams();
 
 	useEffect(() => {
@@ -98,6 +101,21 @@ export const SearchResults = () => {
 			<div className="search-results-main">
 				<div className="filter-bar">
 					<h4>Filter By</h4>
+					<hr />
+					<div className="location">
+						<span>
+							<h4>Location</h4>
+							<h5>Current Location: {address.split(",")[0]}</h5>					
+							<Button 
+								variant="primary"
+								onClick={() => setShowLocationModal(true)}
+							>Set Location</Button>
+							<LocationModal
+								show={showLocationModal}
+								onClose={() => setShowLocationModal(false)}
+							></LocationModal>
+						</span>
+					</div>
 					<hr />
 					<div className="status">
 						<h4>Status</h4>
