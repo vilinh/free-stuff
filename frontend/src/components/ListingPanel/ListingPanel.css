@@ -19,7 +19,8 @@
   border-radius: .5rem;
 }
 
-.listing img {
+.listing img,
+.listing-r img  {
   width: 15rem;
   object-fit: scale-down;
   display: block;
