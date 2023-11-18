@@ -28,13 +28,13 @@ const ListingSchema = new mongoose.Schema(
       latlng: {
         type: {
           type: String,
-          required: false
+          required: false,
         },
         coordinates: {
           type: Array,
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     },
     user_id: {
       type: String,
@@ -72,7 +72,7 @@ const ListingSchema = new mongoose.Schema(
   },
   {
     collection: "listings",
-  },
+  }
 );
 
 const listingModel = mongoose.model("Listing", ListingSchema);

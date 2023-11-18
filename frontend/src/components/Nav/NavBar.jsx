@@ -9,24 +9,24 @@ import Input from "@cloudscape-design/components/input";
 import { useEffect, useState } from "react";
 import { LocationSVG } from "../../svgs/LocationSVG";
 import { LocationModal } from "../../modal/LocationModal";
+import { ExploreSVG } from "../../svgs/ExploreSVG";
 
 export const NavBar = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
-  const [showLocationModal, setShowLocationModal] = useState(false)
+  const [showLocationModal, setShowLocationModal] = useState(false);
 
   useEffect(() => {
     // set search bar value from url
-    const pathArray = window.location.pathname.split("/")
-    const idx = pathArray.indexOf('search')
+    const pathArray = window.location.pathname.split("/");
+    const idx = pathArray.indexOf("search");
 
     if (idx !== -1 && idx !== pathArray.length - 1) {
-      setSearch(pathArray[idx + 1])
+      setSearch(pathArray[idx + 1]);
     }
-
-  }, [])
+  }, []);
 
   return (
     <>
@@ -39,7 +39,10 @@ export const NavBar = () => {
           <Link className="link" to="/">
             <h3 className="logo-text">Broke Blessings</h3>
           </Link>
-          <span className="location-pref" onClick={() => setShowLocationModal(true)}>
+          <span
+            className="location-pref"
+            onClick={() => setShowLocationModal(true)}
+          >
             <LocationSVG></LocationSVG>
           </span>
         </div>
@@ -58,6 +61,9 @@ export const NavBar = () => {
               <Button onClick={() => signOut(auth)} variant="inline-link">
                 Sign Out
               </Button>
+              <span className="explore" onClick={() => navigate("/listing")}>
+                <ExploreSVG></ExploreSVG>
+              </span>
               <Link className="link" to="/user">
                 <Avatar
                   alt="profile pic"
