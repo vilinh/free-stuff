@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
       radius,
       sort,
       offset,
-      index,
+      index
     );
     res.send(result);
   } catch (error) {
@@ -115,19 +115,24 @@ router.post("/distance-search", async (req, res) => {
     const address = req.body.address;
     const addressToCoordsRequest = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}`;
     let mapsResult = await axios.get(addressToCoordsRequest);
-    const user_coords = mapsResult.data.results[0].geometry.location; 
-  
+    const user_coords = mapsResult.data.results[0].geometry.location;
+
     let result = await listingModel.find().limit(10);
     const output = result.filter((listing) => {
-      if('location' in listing && 'latlng' in listing.location && 'coordinates' in listing.location.latlng) {
+      if (
+        "location" in listing &&
+        "latlng" in listing.location &&
+        "coordinates" in listing.location.latlng
+      ) {
         const listing_coords = {
           lat: listing.location.latlng.coordinates[1],
           lon: listing.location.latlng.coordinates[0],
         };
-        const dist = haversine(user_coords, listing_coords) / METERS_TO_MILES_CONVERSION;
+        const dist =
+          haversine(user_coords, listing_coords) / METERS_TO_MILES_CONVERSION;
         console.log(dist);
         return dist <= max_dist ? true : false;
-      } else{
+      } else {
         return false;
       }
     });
@@ -147,7 +152,7 @@ async function getListings(
   radius,
   sort,
   offset,
-  index,
+  index
 ) {
   let query = {};
   let match = [];
