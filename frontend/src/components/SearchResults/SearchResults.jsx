@@ -232,7 +232,7 @@ export const SearchResults = () => {
 						</ButtonDropdown>
 					</div>
 
-					<div className="listings">
+					<div className="search-listings">
 						{isLoading ? (
 							<Spinner />
 						) : listings.length !== 0 ? (

@@ -59,9 +59,12 @@
     flex-wrap: wrap;
 }
 
-.listings {
+.search-listings {
+    margin-top: 1rem;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .status
