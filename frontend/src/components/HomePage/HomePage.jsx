@@ -47,7 +47,7 @@ export const HomePage = () => {
         <span className="near-you">Near you</span>
         <span className="sub-link" onClick={() => navigate("/search")}> See all</span>
 
-        <div className="listings">
+        <div className="home-listings">
           {locationListings.map((listing, key) => (
             <ListingThumbnail listing={listing} key={key} editListing={false} />
           ))}

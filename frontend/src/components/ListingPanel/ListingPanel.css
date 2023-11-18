@@ -5,21 +5,63 @@
     gap: 1rem;
 }
 
-.listing {
+.listing-panel {
   display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
   justify-content: center;
   gap: 2rem;
   padding: 2rem;
+  width: 30rem;
+  border: .05rem #F7F7F7 solid;
+  background-color: #F7F7F7;
+  padding: 1rem 2rem;
+  border-radius: .5rem;
+}
+
+.listing img {
+  width: 15rem;
+  object-fit: scale-down;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#claim-btn, #unclaim-btn {
+  margin-top: 1rem;
+  border: none;
+  border-radius: .5rem;
+  padding: .6rem 3rem;
+  font-size: .8rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #0972D3;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}
+
+#unclaim-btn {
+  background-color: gray;
+  padding: .6rem 2.5rem;
+}
+
+.claim {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.claim p {
+  font-size: .8rem;
+  margin-top: .4rem;
+  color: gray;
 }
 
 .listing-l {
     display: flex;
     flex-direction: column;
-}
-
-.listing-img {
-    height: 15rem;
-    border-radius: .25rem;
 }
 
 .listing-date {

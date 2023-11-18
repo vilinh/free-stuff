@@ -1,22 +1,19 @@
 import "./ListingThumbnail.css";
 import { useEffect, useState } from "react";
 import { getImageFromId } from "../../utils/imageService";
-import { Box, Button, Modal, Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { deleteListingById } from "../../utils/listingService";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
   NotifMsg,
   NotifType,
   useNotif,
 } from "../../context/Notifications/NotificationContext";
-import { DeleteModal } from "../DeleteModal/DeleteModal";
 
 export const ListingThumbnail = ({ listing, editListing }) => {
   const [image, setImage] = useState("");
   const [hover, setHover] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
   const navigate = useNavigate();
   const { createNotif } = useNotif();
 
@@ -51,7 +48,6 @@ export const ListingThumbnail = ({ listing, editListing }) => {
         <div className="image" onClick={goToDetailedPage}>
           {image ? (
             <>
-              {" "}
               <img
                 className="listing-thumbnail-img"
                 src={image}
@@ -68,13 +64,7 @@ export const ListingThumbnail = ({ listing, editListing }) => {
             <Skeleton variant="rectangular" width={150} height={150} />
           )}
         </div>
-        {listing.claimed && (
-          <span
-            className="claimed-tag"
-          >
-            Claimed
-          </span>
-        )}
+        {listing.claimed && <span className="claimed-tag">Claimed</span>}
         {editListing && hover && (
           <>
             <EditIcon
