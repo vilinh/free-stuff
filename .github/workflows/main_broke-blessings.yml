@@ -27,7 +27,7 @@ jobs:
 
       - name: npm install, build, and test
         env:
-          LOCAL_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           npm install
           npm start
