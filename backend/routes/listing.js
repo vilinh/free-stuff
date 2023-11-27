@@ -138,8 +138,6 @@ async function getListings(
     } else {
       match.push({ claimed: false });
     }
-  } else {
-    match.push({ claimed: false });
   }
   if (condition) {
     let conds = [];
