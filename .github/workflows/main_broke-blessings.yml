@@ -9,10 +9,6 @@ on:
       - main
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: ./backend
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,6 +29,7 @@ jobs:
           npm start
           npm run build --if-present
           npm run test --if-present
+          working-directory: ./backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
