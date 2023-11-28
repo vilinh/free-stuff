@@ -171,7 +171,7 @@ async function getListings(
   }
   if (claimed) {
     match.push({ claimed: true });
-  } 
+  }
   if (condition) {
     let conds = [];
     for (let s of sanitize(condition).split(",")) {
