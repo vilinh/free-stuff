@@ -53,7 +53,7 @@ router.get("/", async (req, res) => {
       radius,
       sort,
       offset,
-      index,
+      index
     );
     res.send(result);
   } catch (error) {
@@ -159,7 +159,7 @@ async function getListings(
   radius,
   sort,
   offset,
-  index,
+  index
 ) {
   let query = {};
   let match = [];
@@ -171,7 +171,7 @@ async function getListings(
   }
   if (claimed) {
     match.push({ claimed: true });
-  } 
+  }
   if (condition) {
     let conds = [];
     for (let s of sanitize(condition).split(",")) {

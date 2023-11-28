@@ -20,7 +20,6 @@ router.get("/:uid", async (req, res) => {
   }
 });
 
-
 router.post("/", async (req, res) => {
   const userToAdd = new userModel(req.body);
   let result = await addUser(userToAdd);
