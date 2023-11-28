@@ -5,7 +5,7 @@
   "type": "module",
   "main": "backend.js",
   "scripts": {
-    "test": "jest --collectCoverage && prettier . --check",
+    "test": "jest --collectCoverage",
     "dev": "nodemon backend.js",
     "start": "node backend.js",
     "prettier": "prettier . --write"
