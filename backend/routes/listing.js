@@ -10,6 +10,7 @@ import {
   addListing,
 } from "../services/listing-services.js";
 const router = express.Router();
+import sanitize from "mongo-sanitize";
 
 const METERS_TO_MILES_CONVERSION = 1609;
 
@@ -170,7 +171,7 @@ async function getListings(
   }
   if (claimed) {
     match.push({ claimed: true });
-  }
+  } 
   if (condition) {
     let conds = [];
     for (let s of sanitize(condition).split(",")) {
