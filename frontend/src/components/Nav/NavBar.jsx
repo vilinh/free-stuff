@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { LocationSVG } from "../../svgs/LocationSVG";
 import { LocationModal } from "../../modal/LocationModal";
 import { ExploreSVG } from "../../svgs/ExploreSVG";
+import ProfileMenu from "../ProfileMenu/ProfileMenu";
 
 export const NavBar = () => {
   const { currentUser } = useAuth();
@@ -49,7 +50,7 @@ export const NavBar = () => {
         <div className="navbar-m">
           <form
             onSubmit={(e) => {
-              e.preventDefault()
+              e.preventDefault();
               navigate({
                 pathname: "/search",
                 search: `?term=${search}`,
@@ -72,12 +73,7 @@ export const NavBar = () => {
               <span className="explore" onClick={() => navigate("/listing")}>
                 <ExploreSVG></ExploreSVG>
               </span>
-              <Link className="link" to="/user">
-                <Avatar
-                  alt="profile pic"
-                  src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
-                />
-              </Link>
+              <ProfileMenu />
             </>
           ) : (
             <>
