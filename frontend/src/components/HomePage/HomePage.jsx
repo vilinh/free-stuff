@@ -31,9 +31,36 @@ export const HomePage = () => {
       <div className="hero">
         <h3>One man's trash is another man's treasure!</h3>
         <div className="cat-buttons">
-          <Chip onClick={() => {}} label="Clothes" variant="filled" />
-          <Chip onClick={() => {}} label="Books" variant="filled" />
-          <Chip onClick={() => {}} label="Furniture" variant="filled" />
+          <Chip
+            onClick={() =>
+              navigate({
+                pathname: "/search",
+                search: `?categories=Clothes`,
+              })
+            }
+            label="Clothes"
+            variant="filled"
+          />
+          <Chip
+            onClick={() =>
+              navigate({
+                pathname: "/search",
+                search: `?categories=Books`,
+              })
+            }
+            label="Books"
+            variant="filled"
+          />
+          <Chip
+            onClick={() =>
+              navigate({
+                pathname: "/search",
+                search: `?categories=Furniture`,
+              })
+            }
+            label="Furniture"
+            variant="filled"
+          />
         </div>
       </div>
       <div className="featured-listings-div">
@@ -45,7 +72,10 @@ export const HomePage = () => {
           <h4>Select a location to show listings near that location</h4>
         )}
         <span className="near-you">Near you</span>
-        <span className="sub-link" onClick={() => navigate("/search")}> See all</span>
+        <span className="sub-link" onClick={() => navigate("/search")}>
+          {" "}
+          See all
+        </span>
 
         <div className="home-listings">
           {locationListings.map((listing, key) => (
