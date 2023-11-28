@@ -19,7 +19,7 @@ async function addImage(image) {
 async function updateImageById(id, image) {
   try {
     await imageModel.findByIdAndUpdate(id, image);
-  } catch (error) {    
+  } catch (error) {
     return undefined;
   }
 }
