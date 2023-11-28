@@ -10,8 +10,13 @@ Broke Blessings is an online website where you can discover and share free stuff
 -
 - 
 ---
+#### UI Prototype
 
-#### Dev Environment Setup
+[Link to UI Prototype](https://github.com/vilinh/free-stuff/blob/main/ui%20mockup.pdf) (last updated 10/25/23)
+
+---
+
+### Dev Environment Setup
 1. Clone to local workspace
 
 2. Frontend
@@ -26,7 +31,7 @@ Broke Blessings is an online website where you can discover and share free stuff
     - Set `DATABASE_URL="<your_mongo_connection_string>"`
 
 ---
-#### Running the app
+### Running the app
 `/backend`
 ```
 cd backend
