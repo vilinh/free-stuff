@@ -13,22 +13,6 @@
     padding: 3rem;
 }
 
-.cat-bar {
-    display: flex;
-    border-top: .05rem lightslategray solid;
-    border-bottom: .05rem lightslategray solid;
-    width: 100%;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.cat-bar-button {
-    text-decoration: none;
-    color: inherit;
-    padding: .8rem .8rem;
-    margin: 0;
-}
-
 .search-results-main {
     display: flex;
     flex-direction: row;
@@ -44,6 +28,10 @@
     background-color: lightgray; 
     height: 1px; 
     border: 0;
+}
+
+.category {
+    padding-bottom: 1rem;
 }
 
 .results-bar {

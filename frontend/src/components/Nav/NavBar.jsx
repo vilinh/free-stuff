@@ -47,7 +47,15 @@ export const NavBar = () => {
           </span>
         </div>
         <div className="navbar-m">
-          <form onSubmit={() => navigate(`/search/${search}`)}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              navigate({
+                pathname: "/search",
+                search: `?term=${search}`,
+              });
+            }}
+          >
             <Input
               onChange={({ detail }) => setSearch(detail.value)}
               value={search}
