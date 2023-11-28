@@ -10,9 +10,11 @@ Broke Blessings is an online website where you can discover and share free stuff
 -
 - 
 ---
-#### UI Prototype
+### Docs
 
 [Link to UI Prototype](https://github.com/vilinh/free-stuff/blob/main/ui%20mockup.pdf) (last updated 10/25/23)
+
+[Diagrams](https://github.com/vilinh/free-stuff/wiki/Class-Diagrams)
 
 ---
 
