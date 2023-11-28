@@ -2,7 +2,7 @@
 ![example workflow](https://github.com/vilinh/free-stuff/actions/workflows/frontend-react-ci.yml/badge.svg)
 
 ### Free Stuff
-
+---
 
 
 #### Dev Environment Setup
@@ -18,7 +18,19 @@
   - `npm install`
   - add `.env` to `backend`
     - Set `DATABASE_URL="<you_mongo_connection_string>"`
-   
 
+---
+#### Running the app
+`/backend`
+```
+cd backend
+npm run start
+```
+`/frontend`
+```
+cd frontend
+npm run start
+```
+---
 
 - Install 'Prettier - Code formatter' extension in VSCode
