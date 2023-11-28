@@ -1,5 +1,11 @@
 import express from "express";
 import userModel from "../models/user.js";
+import {
+  findUserByUid,
+  addUser,
+  updateUserById,
+  removeUserByUid,
+} from "../services/user-services.js";
 
 const router = express.Router();
 
@@ -45,42 +51,4 @@ router.delete("/:uid", async (req, res) => {
   }
 });
 
-async function findUserByUid(uid) {
-  try {
-    return await userModel.findOne({ uid });
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function removeUserByUid(uid) {
-  try {
-    let result = await userModel.findOneAndDelete({ uid });
-    return result;
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function addUser(user) {
-  try {
-    return await user.save();
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function updateUserById(id, user) {
-  try {
-    await userModel.findByIdAndUpdate(id, user);
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
 export default router;
-export { findUserByUid, addUser, removeUserByUid };

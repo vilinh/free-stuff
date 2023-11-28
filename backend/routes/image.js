@@ -1,5 +1,10 @@
 import express from "express";
 import imageModel from "../models/image.js";
+import {
+  getImageById,
+  addImage,
+  updateImageById,
+} from "../services/image-services.js";
 const router = express.Router();
 
 /* This function gets an image based on its object id */
@@ -33,32 +38,5 @@ router.put("/:id", async (req, res) => {
     res.status(204).end();
   }
 });
-
-async function getImageById(id) {
-  try {
-    return await imageModel.findOne({ _id: id });
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function addImage(image) {
-  try {
-    return await image.save();
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function updateImageById(id, image) {
-  try {
-    await imageModel.findByIdAndUpdate(id, image);
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
 
 export default router;

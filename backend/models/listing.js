@@ -72,9 +72,7 @@ const ListingSchema = new mongoose.Schema(
   },
   {
     collection: "listings",
-  }
+  },
 );
 
-const listingModel = mongoose.model("Listing", ListingSchema);
-
-export { listingModel };
+export default mongoose.model("Listing", ListingSchema);

@@ -1,86 +1,104 @@
 import userModel from "../models/user.js";
-import { findUserByUid, addUser, removeUserByUid } from "../routes/user.js";
+import {
+  findUserByUid,
+  addUser,
+  removeUserByUid,
+  updateUserById,
+} from "../services/user-services.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import user_example_data from "./data/user_example_data.json";
 
 dotenv.config();
 
-// Please don't run tests on the production database...
-
-let old_db_contents;
-
 beforeAll(async () => {
-  await mongoose.connect(process.env.LOCAL_DATABASE_URL).then(() => {
+  await mongoose.connect(process.env.DATABASE_URL).then(() => {
     console.log("Connected to server successfully!");
   });
-  old_db_contents = await userModel.find();
-  await userModel.deleteMany();
-  await userModel.insertMany(user_example_data);
 });
 
-test("find_user_by_uid", async () => {
-  const user_to_add = {
-    _id: "654403604232916bb96d3bde",
-    __v: 0,
-    display_name: "ft",
-    email: "ft@cowpoly.edu",
-    profile_pic: "foo",
-    uid: "5021be76-9482-4cef-a125-fb57b249c68e",
-  };
-  await userModel.insertMany(user_to_add);
-  let result = await findUserByUid("5021be76-9482-4cef-a125-fb57b249c68e");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
+test("test find user by uid", async () => {
+  const result = await findUserByUid("NMKUKXrdEGQZQIEqUdUqIcGII3s2");
 
-  await expect(result).toMatchObject(user_to_add);
+  // expected = {
+  //   _id: ObjectId("653965a70e851cb263979365"),
+  //   uid: "NMKUKXrdEGQZQIEqUdUqIcGII3s2",
+  //   email: "klvbubble@gmail.com"
+  // };
 
-  await userModel.findByIdAndDelete("654403604232916bb96d3bde");
+  expect(result.email).toBe("klvbubble@gmail.com");
+  expect(result.id).toBe("653965a70e851cb263979365");
 });
 
-test("remove_listing_by_uid", async () => {
-  const user_to_delete = {
-    _id: "654403604232916bb96d3bde",
-    __v: 0,
-    display_name: "ft",
-    email: "ft@cowpoly.edu",
-    profile_pic: "foo",
-    uid: "5021be76-9482-4cef-a125-fb57b249c68e",
-  };
-  await userModel.insertMany(user_to_delete);
-  await removeUserByUid("5021be76-9482-4cef-a125-fb57b249c68e");
-  let result = await userModel.find();
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
+test("test add user", async () => {
+  const user = new userModel({
+    email: "test@gmail.com",
+    uid: "ADSUKXrdEGQZQIEqUdUqIcGII3s2",
+  });
+  const add = await addUser(user);
 
-  await expect(result).toMatchObject(user_example_data);
+  const result = await findUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
 
-  await userModel.findByIdAndDelete("6542f9fa0963950be0cd43ea");
+  // expected = {
+  //   uid: "ADSUKXrdEGQZQIEqUdUqIcGII3s2",
+  //   email: "test@gmail.com",
+  // };
+
+  expect(result.email).toBe("test@gmail.com");
+  expect(result.uid).toBe("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
 });
 
-test("add_user", async () => {
-  const user_to_add = {
-    _id: "654403604232916bb96d3bde",
-    __v: 0,
-    display_name: "ft",
-    email: "ft@cowpoly.edu",
-    profile_pic: "foo",
-    uid: "5021be76-9482-4cef-a125-fb57b249c68e",
-  };
-  await addUser(new userModel(user_to_add));
-  let result = await userModel.find();
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
-  user_example_data.push(user_to_add);
+test("test update user by id", async () => {
+  const user = await findUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
+  user.email = "newtest@gmail.com";
 
-  await expect(result).toMatchObject(user_example_data);
+  const update = await updateUserById(user.id, user);
+  const after_result = await findUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
 
-  user_example_data.pop();
-  await userModel.findByIdAndDelete("6542f9fa0963950be0cd43ea");
+  // expected = {
+  //   uid: "ADSUKXrdEGQZQIEqUdUqIcGII3s2",
+  //   email: "newtest@gmail.com",
+  //   location: {}
+  // };
+
+  expect(after_result.email).toBe("newtest@gmail.com");
+  expect(after_result.uid).toBe("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
+});
+
+test("test remove user by uid", async () => {
+  const result = await findUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
+  console.log("deleteUser result:" + result);
+  const del = await removeUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
+
+  const after_result = await findUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
+
+  expect(after_result).toEqual(null);
+});
+
+test("test findUserByUid handles error", async () => {
+  await mongoose.connection.close();
+  const result = await findUserByUid();
+
+  expect(result).toBe(undefined);
+});
+
+test("test removeUserByUid handles error", async () => {
+  const result = await removeUserByUid();
+
+  expect(result).toBe(undefined);
+});
+
+test("test addUser handles error", async () => {
+  const result = await addUser({});
+
+  expect(result).toBe(undefined);
+});
+
+test("test updateUserById handles error", async () => {
+  const result = await updateUserById(83, null);
+
+  expect(result).toBe(undefined);
 });
 
 afterAll(async () => {
-  await userModel.deleteMany();
-  await userModel.insertMany(old_db_contents);
   await mongoose.connection.close();
 });
