@@ -26,6 +26,8 @@ Broke Blessings is an online website where you can discover and share free stuff
   - `cd frontend`
   - `npm install`
   - add `firebase.js` to `frontend/src`
+  - add `.env` to `frontend`
+    - set `REACT_APP_GOOGLE_MAPS_API_KEY=<your_google_maps_api_key>` 
 
 3. Backend
   - `cd backend`
