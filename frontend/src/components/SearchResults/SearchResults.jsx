@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import Button from "@cloudscape-design/components/button";
 import { LocationModal } from "../../modal/LocationModal";
+import { getImageFromId } from "../../utils/imageService";
 
 export const SearchResults = () => {
   const [listings, setListings] = useState([]);
@@ -50,16 +51,25 @@ export const SearchResults = () => {
     // get listings based on filters
     const getListings = async () => {
       try {
+        setIsLoading(true)
         let res = await axios.get(
           `http://localhost:8000/listing?location=${address}
           &title=${term ?? ""}&categories=${categoriesCommas ?? ""}
           `
         );
-        console.log(res.data.length);
-        setListings(res.data);
-        setAllListings(res.data);
+        let promises = []
+        res.data.forEach(async (item) => {
+          promises.push(getImageFromId(item.image))
+        })
+        Promise.all(promises).then((values) => {
+          res.data.forEach((item, i) => {
+            item.image = values[i].data.base64
+          })
+          setListings(res.data);
+          setAllListings(res.data);
+          setIsLoading(false);
+        })
       } catch (error) {}
-      setIsLoading(false);
     };
     getListings();
   }, [searchParams]);
@@ -74,7 +84,7 @@ export const SearchResults = () => {
     }
     setListings(filtered);
     // console.log(filtered);
-  }, [status]);
+  }, [status, allListings]);
 
   useEffect(() => {
     // redirect based on categories selections
