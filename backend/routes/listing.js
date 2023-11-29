@@ -162,7 +162,6 @@ async function getListings(
     });
   }
   if (categories) {
-    console.log(sanitize(categories).split(","));
     match.push({
       "details.categories": { $in: sanitize(categories).split(",") },
     });
