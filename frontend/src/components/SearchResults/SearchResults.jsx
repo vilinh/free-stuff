@@ -14,7 +14,7 @@ import {
 } from "react-router-dom";
 import Button from "@cloudscape-design/components/button";
 import { LocationModal } from "../../modal/LocationModal";
-import { getImageFromId } from "../../utils/imageService";
+import { loadListings } from "../../utils/listingService";
 
 export const SearchResults = () => {
   const [listings, setListings] = useState([]);
@@ -57,18 +57,11 @@ export const SearchResults = () => {
           &title=${term ?? ""}&categories=${categoriesCommas ?? ""}
           `
         );
-        let promises = []
-        res.data.forEach(async (item) => {
-          promises.push(getImageFromId(item.image))
-        })
-        Promise.all(promises).then((values) => {
-          res.data.forEach((item, i) => {
-            item.image = values[i].data.base64
-          })
-          setListings(res.data);
-          setAllListings(res.data);
+        loadListings(res, (data) => {
+          setListings(data);
+          setAllListings(data);
           setIsLoading(false);
-        })
+        });
       } catch (error) {}
     };
     getListings();

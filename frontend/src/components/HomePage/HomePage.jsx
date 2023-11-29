@@ -6,6 +6,7 @@ import { useLocationContext } from "../../context/Location/LocationContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { loadListings } from "../../utils/listingService";
 
 export const HomePage = () => {
   const { address } = useLocationContext();
@@ -18,7 +19,7 @@ export const HomePage = () => {
         let res = await axios.get(
           `http://localhost:8000/listing?location=${address}`
         );
-        setLocationListings(res.data);
+        loadListings(res, setLocationListings)
       } catch (error) {
         console.log(error);
       }

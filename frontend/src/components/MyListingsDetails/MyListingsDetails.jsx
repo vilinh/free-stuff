@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 import { getUserById } from "../../utils/userService";
+import { loadListings } from "../../utils/listingService";
 
 const ListingDetailsTableRow = ({ listing }) => {
   const [claimeeUsers, setClaimeeUsers] = useState();
@@ -65,7 +66,7 @@ const MyListingsDetails = () => {
         }));
         console.log(rows);
 
-        setListings(res.data);
+        loadListings(res, setListings);
       } catch (error) {
         console.log(error);
       }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Condition } from "./enum";
+import { getImageFromId } from "./imageService";
 
 const categoryOptions = ["Clothes", "Books", "Furniture"];
 
@@ -15,7 +16,6 @@ async function postListing(listing) {
 		await axios.post("http://localhost:8000/listing", listing);
 	} catch (error) {
 		console.log(error);
-
 	}
 }
 
@@ -46,4 +46,25 @@ async function deleteListingById(id) {
 	}
 }
 
-export { categoryOptions, conditionOptions, postListing, getListingById, updateListingById, deleteListingById }
+function loadListings(res, callback) {
+	let promises = [];
+	res.data.forEach(async (item) => {
+		promises.push(getImageFromId(item.image));
+	});
+	Promise.all(promises).then((values) => {
+		res.data.forEach((item, i) => {
+			item.image = values[i].data.base64;
+		});
+		callback(res.data);
+	});
+}
+
+export {
+	categoryOptions,
+	conditionOptions,
+	postListing,
+	getListingById,
+	updateListingById,
+	deleteListingById,
+	loadListings
+};
