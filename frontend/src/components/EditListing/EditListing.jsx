@@ -170,7 +170,11 @@ export const EditListing = ({ listing }) => {
 
 	const handleImageUpload = async (e) => {
 		const file = e.target.files[0];
-		if (file) {
+		if (file && file.size > 1000000) {
+      setBase64("")
+      setImageName("Error: file size limit exceeded")
+    }
+		else if (file) {
 			const base64 = await convertBase64(file);
 			setBase64(base64);
 			setImageName(file.name);

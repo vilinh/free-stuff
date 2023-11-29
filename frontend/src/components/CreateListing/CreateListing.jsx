@@ -113,7 +113,11 @@ const CreateListing = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && file.size > 1000000) {
+      setImage("")
+      setImageName("Error: file size limit exceeded")
+    }
+    else if (file) {
       const base64 = await convertBase64(file);
       setImage(base64);
       setImageName(file.name)
