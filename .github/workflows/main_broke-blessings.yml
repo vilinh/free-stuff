@@ -13,6 +13,9 @@ defaults:
   run:
     working-directory: ./backend
 
+env:
+  AZURE_WEBAPP_PACKAGE_PATH: backend
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,6 +55,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
+          
+      - name: unzip artifact for deployment
+        run: unzip release.zip
+        working-directory: backend
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
