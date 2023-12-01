@@ -105,17 +105,19 @@ export const SearchResults = () => {
   }, [catTokens]);
 
   useEffect(() => {
+    let tmp = [];
     switch (sort) {
       case SortBy.DatePosted:
-        setListings(
-          listings.sort((a, b) =>
-            a.details.posted_date > b.details.posted_date
-              ? 1
-              : b.details.posted_date > a.details.posted_date
-              ? -1
-              : 0
-          )
-        );
+        tmp = listings.sort((a, b) => {
+          return new Date(b.details.posted_date) - new Date(a.details.posted_date)
+        });
+        setListings([...tmp]);
+        break;
+      case SortBy.Distance:
+        tmp = listings.sort((a, b) => {
+          return a.distance - b.distance;
+        });
+        setListings([...tmp]);
         break;
       default:
         return;
