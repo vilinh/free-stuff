@@ -15,6 +15,8 @@ import ListingDetail from "./components/ListingDetail/ListingDetail";
 import { SearchResults } from "./components/SearchResults/SearchResults";
 import ClaimedListing from "./components/ClaimedListingPage/ClaimedListing";
 import MyListingsDetails from "./components/MyListingsDetails/MyListingsDetails";
+import { useNotif } from "./context/Notifications/NotificationContext";
+import { Alert } from "@mui/material";
 
 let template_listing = {
   title: "T-shirt",
@@ -34,88 +36,100 @@ let template_listing = {
 
 function App() {
   const { currentUser } = useAuth();
+  const { notif, notifObj, closeNotif } = useNotif();
 
   return (
-    <BrowserRouter basename="/">
-      <NavBar></NavBar>
-      <Routes>
-        <Route path="/" element={<HomePage></HomePage>} />
-        <Route path="/login" element={<LoginPage></LoginPage>} />
-        <Route path="/signup" element={<SignUp user={currentUser}></SignUp>} />
-        <Route
-          path="/user"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <UserPage></UserPage>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/listing"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <ListingPage listing={template_listing}></ListingPage>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/listing/:id"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <ListingDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/createListing"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <CreateListing />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/editListing/:id"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <EditListing />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <SearchResults />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/search/:term"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <SearchResults />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/claimedListings"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <ClaimedListing />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/myListingsDetails"
-          element={
-            <ProtectedRoute user={currentUser}>
-              <MyListingsDetails />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+		<BrowserRouter basename="/">
+			{notif && (
+				<Alert
+					className="create-listing-notif"
+					onClose={() => {
+						closeNotif();
+					}}
+					severity={notifObj.type}
+				>
+					{notifObj.message}
+				</Alert>
+			)}
+			<NavBar></NavBar>
+			<Routes>
+				<Route path="/" element={<HomePage></HomePage>} />
+				<Route path="/login" element={<LoginPage></LoginPage>} />
+				<Route path="/signup" element={<SignUp user={currentUser}></SignUp>} />
+				<Route
+					path="/user"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<UserPage></UserPage>
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/listing"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<ListingPage listing={template_listing}></ListingPage>
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/listing/:id"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<ListingDetail />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/createListing"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<CreateListing />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/editListing/:id"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<EditListing />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/search"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<SearchResults />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/search/:term"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<SearchResults />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/claimedListings"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<ClaimedListing />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/myListingsDetails"
+					element={
+						<ProtectedRoute user={currentUser}>
+							<MyListingsDetails />
+						</ProtectedRoute>
+					}
+				/>
+			</Routes>
+		</BrowserRouter>
+	);
 }
 export default App;

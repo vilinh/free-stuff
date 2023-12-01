@@ -4,8 +4,6 @@ import "./UserPage.css";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Alert, Button } from "@mui/material";
-import { useNotif } from "../../context/Notifications/NotificationContext";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { loadListings } from "../../utils/listingService";
@@ -13,7 +11,6 @@ import { loadListings } from "../../utils/listingService";
 export const UserPage = () => {
   const auth = getAuth();
   const navigate = useNavigate();
-  const { notif, notifObj, closeNotif } = useNotif();
 
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,17 +37,6 @@ export const UserPage = () => {
 
   return (
     <div className="user-page">
-      {notif && (
-        <Alert
-          className="create-listing-notif"
-          onClose={() => {
-            closeNotif();
-          }}
-          severity={notifObj.type}
-        >
-          {notifObj.message}
-        </Alert>
-      )}
       <div className="user-details">
         <UserPanel user={auth.currentUser} listings={listings.length} />
       </div>

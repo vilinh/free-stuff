@@ -82,9 +82,13 @@ const CreateListing = () => {
       details: details,
       image: imageRes.data._id,
     };
-    await postListing(listing);
-
-    createNotif(NotifMsg.CREATE_LISTING_SUCCESS, NotifType.SUCCESS);
+    
+    const res = await postListing(listing);
+    if (res) {
+      createNotif(NotifMsg.CREATE_LISTING_SUCCESS, NotifType.SUCCESS);
+    } else {
+      createNotif(NotifMsg.CREATE_LISTING_ERROR, NotifType.ERROR);
+    }
     navigate("/user");
   };
 

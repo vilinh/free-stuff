@@ -12,12 +12,16 @@ export default function ClaimedListing() {
 	useEffect(() => {
 		const getListings = async () => {
 			let promises = [];
-			const { data } = await getUserById(currentUser.uid);
-			data.claimed_listings.forEach(async (id) => {
-				promises.push(getListingById(id));
-			});
+			const res = await getUserById(currentUser.uid);
 
-			Promise.all(promises).then((values) => setListings(values));
+			if (res.data) {
+				console.log(res.data);
+				res.data.claimed_listings.forEach(async (id) => {
+					promises.push(getListingById(id));
+				});
+
+				Promise.all(promises).then((values) => setListings(values));
+			}
 		};
 
 		getListings();
@@ -26,9 +30,11 @@ export default function ClaimedListing() {
 	return (
 		<div>
 			{listings ? (
-				listings.map((listing, key) => (
-					<ListingPanel listing={listing.data} key={key} />
-				))
+				listings.map((listing, key) => {
+					if (listing) {
+						return <ListingPanel listing={listing.data} key={key} />;
+					}
+				})
 			) : (
 				<CircularProgress />
 			)}

@@ -1,3 +1,10 @@
 :root {
   --subtext-gray: #6c757d;
 }
+
+.create-listing-notif {
+  position: absolute;
+  top: 1rem;
+  margin-left: 42%;
+  z-index: 10;
+}
