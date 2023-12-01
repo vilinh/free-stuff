@@ -24,7 +24,9 @@ export const HomePage = () => {
       console.log(query);
       try {
         let res = await axios.get(query);
-        setLocationListings(res.data);
+        loadListings(res, (data) => {
+          setLocationListings(data);
+        })
       } catch (error) {
         console.log(error);
       }

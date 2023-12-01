@@ -11,7 +11,6 @@ import {
   addListing,
 } from "../services/listing-services.js";
 const router = express.Router();
-import sanitize from "mongo-sanitize";
 
 const METERS_TO_MILES_CONVERSION = 1609;
 
