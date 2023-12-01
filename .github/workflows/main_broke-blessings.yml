@@ -11,7 +11,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./backend
+    working-directory: backend
 
 env:
   AZURE_WEBAPP_PACKAGE_PATH: backend
@@ -61,7 +61,7 @@ jobs:
           
       - name: unzip artifact for deployment
         run: unzip release.zip
-        working-directory: ./backend
+        working-directory: backend
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
