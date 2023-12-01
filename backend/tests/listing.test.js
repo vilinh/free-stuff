@@ -18,9 +18,9 @@ beforeAll(async () => {
 });
 
 test("test find listing by id", async () => {
-  const result = await findListingById("65585751bfca18273a4a9791");
+  const result = await findListingById("656a186f2dd1c886f83adac9");
 
-  expect(result.title).toBe("cats");
+  expect(result.title).toBe("record");
   expect(result.user_id).toBe("awbwSHGhSvbA35Msl1OG41nODxO2");
 });
 
