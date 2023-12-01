@@ -23,12 +23,11 @@ const ListingSchema = new mongoose.Schema(
     location: {
       address: {
         type: String,
-        required: true,
       },
       latlng: {
         type: {
           type: String,
-          required: false,
+          required: true,
         },
         coordinates: {
           type: Array,

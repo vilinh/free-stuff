@@ -100,7 +100,8 @@
   align-items: flex-start;
 }
 
-.details-l {
+.details-l,
+.listing-proximity {
   color: var(--subtext-gray);
   text-transform: capitalize;
 }
@@ -114,3 +115,4 @@
     padding: .25rem;
     cursor: pointer;
 }
+

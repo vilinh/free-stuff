@@ -8,6 +8,7 @@ import { getUserById, updateUserById } from "../../utils/userService";
 
 export const ListingPanel = ({ listing }) => {
   const hasAddress = listing.hasOwnProperty("location");
+  const hasDistance = listing.hasOwnProperty("distance");
   const [image, setImage] = useState("");
   const [claimListing, setClaimListing] = useState(true);
   const [author, setAuthor] = useState("");
@@ -89,9 +90,16 @@ export const ListingPanel = ({ listing }) => {
             Posted {author && `by ${author}`}
           </span>
           <h2 className="listing-title">{listing.title}</h2>
-          <span className="listing-address">
+          <h3 className="listing-address">
             {hasAddress ? listing.location.address : "No Address"}
-          </span>
+          </h3>
+          <div className="listing-proximity">
+            {hasDistance ? (
+              <span>{listing.distance} miles away</span>
+            ) : (
+              <span></span>
+            )}
+          </div>
           <div className="listing-details">
             <h4>Details</h4>
             <div className="details">

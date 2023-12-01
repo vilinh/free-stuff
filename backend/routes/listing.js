@@ -1,4 +1,5 @@
 import express from "express";
+import sanitize from "mongo-sanitize";
 import listingModel from "../models/listing.js";
 import haversine from "haversine-distance";
 import axios from "axios";
@@ -25,6 +26,9 @@ const METERS_TO_MILES_CONVERSION = 1609;
  *      - categories: Can be any number of the following: 'clothing', 'furniture', 'electronics', 'home', 'books',
  *                    'games', 'parts', 'outdoor', 'other'. Default is all categories. Multiple query parameters are
  *                    separated by ','.
+ *      - latlng:     The latitude and longitude of the user's current location, separated by ','. Must be present in
+ *                    order to sort by location.
+ *      - radius:     The maximum distance a listing will appear, in miles.
  *      - sort:       Can be any number of the following: 'earliest', 'latest', 'title', 'location', 'condition',
  *                    'claimed'. Default is 'latest'. Multiple query parameters are separated by ','.
  *      - index:      Number of results shown. Default is 100.
@@ -33,14 +37,12 @@ const METERS_TO_MILES_CONVERSION = 1609;
 router.get("/", async (req, res) => {
   const title = req.query["title"];
   const claimed = req.query["claimed"];
-  const condition = req.query["condition"]; // Internally represented in the db by 0:'great', 1:'good', 2:'okay', 3:'poor'
+  const condition = req.query["condition"]; //  0:'great', 1:'good', 2:'okay', 3:'poor'
   const categories = req.query["categories"];
   const sort = req.query["sort"];
   const index = req.query["index"];
   const offset = req.query["offset"];
-
-  //TODO:Not operational yet, but will be
-  const location = req.query["location"];
+  const latlng = req.query["latlng"];
   const radius = req.query["radius"];
 
   try {
@@ -49,7 +51,7 @@ router.get("/", async (req, res) => {
       claimed,
       condition,
       categories,
-      location,
+      latlng,
       radius,
       sort,
       offset,
@@ -155,7 +157,7 @@ async function getListings(
   claimed,
   condition,
   categories,
-  location,
+  latlng,
   radius,
   sort,
   offset,
@@ -164,6 +166,14 @@ async function getListings(
   let query = {};
   let match = [];
   let sort_by = {};
+
+  let lat = 0;
+  let lng = 0;
+
+  try {
+    lat = parseFloat(sanitize(latlng).split(",")[0]);
+    lng = parseFloat(sanitize(latlng).split(",")[1]);
+  } catch {}
 
   /* These are all query filters */
   if (title && title !== "") {
@@ -199,7 +209,9 @@ async function getListings(
       "details.categories": { $in: sanitize(categories).split(",") },
     });
   }
-  //TODO:Add address verification and location here -- using an external tool almost certainly
+  if (radius) {
+    match.push({ distance: { $lte: parseFloat(sanitize(radius)) } });
+  }
   if (match.length > 0) {
     query = { $and: match };
   }
@@ -224,8 +236,12 @@ async function getListings(
       if (s === "claimed") {
         sort_by["claimed"] = 1;
       }
+      if (s === "location") {
+        sort_by["distance"] = 1;
+      }
     }
   }
+
   /* Other stuff */
   if (!index) {
     index = 100;
@@ -242,7 +258,23 @@ async function getListings(
     throw new Error("index, offset must both be non-negative integer values");
   }
   let result = await listingModel
-    .find(query)
+    .aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: "Point",
+            coordinates: [lng, lat],
+          },
+          key: "location.latlng",
+          spherical: true,
+          distanceField: "distance",
+          distanceMultiplier: 0.000621371, // meters to miles
+        },
+      },
+      {
+        $match: query,
+      },
+    ])
     .collation({ locale: "en" })
     .sort(sort_by)
     .skip(offset)
