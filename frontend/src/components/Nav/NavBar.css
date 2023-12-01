@@ -19,7 +19,8 @@
 .navbar-l {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: .3rem;
+  cursor: pointer;
 }
 
 .location-pref {
@@ -45,6 +46,10 @@
 
 .view-listings-link {
   font-size: 0.8rem;
+}
+
+.explore {
+  cursor: pointer;
 }
 
 .manual-input {

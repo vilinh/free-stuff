@@ -10,9 +10,6 @@ export function LocationProvider({ children }) {
     const [address, setAddress] = useState("")
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-    }, [])
-
     function findLocation() {
       setLoading(true)
       async function getAddress(coords) {

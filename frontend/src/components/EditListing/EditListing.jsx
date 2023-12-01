@@ -150,20 +150,18 @@ export const EditListing = ({ listing }) => {
     setCondition(event.target.value);
   };
 
-  const handlePlaceSelected = (place) => {
-    const latlng = {
-      type: "Point",
-      coordinates: [
-        place.geometry.location.lng(),
-        place.geometry.location.lat(),
-      ],
-    };
-    const address = place.formatted_address;
-    const loc = {
+	const handlePlaceSelected = (place) => {
+		const latitude = place.geometry.location.lat();
+		const longitude = place.geometry.location.lng();
+		const address = place.formatted_address;
+		const loc = {
       address,
-      latlng,
+      latlng: {
+        type: "Point",
+        coordinates: [longitude, latitude]
+      }
     };
-    setLocation(loc);
+		setLocation(loc);
   };
 
   const handleQuantityChange = (e) => {
@@ -173,15 +171,19 @@ export const EditListing = ({ listing }) => {
     }
     setQuantity(value);
   };
-
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const base64 = await convertBase64(file);
-      setBase64(base64);
-      setImageName(file.name);
+  
+	const handleImageUpload = async (e) => {
+		const file = e.target.files[0];
+		if (file && file.size > 1000000) {
+      setBase64("")
+      setImageName("Error: file size limit exceeded")
     }
-  };
+		else if (file) {
+			const base64 = await convertBase64(file);
+			setBase64(base64);
+			setImageName(file.name);
+		}
+	};
 
   if (isLoading) {
     return <CircularProgress />;

@@ -1,5 +1,11 @@
 import express from "express";
 import userModel from "../models/user.js";
+import {
+  findUserByUid,
+  addUser,
+  updateUserById,
+  removeUserByUid,
+} from "../services/user-services.js";
 
 const router = express.Router();
 
@@ -24,6 +30,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const id = req.params["id"];
+  const result = await updateUserById(id, req.body);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.status(204).end();
+  }
+});
+
 // delete user by firebase uid
 router.delete("/:uid", async (req, res) => {
   const uid = req.params["uid"];
@@ -35,33 +51,4 @@ router.delete("/:uid", async (req, res) => {
   }
 });
 
-async function findUserByUid(uid) {
-  try {
-    return await userModel.findOne({ uid });
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function removeUserByUid(uid) {
-  try {
-    let result = await userModel.findOneAndDelete({ uid });
-    return result;
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function addUser(user) {
-  try {
-    return await user.save();
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
 export default router;
-export { findUserByUid, addUser, removeUserByUid };

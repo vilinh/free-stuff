@@ -17,6 +17,21 @@ const UserSchema = new mongoose.Schema(
     profile_pic: {
       type: String,
     },
+    claimed_listings: {
+      type: [String],
+      default: [],
+    },
+    location: {
+      address: {
+        type: String,
+      },
+      latitude: {
+        type: Number,
+      },
+      longitude: {
+        type: Number,
+      },
+    },
   },
   { collection: "users_list" },
 );

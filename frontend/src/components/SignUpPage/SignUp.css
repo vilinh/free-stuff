@@ -4,8 +4,31 @@
   align-items: center;
 }
 
-.signup-title {
-  margin-bottom: 1rem;
+.sign-up-container h2 {
+  margin-bottom: 0rem;
+}
+
+.form-div {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+}
+
+.sign-up-container input {
+  border: .05rem solid;
+  padding: 1rem;
+  width: 20rem;
+  border-radius: .5rem;
+}
+
+.sign-up-container button {
+  border: none;
+  background-color:#0972d3;
+  padding: 1rem;
+  color: white;
+  border-radius: .5rem;
+  cursor: pointer;
 }
 
 .err-msg {
@@ -18,3 +41,4 @@
   margin-top: 1rem;
   text-decoration: none;
 }
+

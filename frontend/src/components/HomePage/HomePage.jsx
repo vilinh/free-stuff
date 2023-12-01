@@ -5,10 +5,13 @@ import { ListingThumbnail } from "../ListingThumbnail/ListingThumbnail";
 import { useLocationContext } from "../../context/Location/LocationContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { loadListings } from "../../utils/listingService";
 
 export const HomePage = () => {
   const { address } = useLocationContext();
   const [locationListings, setLocationListings] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getListings = async () => {
@@ -27,17 +30,12 @@ export const HomePage = () => {
       }
     };
     getListings();
-  }, []);
+  }, [address]);
 
   return (
     <div className="container">
       <div className="hero">
         <h3>One man's trash is another man's treasure!</h3>
-        <div className="cat-buttons">
-          <Chip onClick={() => {}} label="Clothes" variant="filled" />
-          <Chip onClick={() => {}} label="Books" variant="filled" />
-          <Chip onClick={() => {}} label="Furniture" variant="filled" />
-        </div>
       </div>
       <div className="featured-listings-div">
         {address ? (
@@ -48,9 +46,12 @@ export const HomePage = () => {
           <h4>Select a location to show listings near that location</h4>
         )}
         <span className="near-you">Near you</span>
-        <span className="sub-link"> See all</span>
+        <span className="sub-link" onClick={() => navigate("/search")}>
+          {" "}
+          See all
+        </span>
 
-        <div className="listings">
+        <div className="home-listings">
           {locationListings.map((listing, key) => (
             <ListingThumbnail listing={listing} key={key} editListing={false} />
           ))}

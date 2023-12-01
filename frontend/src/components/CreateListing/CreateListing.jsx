@@ -39,7 +39,7 @@ const CreateListing = () => {
   const [condition, setCondition] = useState("");
   const [image, setImage] = useState("");
   const [imageName, setImageName] = useState("");
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState();
   const [canSubmit, setCanSubmit] = useState(false);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const CreateListing = () => {
       categories.length === 0 ||
       condition === "" ||
       !image ||
-      Object.keys(location).length === 0
+      !location
     ) {
       setCanSubmit(false);
     } else {
@@ -103,9 +103,11 @@ const CreateListing = () => {
     const address = place.formatted_address;
     const loc = {
       address,
-      latlng,
+      latlng: {
+        type: "Point",
+        coordinates: [longitude, latitude]
+      }
     };
-    console.log(loc);
     setLocation(loc);
   };
 
@@ -119,7 +121,11 @@ const CreateListing = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && file.size > 1000000) {
+      setImage("")
+      setImageName("Error: file size limit exceeded")
+    }
+    else if (file) {
       const base64 = await convertBase64(file);
       setImage(base64);
       setImageName(file.name);
@@ -162,7 +168,7 @@ const CreateListing = () => {
           options={{
             types: ["address"],
           }}
-          onChange={() => setLocation({})}
+          onChange={() => setLocation()}
         />
         <TextField
           size="small"

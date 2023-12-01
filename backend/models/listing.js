@@ -27,9 +27,11 @@ const ListingSchema = new mongoose.Schema(
       latlng: {
         type: {
           type: String,
+          required: true,
         },
         coordinates: {
-          type: [Number],
+          type: Array,
+          required: true,
         },
       },
     },
@@ -72,6 +74,4 @@ const ListingSchema = new mongoose.Schema(
   },
 );
 
-const listingModel = mongoose.model("Listing", ListingSchema);
-
-export { listingModel };
+export default mongoose.model("Listing", ListingSchema);

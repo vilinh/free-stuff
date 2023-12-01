@@ -1,7 +1,19 @@
 import express from "express";
-import { listingModel } from "../models/listing.js";
 import sanitize from "mongo-sanitize";
+import listingModel from "../models/listing.js";
+import haversine from "haversine-distance";
+import axios from "axios";
+import {
+  updateListingById,
+  deleteListingById,
+  findListingById,
+  findListingByUId,
+  addListing,
+} from "../services/listing-services.js";
 const router = express.Router();
+import sanitize from "mongo-sanitize";
+
+const METERS_TO_MILES_CONVERSION = 1609;
 
 /* This function is called on the front page of the website and returns all listings based on a series of user defined
  * filters as query parameters as follows:
@@ -67,7 +79,7 @@ router.get("/:id", async (req, res) => {
 router.get("/user/:id", async (req, res) => {
   const uid = req.params["id"];
   let result = await findListingByUId(uid);
-  if (result == undefined || result.length == 0) {
+  if (result === undefined) {
     res.status(404).send("Resource not found.");
   } else {
     res.status(200).send(result);
@@ -105,6 +117,41 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+/* Gets passed user location and max distance(m) and returns listing within that distance */
+router.post("/distance-search", async (req, res) => {
+  try {
+    const max_dist = req.body.max_dist;
+    const address = req.body.address;
+    const addressToCoordsRequest = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}`;
+    let mapsResult = await axios.get(addressToCoordsRequest);
+    const user_coords = mapsResult.data.results[0].geometry.location;
+
+    let result = await listingModel.find().limit(10);
+    const output = result.filter((listing) => {
+      if (
+        "location" in listing &&
+        "latlng" in listing.location &&
+        "coordinates" in listing.location.latlng
+      ) {
+        const listing_coords = {
+          lat: listing.location.latlng.coordinates[1],
+          lon: listing.location.latlng.coordinates[0],
+        };
+        const dist =
+          haversine(user_coords, listing_coords) / METERS_TO_MILES_CONVERSION;
+        console.log(dist);
+        return dist <= max_dist ? true : false;
+      } else {
+        return false;
+      }
+    });
+    res.status(200).send(output);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error occured in the system");
+  }
+});
+
 async function getListings(
   title,
   claimed,
@@ -133,11 +180,7 @@ async function getListings(
     match.push({ title: new RegExp(sanitize(title), "i") });
   }
   if (claimed) {
-    if (claimed === "true") {
-      match.push({ claimed: true });
-    } else {
-      match.push({ claimed: false });
-    }
+    match.push({ claimed: true });
   }
   if (condition) {
     let conds = [];
@@ -239,56 +282,4 @@ async function getListings(
   return result;
 }
 
-async function deleteListingById(id) {
-  try {
-    return await listingModel.findByIdAndDelete(id);
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function findListingById(id) {
-  try {
-    return await listingModel.findById(id);
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function updateListingById(id, listing) {
-  try {
-    return await listingModel.findByIdAndUpdate(id, listing);
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function findListingByUId(uid) {
-  try {
-    return await listingModel.find({ user_id: uid });
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
-async function addListing(listing) {
-  try {
-    return await listing.save();
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-}
-
 export default router;
-export {
-  getListings,
-  deleteListingById,
-  findListingById,
-  findListingByUId,
-  addListing,
-};

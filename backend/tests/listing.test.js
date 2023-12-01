@@ -1,117 +1,38 @@
-import { listingModel } from "../models/listing.js";
+import listingModel from "../models/listing.js";
 import {
-  getListings,
   deleteListingById,
   findListingById,
+  updateListingById,
   findListingByUId,
   addListing,
-} from "../routes/listing.js";
+} from "../services/listing-services";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import listing_example_data from "./data/listing_example_data.json";
-import filter_1 from "./data/filter_1.json";
-import filter_2 from "./data/filter_2.json";
-import filter_3 from "./data/filter_3.json";
-import filter_4 from "./data/filter_4.json";
-import filter_5 from "./data/filter_5.json";
-import filter_6 from "./data/filter_6.json";
 
 dotenv.config();
 
-// Please don't run tests on the production database...
-
-let old_db_contents;
-
 beforeAll(async () => {
-  await mongoose.connect(process.env.LOCAL_DATABASE_URL).then(() => {
+  await mongoose.connect(process.env.DATABASE_URL).then(() => {
     console.log("Connected to server successfully!");
   });
-  old_db_contents = await listingModel.find();
-  await listingModel.deleteMany();
-  await listingModel.insertMany(listing_example_data);
 });
 
-test("get_listings", async () => {
-  let result = await getListings();
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
+test("test find listing by id", async () => {
+  const result = await findListingById("656a186f2dd1c886f83adac9");
 
-  await expect(result.length).toBe(listing_example_data.length);
-  for (let i = 0; i < result.length; i++) {
-    await expect(result[i]).toMatchObject(listing_example_data[i]);
-  }
+  expect(result.title).toBe("record");
+  expect(result.user_id).toBe("awbwSHGhSvbA35Msl1OG41nODxO2");
 });
 
-test("get_listings_filter_1", async () => {
-  let result = await getListings("hi");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
+test("test find listing by uid", async () => {
+  const result = await findListingByUId("nVspFOWRfGbwRdnYu0NP6lJIdEr2");
 
-  await expect(result.length).toBe(filter_1.length);
-  for (let i = 0; i < result.length; i++) {
-    await expect(result[i]).toMatchObject(filter_1[i]);
-  }
+  expect(result[0].title).toBe("Bookssss");
+  expect(result[0].description).toBe("books");
 });
 
-test("get_listings_filter_2", async () => {
-  let result = await getListings("", "", "great,good");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
-
-  await expect(result.length).toBe(filter_2.length);
-  for (let i = 0; i < result.length; i++) {
-    await expect(result[i]).toMatchObject(filter_2[i]);
-  }
-});
-
-test("get_listings_filter_3", async () => {
-  let result = await getListings("", "", "", "books,clothing");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
-
-  await expect(result.length).toBe(filter_3.length);
-  for (let i = 0; i < result.length; i++) {
-    await expect(result[i]).toMatchObject(filter_3[i]);
-  }
-});
-
-test("get_listings_filter_4", async () => {
-  let result = await getListings("", "", "", "", "", "", "earliest");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
-
-  await expect(result.length).toBe(filter_4.length);
-  for (let i = 0; i < result.length; i++) {
-    await expect(result[i]).toMatchObject(filter_4[i]);
-  }
-});
-
-test("get_listings_filter_5", async () => {
-  let result = await getListings("", "", "", "", "", "", "condition,latest");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
-
-  await expect(result.length).toBe(filter_5.length);
-  for (let i = 0; i < result.length; i++) {
-    await expect(result[i]).toMatchObject(filter_5[i]);
-  }
-});
-
-test("get_listings_filter_6", async () => {
-  let result = await getListings("", "", "", "", "", "", "", 5, 10);
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
-
-  await expect(result.length).toBe(filter_6.length);
-  for (let i = 0; i < result.length; i++) {
-    await expect(result[i]).toMatchObject(filter_6[i]);
-  }
-});
-
-//TODO: Location based filtering...
-
-test("delete_listing_by_id", async () => {
-  const listing_to_delete = {
+test("test add listing", async () => {
+  const listing = new listingModel({
     details: {
       quantity: 1,
       condition: 0,
@@ -119,30 +40,61 @@ test("delete_listing_by_id", async () => {
       posted_date: "2023-01-01T00:00:00.000Z",
     },
     location: {
-      address: "12345 Poly Place",
+      latlng: {
+        type: "Point",
+        coordinates: [-120.6982555, 35.7454865],
+      },
+      address: "San Luis Obispo Rd, San Miguel, CA 93451, USA",
     },
-    _id: "6542f9fa0963950be0cd43ea",
     claim_queue: [],
     claimed: false,
     description: "a plain white T-shirt",
     image: "0",
     title: "T-shirt",
     user_id: "0",
-    __v: 0,
-  };
-  await listingModel.insertMany(listing_to_delete);
-  await deleteListingById("6542f9fa0963950be0cd43ea");
-  let result = await listingModel.find();
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
+  });
+  await addListing(listing);
 
-  await expect(result).toMatchObject(listing_example_data);
+  const result = await findListingById(listing.id);
 
-  await listingModel.findByIdAndDelete("6542f9fa0963950be0cd43ea");
+  expect(result.title).toBe("T-shirt");
+  expect(result.details.quantity).toBe(1);
+  await listingModel.findByIdAndDelete(listing.id);
 });
 
-test("find_listing_by_id", async () => {
-  const listing_to_add = {
+test("test add listing mult categories", async () => {
+  const listing = new listingModel({
+    details: {
+      quantity: 1,
+      condition: 0,
+      categories: ["clothes", "books"],
+      posted_date: "2023-01-01T00:00:00.000Z",
+    },
+    location: {
+      latlng: {
+        type: "Point",
+        coordinates: [-120.6982555, 35.7454865],
+      },
+      address: "San Luis Obispo Rd, San Miguel, CA 93451, USA",
+    },
+    claim_queue: [],
+    claimed: false,
+    description: "a plain white T-shirt",
+    image: "0",
+    title: "T-shirt",
+    user_id: "0",
+  });
+  await addListing(listing);
+
+  const result = await findListingById(listing.id);
+
+  expect(result.title).toBe("T-shirt");
+  expect(result.details.quantity).toBe(1);
+  await listingModel.findByIdAndDelete(listing.id);
+});
+
+test("test update listing by id", async () => {
+  const listing = new listingModel({
     details: {
       quantity: 1,
       condition: 0,
@@ -150,29 +102,31 @@ test("find_listing_by_id", async () => {
       posted_date: "2023-01-01T00:00:00.000Z",
     },
     location: {
-      address: "12345 Poly Place",
+      latlng: {
+        type: "Point",
+        coordinates: [-120.6982555, 35.7454865],
+      },
+      address: "San Luis Obispo Rd, San Miguel, CA 93451, USA",
     },
-    _id: "6542f9fa0963950be0cd43ea",
     claim_queue: [],
     claimed: false,
     description: "a plain white T-shirt",
     image: "0",
     title: "T-shirt",
     user_id: "0",
-    __v: 0,
-  };
-  await listingModel.insertMany(listing_to_add);
-  let result = await findListingById("6542f9fa0963950be0cd43ea");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
+  });
+  await addListing(listing);
+  listing.title = "new listing";
 
-  await expect(result).toMatchObject(listing_to_add);
+  await updateListingById(listing.id, listing);
+  const after_result = await findListingById(listing.id);
 
-  await listingModel.findByIdAndDelete("6542f9fa0963950be0cd43ea");
+  expect(after_result.title).toBe("new listing");
+  await listingModel.findByIdAndDelete(listing.id);
 });
 
-test("find_listing_by_uid", async () => {
-  const listing_to_add = {
+test("test delete listing by id", async () => {
+  const listing = new listingModel({
     details: {
       quantity: 1,
       condition: 0,
@@ -180,61 +134,58 @@ test("find_listing_by_uid", async () => {
       posted_date: "2023-01-01T00:00:00.000Z",
     },
     location: {
-      address: "12345 Poly Place",
+      latlng: {
+        type: "Point",
+        coordinates: [-120.6982555, 35.7454865],
+      },
+      address: "San Luis Obispo Rd, San Miguel, CA 93451, USA",
     },
-    _id: "6542f9fa0963950be0cd43ea",
     claim_queue: [],
     claimed: false,
     description: "a plain white T-shirt",
     image: "0",
     title: "T-shirt",
     user_id: "0",
-    __v: 0,
-  };
-  await listingModel.insertMany(listing_to_add);
-  let result = await findListingByUId("0");
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
+  });
+  await addListing(listing);
+  await deleteListingById(listing.id);
 
-  await expect(result).toMatchObject([listing_to_add]);
+  const after_result = await findListingById(listing.id);
 
-  await listingModel.findByIdAndDelete("6542f9fa0963950be0cd43ea");
+  expect(after_result).toEqual(null);
 });
 
-test("add_listing", async () => {
-  const listing_to_add = {
-    details: {
-      quantity: 1,
-      condition: 0,
-      categories: ["clothes"],
-      posted_date: "2023-01-01T00:00:00.000Z",
-    },
-    location: {
-      address: "12345 Poly Place",
-    },
-    _id: "6542f9fa0963950be0cd43ea",
-    claim_queue: [],
-    claimed: false,
-    description: "a plain white T-shirt",
-    image: "0",
-    title: "T-shirt",
-    user_id: "0",
-    __v: 0,
-  };
-  await addListing(new listingModel(listing_to_add));
-  let result = await listingModel.find();
-  result = JSON.stringify(result);
-  result = JSON.parse(result);
-  listing_example_data.push(listing_to_add);
+test("test findListingById handles error", async () => {
+  const result = await findListingById(83);
 
-  await expect(result).toMatchObject(listing_example_data);
+  expect(result).toBe(undefined);
+});
 
-  listing_example_data.pop();
-  await listingModel.findByIdAndDelete("6542f9fa0963950be0cd43ea");
+test("test updateListingById handles error", async () => {
+  const result = await updateListingById(83, null);
+
+  expect(result).toBe(undefined);
+});
+
+test("test addListing handles error", async () => {
+  const result = await addListing({});
+
+  expect(result).toBe(undefined);
+});
+
+test("test deleteListingById handles error", async () => {
+  const result = await deleteListingById(83);
+
+  expect(result).toBe(undefined);
+});
+
+test("test findListingByUId handles error", async () => {
+  await mongoose.connection.close();
+  const result = await findListingByUId();
+
+  expect(result).toBe(undefined);
 });
 
 afterAll(async () => {
-  await listingModel.deleteMany();
-  await listingModel.insertMany(old_db_contents);
   await mongoose.connection.close();
 });
