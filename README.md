@@ -49,4 +49,7 @@ npm run start
 ```
 ---
 
+#### Code Coverage
+![code coverage](https://github.com/vilinh/free-stuff/blob/main/docs/1130codecoverage.png?raw=true)
+*Report Generated 11/30/23 8:45PM*
 - Install 'Prettier - Code formatter' extension in VSCode
