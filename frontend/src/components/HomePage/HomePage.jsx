@@ -25,7 +25,7 @@ export const HomePage = () => {
       }
     };
     getListings();
-  }, []);
+  }, [address]);
 
   return (
     <div className="container">

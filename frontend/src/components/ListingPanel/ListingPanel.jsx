@@ -86,7 +86,7 @@ export const ListingPanel = ({ listing }) => {
         </div>
         <div className="listing-l">
           <span className="listing-date">
-            Posted X Days Ago {author && `by ${author}`}
+            Posted {author && `by ${author}`}
           </span>
           <h2 className="listing-title">{listing.title}</h2>
           <span className="listing-address">

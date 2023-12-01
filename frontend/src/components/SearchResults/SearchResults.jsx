@@ -250,17 +250,6 @@ export const SearchResults = () => {
               ))}
             </div>
           </div>
-          <hr />
-          <div className="search-button">
-            <Button
-              variant="primary"
-              onClick={() => {
-                searchListingsByDistance();
-              }}
-            >
-              Search
-            </Button>
-          </div>
         </div>
         <div className="results">
           <div className="results-bar">
