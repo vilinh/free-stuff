@@ -107,10 +107,7 @@ const CreateListing = () => {
     const address = place.formatted_address;
     const loc = {
       address,
-      latlng: {
-        type: "Point",
-        coordinates: [longitude, latitude]
-      }
+      latlng
     };
     setLocation(loc);
   };
