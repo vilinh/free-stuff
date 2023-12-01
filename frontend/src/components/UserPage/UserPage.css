@@ -8,11 +8,6 @@
   padding: 2rem;
 }
 
-.create-listing-notif {
-  position: absolute;
-  top: 2rem;
-}
-
 .user-listings {
   display: flex;
   margin-top: 2rem;

@@ -3,11 +3,13 @@ import "./LoginPage.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { Link, useNavigate } from "react-router-dom";
+import { NotifMsg, NotifType, useNotif } from "../../context/Notifications/NotificationContext";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { createNotif } = useNotif();
 
   const signIn = (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ export const LoginPage = () => {
       })
       .catch((error) => {
         console.log(error);
+        createNotif(NotifMsg.LOGIN_ERROR, NotifType.ERROR)
       });
   };
 

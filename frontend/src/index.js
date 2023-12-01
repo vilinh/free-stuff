@@ -8,11 +8,11 @@ import { NotifProvider } from "./context/Notifications/NotificationContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthProvider>
-    <LocationProvider>
-      <NotifProvider>
-        <App />
-      </NotifProvider>
-    </LocationProvider>
-  </AuthProvider>
+	<NotifProvider>
+		<AuthProvider>
+			<LocationProvider>
+				<App />
+			</LocationProvider>
+		</AuthProvider>
+	</NotifProvider>
 );

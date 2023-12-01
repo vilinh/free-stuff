@@ -13,9 +13,10 @@ const conditionOptions = [
 
 async function postListing(listing) {
 	try {
-		await axios.post("http://localhost:8000/listing", listing);
+		return await axios.post("http://localhost:8000/listing", listing);
 	} catch (error) {
 		console.log(error);
+		return undefined;
 	}
 }
 
@@ -30,7 +31,7 @@ async function getListingById(id) {
 
 async function updateListingById(id, listing) {
 	try {
-		await axios.put(`http://localhost:8000/listing/${id}`, listing);
+		return await axios.put(`http://localhost:8000/listing/${id}`, listing);
 	} catch (error) {
 		console.log(error);
 		return undefined;
@@ -39,7 +40,7 @@ async function updateListingById(id, listing) {
 
 async function deleteListingById(id) {
 	try {
-		await axios.delete(`http://localhost:8000/listing/${id}`);
+		return await axios.delete(`http://localhost:8000/listing/${id}`);
 	} catch (error) {
 		console.log(error);
 		return undefined;

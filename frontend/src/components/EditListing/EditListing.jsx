@@ -30,7 +30,11 @@ import {
 import InputFileUpload from "../InputFileUpload/InputFileUpload";
 import { useParams } from "react-router-dom";
 import { isEqual } from "lodash";
-import { NotifMsg, NotifType, useNotif } from "../../context/Notifications/NotificationContext";
+import {
+	NotifMsg,
+	NotifType,
+	useNotif,
+} from "../../context/Notifications/NotificationContext";
 import { DeleteModal } from "../DeleteModal/DeleteModal";
 
 export const EditListing = ({ listing }) => {
@@ -136,10 +140,14 @@ export const EditListing = ({ listing }) => {
 			base64: base64,
 			name: imageName,
 		});
-		await updateListingById(id, updatedListing);
+		const res = await updateListingById(id, updatedListing);
+		if (res) {
+			createNotif(NotifMsg.EDIT_LISTING_SUCCESS, NotifType.SUCCESS);
+		} else {
+			createNotif(NotifMsg.EDIT_LISTING_ERROR, NotifType.ERROR);
+		}
 
-		createNotif(NotifMsg.EDIT_LISTING_SUCCESS, NotifType.SUCCESS);
-    	navigate("/user");
+		navigate("/user");
 	};
 
 	const handleConditionSelected = (event) => {
@@ -151,12 +159,12 @@ export const EditListing = ({ listing }) => {
 		const longitude = place.geometry.location.lng();
 		const address = place.formatted_address;
 		const loc = {
-      address,
-      latlng: {
-        type: "Point",
-        coordinates: [longitude, latitude]
-      }
-    };
+			address,
+			latlng: {
+				type: "Point",
+				coordinates: [longitude, latitude],
+			},
+		};
 		setLocation(loc);
 	};
 
@@ -171,10 +179,9 @@ export const EditListing = ({ listing }) => {
 	const handleImageUpload = async (e) => {
 		const file = e.target.files[0];
 		if (file && file.size > 1000000) {
-      setBase64("")
-      setImageName("Error: file size limit exceeded")
-    }
-		else if (file) {
+			setBase64("");
+			setImageName("Error: file size limit exceeded");
+		} else if (file) {
 			const base64 = await convertBase64(file);
 			setBase64(base64);
 			setImageName(file.name);
@@ -182,13 +189,18 @@ export const EditListing = ({ listing }) => {
 	};
 
 	if (isLoading) {
-		return <CircularProgress />
+		return <CircularProgress />;
 	}
 
 	const deleteListing = async () => {
-		await deleteListingById(id);
-		createNotif(NotifMsg.DELETE_LISTING_SUCCESS, NotifType.SUCCESS)
-    	navigate("/user");
+		const res = await deleteListingById(id);
+		if (res) {
+			createNotif(NotifMsg.DELETE_LISTING_SUCCESS, NotifType.SUCCESS);
+		} else {
+			createNotif(NotifMsg.DELETE_LISTING_ERROR, NotifType.ERROR)
+		}
+
+		navigate("/user");
 	};
 
 	return (
@@ -274,11 +286,21 @@ export const EditListing = ({ listing }) => {
 					)}
 				/>
 			</div>
-			<Button color="error" variant="outlined" onClick={() => setDeleteModal(true)}>Delete Listing</Button>
+			<Button
+				color="error"
+				variant="outlined"
+				onClick={() => setDeleteModal(true)}
+			>
+				Delete Listing
+			</Button>
 			<Button variant="contained" onClick={submitListing} disabled={!canSubmit}>
 				Submit
 			</Button>
-			<DeleteModal deleteListing={deleteListing} open={deleteModal} setOpen={setDeleteModal}></DeleteModal>
+			<DeleteModal
+				deleteListing={deleteListing}
+				open={deleteModal}
+				setOpen={setDeleteModal}
+			></DeleteModal>
 		</div>
 	);
 };
