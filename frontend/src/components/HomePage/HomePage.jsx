@@ -5,7 +5,7 @@ import { ListingThumbnail } from "../ListingThumbnail/ListingThumbnail";
 import { useLocationContext } from "../../context/Location/LocationContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { loadListings } from "../../utils/listingService";
 
 export const HomePage = () => {
@@ -19,7 +19,7 @@ export const HomePage = () => {
         let res = await axios.get(
           `http://localhost:8000/listing?location=${address}`
         );
-        loadListings(res, setLocationListings)
+        loadListings(res, setLocationListings);
       } catch (error) {
         console.log(error);
       }
@@ -31,38 +31,6 @@ export const HomePage = () => {
     <div className="container">
       <div className="hero">
         <h3>One man's trash is another man's treasure!</h3>
-        <div className="cat-buttons">
-          <Chip
-            onClick={() =>
-              navigate({
-                pathname: "/search",
-                search: `?categories=Clothes`,
-              })
-            }
-            label="Clothes"
-            variant="filled"
-          />
-          <Chip
-            onClick={() =>
-              navigate({
-                pathname: "/search",
-                search: `?categories=Books`,
-              })
-            }
-            label="Books"
-            variant="filled"
-          />
-          <Chip
-            onClick={() =>
-              navigate({
-                pathname: "/search",
-                search: `?categories=Furniture`,
-              })
-            }
-            label="Furniture"
-            variant="filled"
-          />
-        </div>
       </div>
       <div className="featured-listings-div">
         {address ? (

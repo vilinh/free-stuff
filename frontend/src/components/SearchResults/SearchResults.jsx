@@ -8,10 +8,7 @@ import axios from "axios";
 import { Categories, ListingStatus, SortBy } from "../../utils/enum";
 import Spinner from "@cloudscape-design/components/spinner";
 import TokenGroup from "@cloudscape-design/components/token-group";
-import {
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Button from "@cloudscape-design/components/button";
 import { LocationModal } from "../../modal/LocationModal";
 import { loadListings } from "../../utils/listingService";
@@ -37,8 +34,8 @@ export const SearchResults = () => {
   useEffect(() => {
     // get categories from query if there are any
     let categories = searchParams.get("categories");
-    let categoriesCommas = ""
-
+    let categoriesCommas = "";
+    console.log(window.location.href);
     // handle category tokens
     if (categories !== null && categories.length) {
       let cats = categories.split("_");
@@ -47,11 +44,10 @@ export const SearchResults = () => {
       categoriesCommas = cats.join(",");
     }
 
-
     // get listings based on filters
     const getListings = async () => {
       try {
-        setIsLoading(true)
+        setIsLoading(true);
         let res = await axios.get(
           `http://localhost:8000/listing?location=${address}
           &title=${term ?? ""}&categories=${categoriesCommas ?? ""}

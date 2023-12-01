@@ -62,6 +62,37 @@ test("test add listing", async () => {
   await listingModel.findByIdAndDelete(listing.id);
 });
 
+test("test add listing mult categories", async () => {
+  const listing = new listingModel({
+    details: {
+      quantity: 1,
+      condition: 0,
+      categories: ["clothes", "books"],
+      posted_date: "2023-01-01T00:00:00.000Z",
+    },
+    location: {
+      latlng: {
+        type: "Point",
+        coordinates: [-120.6982555, 35.7454865],
+      },
+      address: "San Luis Obispo Rd, San Miguel, CA 93451, USA",
+    },
+    claim_queue: [],
+    claimed: false,
+    description: "a plain white T-shirt",
+    image: "0",
+    title: "T-shirt",
+    user_id: "0",
+  });
+  await addListing(listing);
+
+  const result = await findListingById(listing.id);
+
+  expect(result.title).toBe("T-shirt");
+  expect(result.details.quantity).toBe(1);
+  await listingModel.findByIdAndDelete(listing.id);
+});
+
 test("test update listing by id", async () => {
   const listing = new listingModel({
     details: {
