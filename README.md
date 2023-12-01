@@ -7,9 +7,9 @@
 Broke Blessings is an online website where you can discover and share free stuff. This platform is made for you to easily give away and claim free items whether you're trying to declutter, looking to share unused items, or simply trying to find some free stuff. Join Broke Blessings today and experience the joy of giving and receiving without any cost.
 
 #### Key Features
-- 
--
-- 
+- **Free Listings:** Post your unwanted items easily and for free. Share the love by giving away things you no longer need, and let others benefit from your generosity.
+- **Search and Discover:** Explore a wide array of listings to find items that suit your needs. From furniture to books and clothing, there's something for everyone.
+- **Filter and Sort:** Filter and sort by different categories, location, and claimed/unclaimed items.
 ---
 ### Docs
 
