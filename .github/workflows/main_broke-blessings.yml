@@ -61,7 +61,7 @@ jobs:
           
       - name: unzip artifact for deployment
         run: unzip release.zip
-        working-directory: backend
+        working-directory: .
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -70,4 +70,4 @@ jobs:
           app-name: 'broke-blessings'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_473537D02BDA43F09380EEDEFADB7CF1 }}
-          package: backend
+          package: .
