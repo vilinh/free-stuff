@@ -70,4 +70,4 @@ jobs:
           app-name: 'broke-blessings'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_473537D02BDA43F09380EEDEFADB7CF1 }}
-          package: .
+          package: backend
