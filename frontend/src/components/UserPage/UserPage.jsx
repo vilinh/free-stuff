@@ -8,7 +8,7 @@ import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { loadListings } from "../../utils/listingService";
 
-export const UserPage = () => {
+export const UserPage = (uid) => {
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -18,9 +18,13 @@ export const UserPage = () => {
   useEffect(() => {
     const getListings = async () => {
       setIsLoading(true);
+      let profileUid = auth.currentUser.uid;
+      if (Object.keys(uid).length !== 0) {
+        profileUid = uid["uid"];
+      }
       try {
         let res = await axios.get(
-          `http://localhost:8000/listing/user/${auth.currentUser.uid}`
+          `http://localhost:8000/listing/user/${profileUid}`,
         );
         loadListings(res, setListings);
       } catch (error) {

@@ -69,6 +69,12 @@
   font-size: 0.6rem;
 }
 
+.listing-profile-link {
+  font-size: 0.8rem;
+  color: #0972D3;
+  cursor: pointer;
+}
+
 .listing-title {
   margin-top: 0.1rem;
   margin-bottom: 0.5rem;

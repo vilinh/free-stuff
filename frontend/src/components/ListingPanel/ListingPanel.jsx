@@ -5,6 +5,7 @@ import "./ListingPanel.css";
 import { useAuth } from "../../context/Auth/AuthContext";
 import { updateListingById } from "../../utils/listingService";
 import { getUserById, updateUserById } from "../../utils/userService";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 export const ListingPanel = ({ listing }) => {
   const hasAddress = listing.hasOwnProperty("location");
@@ -13,6 +14,7 @@ export const ListingPanel = ({ listing }) => {
   const [claimListing, setClaimListing] = useState(true);
   const [author, setAuthor] = useState("");
   const [user, setUser] = useState();
+  const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -86,7 +88,7 @@ export const ListingPanel = ({ listing }) => {
           {image ? <img className="listing-img" src={image} /> : <Spinner />}
         </div>
         <div className="listing-l">
-          <span className="listing-date">
+          <span className="listing-profile-link" onClick={() => navigate("/")}>
             Posted {author && `by ${author}`}
           </span>
           <h2 className="listing-title">{listing.title}</h2>
