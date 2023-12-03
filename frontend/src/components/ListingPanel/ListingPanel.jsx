@@ -88,7 +88,10 @@ export const ListingPanel = ({ listing }) => {
           {image ? <img className="listing-img" src={image} /> : <Spinner />}
         </div>
         <div className="listing-l">
-          <span className="listing-profile-link" onClick={() => navigate("/")}>
+          <span
+            className="listing-profile-link"
+            onClick={() => navigate(`/user/${listing.user_id}`)}
+          >
             Posted {author && `by ${author}`}
           </span>
           <h2 className="listing-title">{listing.title}</h2>
