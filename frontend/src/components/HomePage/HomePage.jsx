@@ -6,7 +6,11 @@ import { useLocationContext } from "../../context/Location/LocationContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { loadListings } from "../../utils/listingService";
+import {
+  getListingsByCoordinates,
+  getListingsSorted,
+  loadListings,
+} from "../../utils/listingService";
 
 export const HomePage = () => {
   const { address, location } = useLocationContext();
@@ -17,16 +21,16 @@ export const HomePage = () => {
     const getListings = async () => {
       let lat = location.latitude;
       let lng = location.longitude;
-      let query = `http://localhost:8000/listing?sort=latest`;
-      if (lat && lng) {
-        query = `http://localhost:8000/listing?latlng=${lat},${lng}&radius=10&sort=location`;
-      }
-      console.log(query);
       try {
-        let res = await axios.get(query);
+        let res = null;
+        if (lat && lng) {
+          res = await getListingsByCoordinates(lat, lng);
+        } else {
+          res = await getListingsSorted();
+        }
         loadListings(res, (data) => {
           setLocationListings(data);
-        })
+        });
       } catch (error) {
         console.log(error);
       }
