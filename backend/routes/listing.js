@@ -121,7 +121,7 @@ router.post("/distance-search", async (req, res) => {
   try {
     const max_dist = req.body.max_dist;
     const address = req.body.address;
-    const addressToCoordsRequest = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}`;
+    const addressToCoordsRequest = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
     let mapsResult = await axios.get(addressToCoordsRequest);
     const user_coords = mapsResult.data.results[0].geometry.location;
 

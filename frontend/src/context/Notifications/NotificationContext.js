@@ -8,7 +8,8 @@ export const NotifMsg = {
   EDIT_LISTING_ERROR: "Failed to Update Listing",
   DELETE_LISTING_SUCCESS: "Listing Successfully Deleted",
   DELETE_LISTING_ERROR: "Failed to Delete Listing",
-  LOGIN_ERROR: "Email or Password Incorrect"
+  LOGIN_ERROR: "Email or Password Incorrect",
+  LOCATION_ERROR: "Please Set a Location To Filter By Distance"
 }
 
 export const NotifType = {

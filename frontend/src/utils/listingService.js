@@ -47,6 +47,18 @@ async function deleteListingById(id) {
 	}
 }
 
+async function getListingByDistance(data) {
+	try {
+		return await axios.post(
+			"http://localhost:8000/listing/distance-search",
+			data
+		);
+	} catch (error) {
+		console.log(error);
+		return undefined;
+	}
+}
+
 function loadListings(res, callback) {
 	let promises = [];
 	res.data.forEach(async (item) => {
@@ -67,5 +79,6 @@ export {
 	getListingById,
 	updateListingById,
 	deleteListingById,
-	loadListings
+	getListingByDistance,
+	loadListings,
 };
