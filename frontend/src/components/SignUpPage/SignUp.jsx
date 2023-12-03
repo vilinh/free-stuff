@@ -38,7 +38,7 @@ const SignUp = ({ user }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((cred) => {
         makePostCall(cred.user, location);
-        navigate("/login");
+        navigate("/user");
       })
       .catch((error) => {
         console.log(error);

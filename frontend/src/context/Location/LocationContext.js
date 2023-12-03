@@ -8,6 +8,7 @@ export function useLocationContext() {
 
 export function LocationProvider({ children }) {
     const [address, setAddress] = useState("")
+    const [location, setLocation] = useState({})
     const [loading, setLoading] = useState(false)
 
     function findLocation() {
@@ -29,6 +30,7 @@ export function LocationProvider({ children }) {
         navigator.geolocation.getCurrentPosition((position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
+          setLocation({latitude, longitude})
           getAddress({ lat: latitude, lng: longitude });
         });
       }
@@ -36,6 +38,8 @@ export function LocationProvider({ children }) {
 
     const value = {
         address,
+        location,
+        setLocation,
         findLocation,
         setAddress,
         loading

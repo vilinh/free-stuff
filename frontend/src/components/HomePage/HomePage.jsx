@@ -9,14 +9,14 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { loadListings } from "../../utils/listingService";
 
 export const HomePage = () => {
-  const { address } = useLocationContext();
+  const { address, location } = useLocationContext();
   const [locationListings, setLocationListings] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getListings = async () => {
-      let lat = address.lat;
-      let lng = address.lng;
+      let lat = location.latitude;
+      let lng = location.longitude;
       let query = `http://localhost:8000/listing?sort=latest`;
       if (lat && lng) {
         query = `http://localhost:8000/listing?latlng=${lat},${lng}&radius=10&sort=location`;

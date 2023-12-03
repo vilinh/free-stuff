@@ -10,24 +10,29 @@ import './LocationModal.css'
 
 export const LocationModal = ({ show, onClose }) => {
   const [searchLoc, setSearchLoc] = useState("");
-  const { findLocation, setAddress, loading, address } = useLocationContext();
+  const [searchPos, setSearchPos] = useState({});
+  const { findLocation, setAddress, setLocation, loading, address } = useLocationContext();
 
   const handlePlaceSelected = (place) => {
     const latitude = place.geometry.location.lat();
     const longitude = place.geometry.location.lng();
     const address = place.formatted_address;
+    console.log(latitude, longitude)
     const loc = {
       address,
       latitude,
       longitude,
     };
     setSearchLoc(address);
+    setSearchPos({latitude, longitude});
   };
 
   const confirmPlaceSelected = () => {
     setAddress(searchLoc);
+    setLocation(searchPos)
     onClose();
     setSearchLoc("");
+    setSearchPos({})
   };
 
   const handleFindLocation = () => {
