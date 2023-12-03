@@ -17,6 +17,12 @@ const UserSchema = new mongoose.Schema(
     profile_pic: {
       type: String,
     },
+    display_location: {
+      type: String,
+    },
+    biography: {
+      type: String,
+    },
     claimed_listings: {
       type: [String],
       default: [],
