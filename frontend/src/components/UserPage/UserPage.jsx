@@ -14,17 +14,20 @@ export const UserPage = (uid) => {
 
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [profileUid, setProfileUid] = useState("");
 
   useEffect(() => {
     const getListings = async () => {
       setIsLoading(true);
-      let profileUid = auth.currentUser.uid;
+      let requestUid = auth.currentUser.uid;
       if (Object.keys(uid).length !== 0) {
-        profileUid = uid["uid"];
+        requestUid = uid["uid"];
       }
+      setProfileUid(requestUid);
+      console.log("userpage: " + requestUid);
       try {
         let res = await axios.get(
-          `http://localhost:8000/listing/user/${profileUid}`,
+          `http://localhost:8000/listing/user/${requestUid}`,
         );
         loadListings(res, setListings);
       } catch (error) {
@@ -42,7 +45,7 @@ export const UserPage = (uid) => {
   return (
     <div className="user-page">
       <div className="user-details">
-        <UserPanel user={auth.currentUser} listings={listings.length} />
+        <UserPanel uid={profileUid} listings={listings.length} />
       </div>
       <div className="user-listings">
         {listings.map((listing, key) => (

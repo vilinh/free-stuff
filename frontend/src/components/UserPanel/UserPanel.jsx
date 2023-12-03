@@ -2,19 +2,19 @@ import { getUserById } from "../../utils/userService";
 import "./UserPanel.css";
 import { useEffect, useState } from "react";
 
-export const UserPanel = ({ user, listings }) => {
+export const UserPanel = ({ uid, listings }) => {
+  console.log("panel uid: " + uid);
   const [isLoading, setIsLoading] = useState(true);
   const [userProf, setUserProf] = useState({});
-  // const [hasUsername, setHasUsername] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
-      let response = await getUserById(user.uid);
+      let response = await getUserById(uid);
       setUserProf(response["data"]);
       setIsLoading(false);
     };
     getUser();
-  }, [user.uid]);
+  }, [uid]);
 
   if (isLoading) {
     return;

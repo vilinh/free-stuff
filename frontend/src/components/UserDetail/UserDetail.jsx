@@ -11,6 +11,7 @@ export default function UserDetail() {
   useEffect(() => {
     const getUser = async () => {
       try {
+        console.log("detail uid: " + uid);
         let res = await axios.get(`http://localhost:8000/user/${uid}`);
         setUser(res.data);
       } catch (error) {
