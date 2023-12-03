@@ -6,25 +6,34 @@ import axios from "axios";
 import "./ListingPage.css";
 import { useLocationContext } from "../../context/Location/LocationContext";
 import { CircularProgress } from "@mui/material";
+import {
+  getListingsByCoordinates,
+  getListingsSorted,
+  loadListings,
+} from "../../utils/listingService";
 
 export const ListingPage = () => {
   const [listings, setListings] = useState([]);
-  const location = useLocation();
-  const { address } = useLocationContext();
+  const { address, location } = useLocationContext();
 
   useEffect(() => {
     const getListings = async () => {
       try {
-        let res = await axios.get(
-          `http://localhost:8000/listing?location=${location.search}`
-        );
+        let res = null;
+        let lat = location?.latitude;
+        let lng = location?.longitude;
+        if (lat && lng) {
+          res = await getListingsByCoordinates(lat, lng);
+        } else {
+          res = await getListingsSorted();
+        }
         setListings(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     getListings();
-  }, []);
+  }, [address]);
 
   return (
     <div className="listing-page">
