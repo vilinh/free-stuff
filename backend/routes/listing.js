@@ -240,7 +240,9 @@ async function getListings(
       }
     }
   }
-
+  if (Object.keys(sort_by).length === 0) {
+    sort_by["details.posted_date"] = -1;
+  }
   /* Other stuff */
   if (!index) {
     index = 100;
