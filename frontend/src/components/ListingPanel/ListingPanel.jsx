@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Skeleton } from "@mui/material";
+import Spinner from "@cloudscape-design/components/spinner";
 import "./ListingPanel.css";
 import { useAuth } from "../../context/Auth/AuthContext";
 import { updateListingById } from "../../utils/listingService";
@@ -86,7 +86,7 @@ export const ListingPanel = ({ listing }) => {
     <div className="listing-wrapper">
       <div className="listing-panel">
         <div className="listing-r">
-          {image ? <img className="listing-img" src={image} /> : <Skeleton variant="rectangular" width={300} height={300} />}
+          {image ? <img className="listing-img" src={image} /> : <Spinner />}
         </div>
         <div className="listing-l">
           <span
