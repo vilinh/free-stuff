@@ -25,9 +25,9 @@ async function addUser(user) {
   }
 }
 
-async function updateUserById(id, user) {
+async function updateUserById(uid, user) {
   try {
-    await userModel.findByIdAndUpdate(id, user);
+    return await userModel.findOneAndUpdate({ uid }, user);
   } catch (error) {
     return undefined;
   }
