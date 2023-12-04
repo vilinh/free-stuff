@@ -1,20 +1,32 @@
 import { getUserById } from "../../utils/userService";
 import "./UserPanel.css";
 import { useEffect, useState } from "react";
+import { getImageFromId } from "../../utils/imageService";
 
 export const UserPanel = ({ uid, listings }) => {
-  console.log("panel uid: " + uid);
   const [isLoading, setIsLoading] = useState(true);
   const [userProf, setUserProf] = useState({});
+  const [image, setImage] = useState(
+    "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+  );
 
   useEffect(() => {
+    const getImage = async () => {
+      if (Object.hasOwn(userProf, "profile_pic") && userProf.profile_pic) {
+        const res = await getImageFromId(userProf.profile_pic);
+        if (res) {
+          setImage(res.data.base64);
+        }
+      }
+    };
     const getUser = async () => {
       let response = await getUserById(uid);
       setUserProf(response["data"]);
       setIsLoading(false);
     };
     getUser();
-  }, [uid]);
+    getImage();
+  }, [uid, userProf]);
 
   if (isLoading) {
     return;
@@ -23,12 +35,7 @@ export const UserPanel = ({ uid, listings }) => {
   return (
     <div className="user-panel">
       <div className="user-l">
-        <img
-          className="user-pfp"
-          src={
-            "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
-          }
-        />
+        <img className="user-pfp" src={image} />
       </div>
       <div className="user-r">
         <span className="user-loc">
