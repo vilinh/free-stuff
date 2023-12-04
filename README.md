@@ -27,13 +27,14 @@ Broke Blessings is an online website where you can discover and share free stuff
   - `npm install`
   - add `firebase.js` to `frontend/src`
   - add `.env` to `frontend`
-    - set `REACT_APP_GOOGLE_MAPS_API_KEY=<your_google_maps_api_key>` 
+    - set `REACT_APP_GOOGLE_MAPS_API_KEY=<your_google_maps_api_key>`
 
 3. Backend
   - `cd backend`
   - `npm install`
   - add `.env` to `backend`
-    - Set `DATABASE_URL="<your_mongo_connection_string>"`
+    - set `DATABASE_URL="<your_mongo_connection_string>"`
+    - set `GOOGLE_MAPS_API_KEY="<your_google_maps_api_key>"`
 
 ---
 ### Running the app
