@@ -25,6 +25,8 @@ export const EditUser = ({ listing }) => {
   const [displayName, setDisplayName] = useState("");
   const [imageId, setImageId] = useState("");
   const [imageName, setImageName] = useState("");
+  const [imageUpdated, setImageUpdated] = useState(false);
+  const [hasProfilePic, setHasProfilePic] = useState(true);
   const [base64, setBase64] = useState("");
   const [displayLocation, setDisplayLocation] = useState("");
   const [biography, setBiography] = useState("");
@@ -41,8 +43,9 @@ export const EditUser = ({ listing }) => {
         const { display_name, profile_pic, display_location, biography } = user;
 
         let imageRes = await getImageFromId(profile_pic);
-        if (imageRes === undefined) {
+        if (!imageRes) {
           imageRes = { data: { base64: "", name: "" } };
+          setHasProfilePic(false);
         }
         const { base64, name } = imageRes.data;
 
@@ -81,24 +84,40 @@ export const EditUser = ({ listing }) => {
       profile_pic: origUser.profile_pic ?? "",
     };
 
-    if (isEqual(user, orig)) {
+    if (isEqual(user, orig) && !imageUpdated) {
       setCanSubmit(false);
     } else {
       setUpdatedUser(user);
       setCanSubmit(true);
     }
-  }, [displayName, displayLocation, biography, imageId]);
+  }, [displayName, displayLocation, biography, imageId, imageUpdated]);
 
   const submitUser = async () => {
     setCanSubmit(false);
-
-    if (base64 !== "") {
+    let id = "";
+    if (hasProfilePic) {
       await updateImageById(imageId, {
         base64: base64,
-        name: currentUser.email,
+        name: imageName,
       });
+      id = imageId;
+    } else {
+      const imgRes = await postImage({
+        base64: base64,
+        name: imageName,
+      });
+      id = imgRes.data._id;
+      setImageId(id);
     }
-    const res = await updateUserById(currentUser.uid, updatedUser);
+    const user = {
+      display_name: displayName,
+      display_location: displayLocation,
+      biography: biography,
+      profile_pic: id,
+    };
+
+    console.log(user);
+    const res = await updateUserById(currentUser.uid, user);
     if (res) {
       createNotif(NotifMsg.EDIT_PROFILE_SUCCESS, NotifType.SUCCESS);
     } else {
@@ -108,9 +127,7 @@ export const EditUser = ({ listing }) => {
   };
 
   const handleImageUpload = async (e) => {
-    if (e.target.files.length === 0) {
-      return;
-    }
+    setImageUpdated(true);
     const file = e.target.files[0];
     if (file && file.size > 1000000) {
       setBase64("");
@@ -130,11 +147,9 @@ export const EditUser = ({ listing }) => {
     <div className="create-listing-div">
       <h1>Edit User</h1>
       <InputFileUpload handleImageUpload={handleImageUpload}></InputFileUpload>
-      {base64 === "" ? (
-        <p>No profile image selected.</p>
-      ) : (
-        <img src={base64} width={200} height={200} />
-      )}
+      {base64 && <img src={base64} width={200} height={200} />}
+      {imageName && <p>{imageName}</p>}
+
       <TextField
         label="Display Name"
         id="filled-basic"

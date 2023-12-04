@@ -49,6 +49,7 @@ export const EditListing = ({ listing }) => {
   const [quantity, setQuantity] = useState(1);
   const [condition, setCondition] = useState("");
   const [imageId, setImageId] = useState("");
+  const [imageUpdated, setImageUpdated] = useState(false);
   const [base64, setBase64] = useState("");
   const [imageName, setImageName] = useState("");
   const [location, setLocation] = useState({});
@@ -115,9 +116,10 @@ export const EditListing = ({ listing }) => {
       details: details,
       image: imageId,
     };
+
     console.log(listing);
 
-    if (isEqual(listing, ogListing)) {
+    if (isEqual(listing, ogListing) && !imageUpdated) {
       setCanSubmit(false);
     } else if (
       !title ||
@@ -178,6 +180,7 @@ export const EditListing = ({ listing }) => {
   };
 
   const handleImageUpload = async (e) => {
+    setImageUpdated(true);
     const file = e.target.files[0];
     if (file && file.size > 1000000) {
       setBase64("");
