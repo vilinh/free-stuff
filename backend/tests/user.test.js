@@ -51,7 +51,7 @@ test("test update user by id", async () => {
   const user = await findUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
   user.email = "newtest@gmail.com";
 
-  const update = await updateUserById(user.id, user);
+  const update = await updateUserById(user.uid, user);
   const after_result = await findUserByUid("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
 
   // expected = {
