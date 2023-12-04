@@ -27,6 +27,7 @@ export const SearchResults = () => {
   const [catTokensSet, setCatTokensSet] = useState(new Set());
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [searchDistance, setSearchDistance] = useState(20);
+  const [sortToggle, setSortToggle] = useState(false);
   let [searchParams, setSearchParams] = useSearchParams();
 
   const navigate = useNavigate();
@@ -120,15 +121,13 @@ export const SearchResults = () => {
   const handleSort = (sort) => {
     switch (sort) {
       case SortBy.DatePosted:
-        setListings(
-          listings.sort((a, b) =>
-            a.details.posted_date > b.details.posted_date
-              ? 1
-              : b.details.posted_date > a.details.posted_date
-              ? -1
-              : 0
-          )
-        );
+        let tmp = listings.sort((a, b) => {
+          return sortToggle
+            ? new Date(b.details.posted_date) - new Date(a.details.posted_date)
+            : new Date(a.details.posted_date) - new Date(b.details.posted_date);
+        });
+        setSortToggle(!sortToggle);
+        setListings([...tmp]);
         break;
       default:
         return;
