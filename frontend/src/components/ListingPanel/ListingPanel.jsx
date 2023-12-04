@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Spinner from "@cloudscape-design/components/spinner";
-import { getImageFromId } from "../../utils/imageService";
+import { Skeleton } from "@mui/material";
 import "./ListingPanel.css";
 import { useAuth } from "../../context/Auth/AuthContext";
 import { updateListingById } from "../../utils/listingService";
@@ -9,20 +8,12 @@ import { getUserById, updateUserById } from "../../utils/userService";
 export const ListingPanel = ({ listing }) => {
   const hasAddress = listing.hasOwnProperty("location");
   const hasDistance = listing.hasOwnProperty("distance");
-  const [image, setImage] = useState("");
   const [claimListing, setClaimListing] = useState(true);
   const [author, setAuthor] = useState("");
   const [user, setUser] = useState();
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    const getImage = async () => {
-      const res = await getImageFromId(listing.image);
-      if (res) {
-        setImage(res.data.base64);
-      }
-    };
-
     const getListingAuthor = async () => {
       const res = await getUserById(listing.user_id);
       if (res) {
@@ -39,7 +30,6 @@ export const ListingPanel = ({ listing }) => {
 
     const userInQueue = listing.claim_queue.indexOf(currentUser.uid) !== -1;
     setClaimListing(userInQueue);
-    getImage();
     getListingAuthor();
     getCurrentUser();
   }, []);
@@ -83,7 +73,7 @@ export const ListingPanel = ({ listing }) => {
     <div className="listing-wrapper">
       <div className="listing-panel">
         <div className="listing-r">
-          {image ? <img className="listing-img" src={image} /> : <Spinner />}
+          {listing.image ? <img className="listing-img" src={listing.image} /> : <Skeleton variant="rectangular" width={300} height={300} />}
         </div>
         <div className="listing-l">
           <span className="listing-date">
@@ -95,7 +85,7 @@ export const ListingPanel = ({ listing }) => {
           </h3>
           <div className="listing-proximity">
             {hasDistance ? (
-              <span>{listing.distance} miles away</span>
+              <span>{listing.distance.toFixed(2)} miles away</span>
             ) : (
               <span></span>
             )}

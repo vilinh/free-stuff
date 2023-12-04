@@ -27,7 +27,12 @@ export const ListingPage = () => {
         } else {
           res = await getListingsSorted();
         }
-        setListings(res.data);
+        // setListings(res.data);
+        console.log(res)
+        loadListings(res, (data) => {
+          console.log(data)
+          setListings(data)
+        })
       } catch (error) {
         console.log(error);
       }

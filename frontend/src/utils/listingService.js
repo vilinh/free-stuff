@@ -82,15 +82,21 @@ async function getListingByDistance(data) {
 
 function loadListings(res, callback) {
   let promises = [];
-  res.data.forEach(async (item) => {
-    promises.push(getImageFromId(item.image));
-  });
-  Promise.all(promises).then((values) => {
-    res.data.forEach((item, i) => {
-      item.image = values[i].data.base64;
-    });
-    callback(res.data);
-  });
+  if (res) {
+    res.data.forEach(async (item) => {
+			promises.push(getImageFromId(item.image));
+		});
+		Promise.all(promises).then((values) => {
+			res.data.forEach((item, i) => {
+				if (values[i]) {
+          item.image = values[i].data.base64;
+        }
+			});
+			callback(res.data);
+		});
+  } else {
+    callback(null)
+  }
 }
 
 export {
