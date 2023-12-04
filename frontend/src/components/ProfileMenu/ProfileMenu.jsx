@@ -69,6 +69,14 @@ export default function ProfileMenu() {
         >
           My Listings Details
         </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate("/editUser");
+          }}
+        >
+          Edit Profile
+        </MenuItem>
       </Menu>
     </div>
   );

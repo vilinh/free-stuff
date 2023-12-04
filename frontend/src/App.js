@@ -18,6 +18,7 @@ import MyListingsDetails from "./components/MyListingsDetails/MyListingsDetails"
 import { useNotif } from "./context/Notifications/NotificationContext";
 import { Alert } from "@mui/material";
 import UserDetail from "./components/UserDetail/UserDetail";
+import { EditUser } from "./components/EditUser/EditUser";
 
 let template_listing = {
   title: "T-shirt",
@@ -70,6 +71,14 @@ function App() {
           element={
             <ProtectedRoute user={currentUser}>
               <UserDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/editUser"
+          element={
+            <ProtectedRoute user={currentUser}>
+              <EditUser />
             </ProtectedRoute>
           }
         />

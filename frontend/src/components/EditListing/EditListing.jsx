@@ -31,9 +31,9 @@ import InputFileUpload from "../InputFileUpload/InputFileUpload";
 import { useParams } from "react-router-dom";
 import { isEqual } from "lodash";
 import {
-	NotifMsg,
-	NotifType,
-	useNotif,
+  NotifMsg,
+  NotifType,
+  useNotif,
 } from "../../context/Notifications/NotificationContext";
 import { DeleteModal } from "../DeleteModal/DeleteModal";
 
@@ -115,6 +115,7 @@ export const EditListing = ({ listing }) => {
       details: details,
       image: imageId,
     };
+    console.log(listing);
 
     if (isEqual(listing, ogListing)) {
       setCanSubmit(false);
@@ -122,7 +123,7 @@ export const EditListing = ({ listing }) => {
       !title ||
       !description ||
       categories.length === 0 ||
-      !condition ||
+      condition === undefined ||
       !base64 ||
       Object.keys(location).length === 0
     ) {
@@ -135,37 +136,37 @@ export const EditListing = ({ listing }) => {
 
   const submitListing = async () => {
     setCanSubmit(false);
-    
-		await updateImageById(imageId, {
-			base64: base64,
-			name: imageName,
-		});
-		const res = await updateListingById(id, updatedListing);
-		if (res) {
-			createNotif(NotifMsg.EDIT_LISTING_SUCCESS, NotifType.SUCCESS);
-		} else {
-			createNotif(NotifMsg.EDIT_LISTING_ERROR, NotifType.ERROR);
-		}
 
-		navigate("/user");
-	};
+    await updateImageById(imageId, {
+      base64: base64,
+      name: imageName,
+    });
+    const res = await updateListingById(id, updatedListing);
+    if (res) {
+      createNotif(NotifMsg.EDIT_LISTING_SUCCESS, NotifType.SUCCESS);
+    } else {
+      createNotif(NotifMsg.EDIT_LISTING_ERROR, NotifType.ERROR);
+    }
+
+    navigate("/user");
+  };
 
   const handleConditionSelected = (event) => {
     setCondition(event.target.value);
   };
 
-	const handlePlaceSelected = (place) => {
-		const latitude = place.geometry.location.lat();
-		const longitude = place.geometry.location.lng();
-		const address = place.formatted_address;
-		const loc = {
-			address,
-			latlng: {
-				type: "Point",
-				coordinates: [longitude, latitude],
-			},
-		};
-		setLocation(loc);
+  const handlePlaceSelected = (place) => {
+    const latitude = place.geometry.location.lat();
+    const longitude = place.geometry.location.lng();
+    const address = place.formatted_address;
+    const loc = {
+      address,
+      latlng: {
+        type: "Point",
+        coordinates: [longitude, latitude],
+      },
+    };
+    setLocation(loc);
   };
 
   const handleQuantityChange = (e) => {
@@ -175,33 +176,33 @@ export const EditListing = ({ listing }) => {
     }
     setQuantity(value);
   };
-  
-	const handleImageUpload = async (e) => {
-		const file = e.target.files[0];
-		if (file && file.size > 1000000) {
-			setBase64("");
-			setImageName("Error: file size limit exceeded");
-		} else if (file) {
-			const base64 = await convertBase64(file);
-			setBase64(base64);
-			setImageName(file.name);
-		}
-	};
 
-	if (isLoading) {
-		return <CircularProgress />;
-	}
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file && file.size > 1000000) {
+      setBase64("");
+      setImageName("Error: file size limit exceeded");
+    } else if (file) {
+      const base64 = await convertBase64(file);
+      setBase64(base64);
+      setImageName(file.name);
+    }
+  };
 
-	const deleteListing = async () => {
-		const res = await deleteListingById(id);
-		if (res) {
-			createNotif(NotifMsg.DELETE_LISTING_SUCCESS, NotifType.SUCCESS);
-		} else {
-			createNotif(NotifMsg.DELETE_LISTING_ERROR, NotifType.ERROR)
-		}
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
-		navigate("/user");
-	};
+  const deleteListing = async () => {
+    const res = await deleteListingById(id);
+    if (res) {
+      createNotif(NotifMsg.DELETE_LISTING_SUCCESS, NotifType.SUCCESS);
+    } else {
+      createNotif(NotifMsg.DELETE_LISTING_ERROR, NotifType.ERROR);
+    }
+
+    navigate("/user");
+  };
 
   return (
     <div className="create-listing-div">
@@ -257,50 +258,50 @@ export const EditListing = ({ listing }) => {
         />
       </div>
 
-			<div className="details">
-				<FormControl>
-					<InputLabel id="conditionSelectLabel">Condition</InputLabel>
-					<Select
-						labelId="conditionSelectLabel"
-						id="conditionSelect"
-						value={condition}
-						onChange={handleConditionSelected}
-					>
-						{conditionOptions.map(({ value, label }, index) => (
-							<MenuItem key={index} value={value}>
-								{label}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
-				<CustomAutocomplete
-					multiple
-					id="tags-categories"
-					options={categoryOptions}
-					value={categories}
-					onChange={(event, value) => {
-						setCategories(value);
-					}}
-					renderInput={(params) => (
-						<TextField {...params} label="Categories" placeholder="" />
-					)}
-				/>
-			</div>
-			<Button
-				color="error"
-				variant="outlined"
-				onClick={() => setDeleteModal(true)}
-			>
-				Delete Listing
-			</Button>
-			<Button variant="contained" onClick={submitListing} disabled={!canSubmit}>
-				Submit
-			</Button>
-			<DeleteModal
-				deleteListing={deleteListing}
-				open={deleteModal}
-				setOpen={setDeleteModal}
-			></DeleteModal>
-		</div>
-	);
+      <div className="details">
+        <FormControl>
+          <InputLabel id="conditionSelectLabel">Condition</InputLabel>
+          <Select
+            labelId="conditionSelectLabel"
+            id="conditionSelect"
+            value={condition}
+            onChange={handleConditionSelected}
+          >
+            {conditionOptions.map(({ value, label }, index) => (
+              <MenuItem key={index} value={value}>
+                {label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <CustomAutocomplete
+          multiple
+          id="tags-categories"
+          options={categoryOptions}
+          value={categories}
+          onChange={(event, value) => {
+            setCategories(value);
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Categories" placeholder="" />
+          )}
+        />
+      </div>
+      <Button
+        color="error"
+        variant="outlined"
+        onClick={() => setDeleteModal(true)}
+      >
+        Delete Listing
+      </Button>
+      <Button variant="contained" onClick={submitListing} disabled={!canSubmit}>
+        Submit
+      </Button>
+      <DeleteModal
+        deleteListing={deleteListing}
+        open={deleteModal}
+        setOpen={setDeleteModal}
+      ></DeleteModal>
+    </div>
+  );
 };
