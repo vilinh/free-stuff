@@ -24,7 +24,6 @@ export const UserPage = (uid) => {
         requestUid = uid["uid"];
       }
       setProfileUid(requestUid);
-      console.log("userpage: " + requestUid);
       try {
         let res = await axios.get(
           `http://localhost:8000/listing/user/${requestUid}`,
