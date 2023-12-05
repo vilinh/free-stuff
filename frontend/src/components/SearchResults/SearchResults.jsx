@@ -28,96 +28,125 @@ export const SearchResults = () => {
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [searchDistance, setSearchDistance] = useState(20);
   const [sortToggle, setSortToggle] = useState(false);
-  let [searchParams, setSearchParams] = useSearchParams();
-
+  const [defaultSort, setDefaultSort] = useState("latest");
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { createNotif } = useNotif();
-
   const { address, location } = useLocationContext();
 
   const term = searchParams.get("term");
+  const sort = searchParams.get("sort");
+  const condition = searchParams.get("condition");
+  const claimed = searchParams.get("claimed");
 
   useEffect(() => {
-    // get categories from query if there are any
-    let categories = searchParams.get("categories");
-    let categoriesCommas = "";
-    console.log(window.location.href);
-    // handle category tokens
-    if (categories !== null && categories.length) {
-      let cats = categories.split("_");
-      cats = cats.map((c) => c.charAt(0).toUpperCase() + c.slice(1));
-      handleSelectCategories(cats);
-      categoriesCommas = cats.join(",");
-    }
+    ///handle category tokens
+    let categoriesCommas = [...catTokensSet].join(",");
 
     // get listings based on filters
     const getListings = async () => {
-      try {
-        setIsLoading(true);
-        let query = `http://localhost:8000/listing?
-				&title=${term ?? ""}&categories=${categoriesCommas ?? ""}
-				`;
+      let query = `http://localhost:8000/listing?&title=${
+        term ?? ""
+      }&categories=${categoriesCommas ?? ""}&claimed=${claimed ?? ""}&sort=${
+        sort ?? ""
+      }`;
+
+      if (
+        location &&
+        Object.hasOwn(location, "latitude") &&
+        Object.hasOwn(location, "longitude")
+      ) {
         let lat = location.latitude;
         let lng = location.longitude;
         if (lat && lng) {
-          query = `http://localhost:8000/listing?&title=${
-            term ?? ""
-          }&categories=${
-            categoriesCommas ?? ""
-          }&latlng=${lat},${lng}&radius=10`;
+          query += `&latlng=${lat},${lng}&radius=${searchDistance}`;
         }
+        setDefaultSort("location");
+        if (defaultSort === "latest") {
+          let url = new URL(window.location.href);
+          let params = new URLSearchParams(url.search);
+          params.set("sort", "location");
+          params.toString();
+          if (params) {
+            navigate(`/search?${params.toString()}`);
+          }
+        }
+      }
+
+      try {
+        setIsLoading(true);
+
+        console.log(query);
         let res = await axios.get(query);
         loadListings(res, (data) => {
           setListings(data);
           setAllListings(data);
           setIsLoading(false);
         });
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     getListings();
-  }, [searchParams]);
+  }, [searchParams, location, catTokensSet]);
 
-  useEffect(() => {
-    // console.log(status, catTokens);
-    let filtered = allListings;
-    if (status === ListingStatus.Claimed) {
-      filtered = filtered.filter((l) => l.claimed);
-    } else if (status === ListingStatus.Unclaimed) {
-      filtered = filtered.filter((l) => !l.claimed);
+  // useEffect(() => {
+  //   // console.log(status, catTokens);
+  //   let filtered = allListings;
+  //   if (status === ListingStatus.Claimed) {
+  //     filtered = filtered.filter((l) => l.claimed);
+  //   } else if (status === ListingStatus.Unclaimed) {
+  //     filtered = filtered.filter((l) => !l.claimed);
+  //   }
+  //   setListings(filtered);
+  //   // console.log(filtered);
+  // }, [status, allListings]);
+
+  // useEffect(() => {
+  //   // redirect based on categories selections
+  //   if (catTokens.length) {
+  //     // if there are selected tokens, set the categories query
+  //     let cats = catTokens.map((catToken) => catToken.label);
+  //     let catURL = cats.join("_");
+  //
+  //     // replace current URL with changed category filters
+  //     let url = new URL(window.location.href);
+  //     let params = new URLSearchParams(url.search);
+  //     params.set("categories", catURL);
+  //     params.toString();
+  //     console.log(params.toString());
+  //     if (params !== null) {
+  //       navigate(`/search?${params.toString()}`);
+  //     }
+  //   } else {
+  //     // if there are no selected tokens, remove categories query
+  //     let url = new URL(window.location.href);
+  //     let params = new URLSearchParams(url.search);
+  //     params.delete("categories");
+  //     params.toString();
+  //     console.log(params.toString());
+  //     if (params !== null) {
+  //       navigate(`/search?${params.toString()}`);
+  //     }
+  //   }
+  // }, [catTokens, searchDistance]);
+
+  const handleClaimed = (opt) => {
+    setStatus(opt);
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    if (opt === ListingStatus.Any) {
+      params.set("claimed", "");
+    } else if (opt === ListingStatus.Claimed) {
+      params.set("claimed", "true");
+    } else if (opt === ListingStatus.Unclaimed) {
+      params.set("claimed", "false");
     }
-    setListings(filtered);
-    // console.log(filtered);
-  }, [status, allListings]);
-
-  useEffect(() => {
-    // redirect based on categories selections
-    if (catTokens.length) {
-      // if there are selected tokens, set the categories query
-      let cats = catTokens.map((catToken) => catToken.label);
-      let catURL = cats.join("_");
-
-      // replace current URL with changed category filters
-      let url = new URL(window.location.href);
-      let params = new URLSearchParams(url.search);
-      params.set("categories", catURL);
-      params.toString();
-      console.log(params.toString());
-      if (params !== null) {
-        navigate(`/search?${params.toString()}`);
-      }
-    } else {
-      // if there are no selected tokens, remove categories query
-      let url = new URL(window.location.href);
-      let params = new URLSearchParams(url.search);
-      params.delete("categories");
-      params.toString();
-      console.log(params.toString());
-      if (params !== null) {
-        navigate(`/search?${params.toString()}`);
-      }
+    params.toString();
+    if (params) {
+      navigate(`/search?${params.toString()}`);
     }
-  }, [catTokens]);
-
+  };
   const handleSort = (sort) => {
     switch (sort) {
       case SortBy.DatePosted:
@@ -145,22 +174,24 @@ export const SearchResults = () => {
     }
   };
 
-  const handleSelectCategories = (cats) => {
-    let newCats = [];
-    let newCatTokens = [];
-    cats.forEach((c) => {
-      if (catTokensSet.has(c) === false) {
-        newCats.push(c);
-        newCatTokens.push({ label: c, dismissLabel: `Remove ${c}` });
-      }
-    });
-    setCatTokensSet(new Set([...catTokensSet, ...newCats]));
-    setCatTokens([...catTokens, ...newCatTokens]);
-  };
+  // const handleSelectCategories = (cats) => {
+  //   let newCats = [];
+  //   let newCatTokens = [];
+  //   cats.forEach((c) => {
+  //     if (catTokensSet.has(c) === false) {
+  //       newCats.push(c);
+  //       newCatTokens.push({ label: c, dismissLabel: `Remove ${c}` });
+  //     }
+  //   });
+  //   setCatTokensSet(new Set([...catTokensSet, ...newCats]));
+  //   setCatTokens([...catTokens, ...newCatTokens]);
+  // };
 
   const handleRemoveCategory = (itemIndex) => {
     setCatTokensSet(
-      new Set([...catTokensSet].filter((x) => x !== catTokens[itemIndex].label))
+      new Set(
+        [...catTokensSet].filter((x) => x !== catTokens[itemIndex].label),
+      ),
     );
     setCatTokens([
       ...catTokens.slice(0, itemIndex),
@@ -174,22 +205,7 @@ export const SearchResults = () => {
       createNotif(NotifMsg.LOCATION_ERROR, NotifType.ERROR);
       return;
     }
-
-    setIsLoading(true);
-    const pay_load = {
-      max_dist: dist,
-      address: address,
-    };
-    const res = await getListingByDistance(pay_load);
-    if (res) {
-      loadListings(res, (data) => {
-        setSearchDistance(dist);
-        setListings(data);
-        setIsLoading(false);
-      });
-    } else {
-      setIsLoading(false);
-    }
+    setSearchDistance(dist);
   };
 
   return (
@@ -244,7 +260,7 @@ export const SearchResults = () => {
             <h4>Status</h4>
             <div className="status-buttons">
               <RadioGroup
-                onChange={({ detail }) => setStatus(detail.value)}
+                onChange={({ detail }) => handleClaimed(detail.value)}
                 value={status}
                 items={[
                   { value: ListingStatus.Any, label: ListingStatus.Any },
@@ -291,9 +307,29 @@ export const SearchResults = () => {
               }}
               items={[
                 {
-                  text: SortBy.DatePosted,
-                  id: SortBy.DatePosted,
-                  disabled: false,
+                  text: SortBy.Location,
+                  id: SortBy.Location,
+                  disabled: address === "",
+                },
+                {
+                  text: SortBy.Earliest,
+                  id: SortBy.Earliest,
+                },
+                {
+                  text: SortBy.Latest,
+                  id: SortBy.Latest,
+                },
+                {
+                  text: SortBy.Title,
+                  id: SortBy.Title,
+                },
+                {
+                  text: SortBy.Location,
+                  id: SortBy.Location,
+                },
+                {
+                  text: SortBy.Condition,
+                  id: SortBy.Condition,
                 },
               ]}
             >
