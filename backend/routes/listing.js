@@ -223,6 +223,7 @@ async function getListings(
     sort_by["details.posted_date"] = -1;
   } else {
     for (let s of sanitize(sort).split(",")) {
+      s = s.toLowerCase();
       if (s === "earliest") {
         sort_by["details.posted_date"] = 1;
       }

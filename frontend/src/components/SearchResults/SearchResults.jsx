@@ -28,7 +28,6 @@ export const SearchResults = () => {
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [searchDistance, setSearchDistance] = useState(20);
   const [sortToggle, setSortToggle] = useState(false);
-  const [defaultSort, setDefaultSort] = useState("latest");
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { createNotif } = useNotif();
@@ -60,16 +59,6 @@ export const SearchResults = () => {
         let lng = location.longitude;
         if (lat && lng) {
           query += `&latlng=${lat},${lng}&radius=${searchDistance}`;
-        }
-        setDefaultSort("location");
-        if (defaultSort === "latest") {
-          let url = new URL(window.location.href);
-          let params = new URLSearchParams(url.search);
-          params.set("sort", "location");
-          params.toString();
-          if (params) {
-            navigate(`/search?${params.toString()}`);
-          }
         }
       }
 
@@ -148,18 +137,12 @@ export const SearchResults = () => {
     }
   };
   const handleSort = (sort) => {
-    switch (sort) {
-      case SortBy.DatePosted:
-        let tmp = listings.sort((a, b) => {
-          return sortToggle
-            ? new Date(b.details.posted_date) - new Date(a.details.posted_date)
-            : new Date(a.details.posted_date) - new Date(b.details.posted_date);
-        });
-        setSortToggle(!sortToggle);
-        setListings([...tmp]);
-        break;
-      default:
-        return;
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    params.set("sort", sort);
+    params.toString();
+    if (params) {
+      navigate(`/search?${params.toString()}`);
     }
   };
 
@@ -312,24 +295,20 @@ export const SearchResults = () => {
                   disabled: address === "",
                 },
                 {
-                  text: SortBy.Earliest,
-                  id: SortBy.Earliest,
-                },
-                {
                   text: SortBy.Latest,
                   id: SortBy.Latest,
                 },
                 {
-                  text: SortBy.Title,
-                  id: SortBy.Title,
-                },
-                {
-                  text: SortBy.Location,
-                  id: SortBy.Location,
+                  text: SortBy.Earliest,
+                  id: SortBy.Earliest,
                 },
                 {
                   text: SortBy.Condition,
                   id: SortBy.Condition,
+                },
+                {
+                  text: SortBy.Title,
+                  id: SortBy.Title,
                 },
               ]}
             >
