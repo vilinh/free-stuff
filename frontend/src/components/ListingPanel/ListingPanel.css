@@ -66,10 +66,12 @@
 }
 
 .listing-date {
-  font-size: 0.6rem;
+  color: var(--subtext-gray);
+  font-size: 0.8rem;
 }
 
 .listing-profile-link {
+  margin-top: 1rem;
   font-size: 0.8rem;
   color: #0972D3;
   cursor: pointer;
