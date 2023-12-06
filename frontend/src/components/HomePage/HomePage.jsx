@@ -35,23 +35,6 @@ export const HomePage = () => {
       setIsLoading(true);
       let lat = location.latitude;
       let lng = location.longitude;
-
-      if (!(lat && lng)) {
-        const locRes = await getLocationFromUser();
-        if (
-          locRes &&
-          Object.hasOwn(locRes, "location") &&
-          Object.hasOwn(locRes.location, "latitude") &&
-          Object.hasOwn(locRes.location, "longitude") &&
-          Object.hasOwn(locRes.location, "address")
-        ) {
-          setLocation({
-            latitude: locRes.location.latitude,
-            longitude: locRes.location.longitude,
-          });
-          setAddress(locRes.location.address);
-        }
-      }
       try {
         let res = null;
         if (lat && lng) {
@@ -69,7 +52,7 @@ export const HomePage = () => {
       }
     };
     getListings();
-  }, [address]);
+  }, [location, address]);
 
   return (
     <div className="container">

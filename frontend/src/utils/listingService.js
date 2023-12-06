@@ -51,7 +51,7 @@ async function getListingsSorted() {
 async function getListingsByCoordinates(lat, lng) {
   try {
     return await axios.get(
-      `http://localhost:8000/listing?latlng=${lat},${lng}&sort=location`,
+      `http://localhost:8000/listing?latlng=${lat},${lng}&radius=100&sort=location`
     );
   } catch (error) {
     console.log(error);
@@ -81,7 +81,7 @@ async function getListingByDistance(data) {
   try {
     return await axios.post(
       "http://localhost:8000/listing/distance-search",
-      data,
+      data
     );
   } catch (error) {
     console.log(error);
