@@ -2,6 +2,7 @@ import { getUserById } from "../../utils/userService";
 import "./UserPanel.css";
 import { useEffect, useState } from "react";
 import { getImageFromId } from "../../utils/imageService";
+import { useAuth } from "../../context/Auth/AuthContext";
 
 export const UserPanel = ({ uid, listings }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +10,7 @@ export const UserPanel = ({ uid, listings }) => {
   const [image, setImage] = useState(
     "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
   );
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const getImage = async () => {
@@ -47,6 +49,16 @@ export const UserPanel = ({ uid, listings }) => {
         <span className="user-details">
           {userProf.display_name ? userProf.email : ""}
         </span>
+        <div>
+          {currentUser.uid !== uid && (
+            <button
+              id="contact-btn"
+              onClick={() => (window.location = `mailto:${userProf.email}`)}
+            >
+              Contact Me
+            </button>
+          )}
+        </div>
         <span className="user-details">
           {listings ?? "0"} {listings === 1 ? "listing" : "listings"}
         </span>
