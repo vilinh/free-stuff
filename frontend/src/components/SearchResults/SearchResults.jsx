@@ -79,7 +79,7 @@ export const SearchResults = () => {
       }
     };
     getListings();
-  }, [searchParams, location, catTokensSet]);
+  }, [searchParams, location, catTokensSet, searchDistance]);
 
   const handleClaimed = (opt) => {
     setStatus(opt);
