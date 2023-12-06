@@ -140,7 +140,7 @@ export const ListingPanel = ({ listing }) => {
     <div className="listing-wrapper">
       <div className="listing-panel">
         <div className="listing-r">
-          {image ? <img className="listing-img" src={image} /> : <Spinner />}
+          {image ? <img className="listing-img" src={image} width={200} height={200}/> : <Spinner />}
         </div>
         <div className="listing-l">
           <h2 className="listing-title">{listing.title}</h2>

@@ -17,16 +17,10 @@ beforeAll(async () => {
 });
 
 test("test find user by uid", async () => {
-  const result = await findUserByUid("NMKUKXrdEGQZQIEqUdUqIcGII3s2");
-
-  // expected = {
-  //   _id: ObjectId("653965a70e851cb263979365"),
-  //   uid: "NMKUKXrdEGQZQIEqUdUqIcGII3s2",
-  //   email: "klvbubble@gmail.com"
-  // };
+  const result = await findUserByUid("nVspFOWRfGbwRdnYu0NP6lJIdEr2");
 
   expect(result.email).toBe("klvbubble@gmail.com");
-  expect(result.id).toBe("653965a70e851cb263979365");
+  expect(result.id).toBe("653aaebd996a557efdec1ed2");
 });
 
 test("test add user", async () => {
