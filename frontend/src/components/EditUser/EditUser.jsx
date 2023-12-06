@@ -129,7 +129,7 @@ export const EditUser = ({ listing }) => {
   const handleImageUpload = async (e) => {
     setImageUpdated(true);
     const file = e.target.files[0];
-    if (file && file.size > 1000000) {
+    if (file && file.size > 15000) {
       setBase64("");
       setImageName("Error: file size limit exceeded");
     } else if (file) {
