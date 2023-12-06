@@ -39,6 +39,7 @@ export const HomePage = () => {
       if (!(lat && lng)) {
         const locRes = await getLocationFromUser();
         if (
+          locRes &&
           Object.hasOwn(locRes, "location") &&
           Object.hasOwn(locRes.location, "latitude") &&
           Object.hasOwn(locRes.location, "longitude") &&
