@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import RadioGroup from "@cloudscape-design/components/radio-group";
 import ButtonDropdown from "@cloudscape-design/components/button-dropdown";
 import axios from "axios";
-import { Categories, ListingStatus, SortBy } from "../../utils/enum";
+import { Condition, Categories, ListingStatus, SortBy } from "../../utils/enum";
 import Spinner from "@cloudscape-design/components/spinner";
 import TokenGroup from "@cloudscape-design/components/token-group";
+import Multiselect from "@cloudscape-design/components/multiselect";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Button from "@cloudscape-design/components/button";
 import { LocationModal } from "../../modal/LocationModal";
@@ -28,6 +29,7 @@ export const SearchResults = () => {
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [searchDistance, setSearchDistance] = useState(20);
   const [sortToggle, setSortToggle] = useState(false);
+  const [conditionOptions, setConditionOptions] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { createNotif } = useNotif();
@@ -46,9 +48,9 @@ export const SearchResults = () => {
     const getListings = async () => {
       let query = `http://localhost:8000/listing?&title=${
         term ?? ""
-      }&categories=${categoriesCommas ?? ""}&claimed=${claimed ?? ""}&sort=${
-        sort ?? ""
-      }`;
+      }&categories=${categoriesCommas ?? ""}&condition=${
+        condition ?? ""
+      }&claimed=${claimed ?? ""}&sort=${sort ?? ""}`;
 
       if (
         location &&
@@ -79,47 +81,6 @@ export const SearchResults = () => {
     getListings();
   }, [searchParams, location, catTokensSet]);
 
-  // useEffect(() => {
-  //   // console.log(status, catTokens);
-  //   let filtered = allListings;
-  //   if (status === ListingStatus.Claimed) {
-  //     filtered = filtered.filter((l) => l.claimed);
-  //   } else if (status === ListingStatus.Unclaimed) {
-  //     filtered = filtered.filter((l) => !l.claimed);
-  //   }
-  //   setListings(filtered);
-  //   // console.log(filtered);
-  // }, [status, allListings]);
-
-  // useEffect(() => {
-  //   // redirect based on categories selections
-  //   if (catTokens.length) {
-  //     // if there are selected tokens, set the categories query
-  //     let cats = catTokens.map((catToken) => catToken.label);
-  //     let catURL = cats.join("_");
-  //
-  //     // replace current URL with changed category filters
-  //     let url = new URL(window.location.href);
-  //     let params = new URLSearchParams(url.search);
-  //     params.set("categories", catURL);
-  //     params.toString();
-  //     console.log(params.toString());
-  //     if (params !== null) {
-  //       navigate(`/search?${params.toString()}`);
-  //     }
-  //   } else {
-  //     // if there are no selected tokens, remove categories query
-  //     let url = new URL(window.location.href);
-  //     let params = new URLSearchParams(url.search);
-  //     params.delete("categories");
-  //     params.toString();
-  //     console.log(params.toString());
-  //     if (params !== null) {
-  //       navigate(`/search?${params.toString()}`);
-  //     }
-  //   }
-  // }, [catTokens, searchDistance]);
-
   const handleClaimed = (opt) => {
     setStatus(opt);
     let url = new URL(window.location.href);
@@ -136,6 +97,21 @@ export const SearchResults = () => {
       navigate(`/search?${params.toString()}`);
     }
   };
+
+  const handleCondition = (selected) => {
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    setConditionOptions(selected.selectedOptions);
+    const conditionsComma = selected.selectedOptions
+      .map((opt) => opt["label"])
+      .join(",");
+    console.log(conditionsComma);
+    params.set("condition", conditionsComma);
+    if (params) {
+      navigate(`/search?${params.toString()}`);
+    }
+  };
+
   const handleSort = (sort) => {
     let url = new URL(window.location.href);
     let params = new URLSearchParams(url.search);
@@ -156,19 +132,6 @@ export const SearchResults = () => {
       setCatTokens([...catTokens, { label: k, dismissLabel: `Remove ${k}` }]);
     }
   };
-
-  // const handleSelectCategories = (cats) => {
-  //   let newCats = [];
-  //   let newCatTokens = [];
-  //   cats.forEach((c) => {
-  //     if (catTokensSet.has(c) === false) {
-  //       newCats.push(c);
-  //       newCatTokens.push({ label: c, dismissLabel: `Remove ${c}` });
-  //     }
-  //   });
-  //   setCatTokensSet(new Set([...catTokensSet, ...newCats]));
-  //   setCatTokens([...catTokens, ...newCatTokens]);
-  // };
 
   const handleRemoveCategory = (itemIndex) => {
     setCatTokensSet(
@@ -256,6 +219,35 @@ export const SearchResults = () => {
                     label: ListingStatus.Unclaimed,
                   },
                 ]}
+              />
+            </div>
+          </div>
+
+          <div className="condition">
+            <h4>Condition</h4>
+            <div className="condition-buttons">
+              <Multiselect
+                selectedOptions={conditionOptions}
+                onChange={({ detail }) => handleCondition(detail)}
+                options={[
+                  {
+                    label: "Great",
+                    value: Condition.Great,
+                  },
+                  {
+                    label: "Good",
+                    value: Condition.Good,
+                  },
+                  {
+                    label: "Okay",
+                    value: Condition.Okay,
+                  },
+                  {
+                    label: "Poor",
+                    value: Condition.Poor,
+                  },
+                ]}
+                placeholder="Filter by condition"
               />
             </div>
           </div>

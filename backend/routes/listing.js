@@ -187,6 +187,7 @@ async function getListings(
   if (condition) {
     let conds = [];
     for (let s of sanitize(condition).split(",")) {
+      s = s.toLowerCase();
       switch (s) {
         case "great":
           conds.push("0");
