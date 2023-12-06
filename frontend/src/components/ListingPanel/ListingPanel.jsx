@@ -174,7 +174,7 @@ export const ListingPanel = ({ listing }) => {
               <div className="details-r">
                 <span>{listing.details.quantity}</span>
                 <span>{condition}</span>
-                <span>{listing.details.categories}</span>
+                <span>{listing.details.categories.join(", ")}</span>
               </div>
             </div>
           </div>
