@@ -2,7 +2,17 @@ import axios from "axios";
 import { Condition } from "./enum";
 import { getImageFromId } from "./imageService";
 
-const categoryOptions = ["Clothes", "Books", "Furniture"];
+const categoryOptions = [
+  "Clothes",
+  "Furniture",
+  "Electronics",
+  "Home",
+  "Books",
+  "Games",
+  "Parts",
+  "Outdoor",
+  "Other",
+];
 
 const conditionOptions = [
   { value: Condition.Poor, label: "Poor" },
@@ -30,19 +40,18 @@ async function getListingById(id) {
 }
 
 async function getListingsSorted() {
-	try {
-	  return await axios.get(`http://localhost:8000/listing?sort=latest`);
-	} catch (error) {
-	  console.log(error);
-	  return undefined;
-	}
+  try {
+    return await axios.get(`http://localhost:8000/listing?sort=latest`);
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
-
+}
 
 async function getListingsByCoordinates(lat, lng) {
   try {
     return await axios.get(
-      `http://localhost:8000/listing?latlng=${lat},${lng}&radius=10&sort=location`
+      `http://localhost:8000/listing?latlng=${lat},${lng}&sort=location`,
     );
   } catch (error) {
     console.log(error);
@@ -72,7 +81,7 @@ async function getListingByDistance(data) {
   try {
     return await axios.post(
       "http://localhost:8000/listing/distance-search",
-      data
+      data,
     );
   } catch (error) {
     console.log(error);
@@ -84,18 +93,18 @@ function loadListings(res, callback) {
   let promises = [];
   if (res) {
     res.data.forEach(async (item) => {
-			promises.push(getImageFromId(item.image));
-		});
-		Promise.all(promises).then((values) => {
-			res.data.forEach((item, i) => {
-				if (values[i]) {
+      promises.push(getImageFromId(item.image));
+    });
+    Promise.all(promises).then((values) => {
+      res.data.forEach((item, i) => {
+        if (values[i]) {
           item.image = values[i].data.base64;
         }
-			});
-			callback(res.data);
-		});
+      });
+      callback(res.data);
+    });
   } else {
-    callback(null)
+    callback(null);
   }
 }
 

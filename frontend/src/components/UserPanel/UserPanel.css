@@ -31,3 +31,16 @@
     height: 4rem;
     border-radius: 50%;
 }
+
+#contact-btn {
+    margin-top: .3rem;
+    border: none;
+    border-radius: .3rem;
+    font-size: .8rem;
+    display: block;
+    background-color: #0972D3;
+    color: white;
+    cursor: pointer;
+    height: 1.5rem;
+    width: 10rem;
+}

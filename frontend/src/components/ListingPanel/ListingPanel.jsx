@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import Spinner from "@cloudscape-design/components/spinner";
 import "./ListingPanel.css";
 import { useAuth } from "../../context/Auth/AuthContext";
-import { updateListingById } from "../../utils/listingService";
+import {
+  updateListingById,
+  getListingsByCoordinates,
+} from "../../utils/listingService";
 import { getUserById, updateUserById } from "../../utils/userService";
 import { getImageFromId } from "../../utils/imageService";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -11,21 +14,24 @@ export const ListingPanel = ({ listing }) => {
   const hasAddress = listing.hasOwnProperty("location");
   const hasDistance = listing.hasOwnProperty("distance");
   const [claimListing, setClaimListing] = useState(true);
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState("");
   const [author, setAuthor] = useState("");
   const [user, setUser] = useState();
+  const [distance, setDistance] = useState();
+  const [datePosted, setDatePosted] = useState();
+  const [condition, setCondition] = useState("");
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   useEffect(() => {
     const getImage = async () => {
-      const res = await getImageFromId(listing.image)
+      const res = await getImageFromId(listing.image);
       if (res) {
-        setImage(res.data.base64)
+        setImage(res.data.base64);
       } else {
-        setImage(listing.image)
+        setImage(listing.image);
       }
-    }
+    };
     const getListingAuthor = async () => {
       const res = await getUserById(listing.user_id);
       if (res) {
@@ -37,7 +43,52 @@ export const ListingPanel = ({ listing }) => {
       const res = await getUserById(currentUser.uid);
       if (res) {
         setUser(res.data);
+        await getDistance(res);
       }
+    };
+
+    const getDistance = async (userInfo) => {
+      const lat = userInfo.data.location.latitude;
+      const lng = userInfo.data.location.longitude;
+      const res = await getListingsByCoordinates(lat, lng);
+      for (const l of res.data) {
+        if (l._id === listing._id) {
+          setDistance(l.distance);
+          break;
+        }
+      }
+    };
+
+    const getDate = () => {
+      const date = Date.parse(listing.details.posted_date);
+      console.log(date);
+      setDatePosted(
+        new Date(date).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
+      );
+    };
+
+    const getCondition = () => {
+      let cond = "";
+      switch (listing.details.condition) {
+        case 0:
+          cond = "Great";
+          break;
+        case 1:
+          cond = "Good";
+          break;
+        case 2:
+          cond = "Okay";
+          break;
+        case 3:
+          cond = "Poor";
+          break;
+      }
+      setCondition(cond);
     };
 
     const userInQueue = listing.claim_queue.indexOf(currentUser.uid) !== -1;
@@ -45,6 +96,8 @@ export const ListingPanel = ({ listing }) => {
     getListingAuthor();
     getImage();
     getCurrentUser();
+    getDate();
+    getCondition();
   }, []);
 
   const addUserToClaimQueue = async () => {
@@ -89,19 +142,22 @@ export const ListingPanel = ({ listing }) => {
           {image ? <img className="listing-img" src={image} /> : <Spinner />}
         </div>
         <div className="listing-l">
+          <h2 className="listing-title">{listing.title}</h2>
+          <div className="listing-date">
+            {datePosted ? <span>Listed on {datePosted}</span> : <span></span>}
+          </div>
           <span
             className="listing-profile-link"
             onClick={() => navigate(`/user/${listing.user_id}`)}
           >
-            Posted {author && `by ${author}`}
+            {author && `${author}`}
           </span>
-          <h2 className="listing-title">{listing.title}</h2>
           <h3 className="listing-address">
             {hasAddress ? listing.location.address : "No Address"}
           </h3>
           <div className="listing-proximity">
-            {hasDistance ? (
-              <span>{listing.distance.toFixed(2)} miles away</span>
+            {distance ? (
+              <span>{distance.toFixed(2)} miles away</span>
             ) : (
               <span></span>
             )}
@@ -116,7 +172,7 @@ export const ListingPanel = ({ listing }) => {
               </div>
               <div className="details-r">
                 <span>{listing.details.quantity}</span>
-                <span>{listing.details.condition}</span>
+                <span>{condition}</span>
                 <span>{listing.details.categories}</span>
               </div>
             </div>
