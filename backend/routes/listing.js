@@ -123,6 +123,7 @@ router.post("/distance-search", async (req, res) => {
     const address = req.body.address;
     const addressToCoordsRequest = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
     let mapsResult = await axios.get(addressToCoordsRequest);
+
     const user_coords = mapsResult.data.results[0].geometry.location;
 
     let result = await listingModel.find().limit(10);
@@ -178,12 +179,15 @@ async function getListings(
   if (title && title !== "") {
     match.push({ title: new RegExp(sanitize(title), "i") });
   }
-  if (claimed) {
+  if (claimed && claimed.toLowerCase() === "true") {
     match.push({ claimed: true });
+  } else if (claimed && claimed.toLowerCase() === "false") {
+    match.push({ claimed: false });
   }
   if (condition) {
     let conds = [];
     for (let s of sanitize(condition).split(",")) {
+      s = s.toLowerCase();
       switch (s) {
         case "great":
           conds.push("0");
@@ -220,6 +224,7 @@ async function getListings(
     sort_by["details.posted_date"] = -1;
   } else {
     for (let s of sanitize(sort).split(",")) {
+      s = s.toLowerCase();
       if (s === "earliest") {
         sort_by["details.posted_date"] = 1;
       }

@@ -13,11 +13,20 @@ export const ListingStatus = {
 
 export const Categories = {
   Clothes: "Clothes",
-  Books: "Books",
   Furniture: "Furniture",
+  Electronics: "Electronics",
+  Home: "Home",
+  Books: "Books",
+  Games: "Games",
+  Parts: "Parts",
+  Outdoor: "Outdoor",
+  Other: "Other",
 };
 
 export const SortBy = {
-  DatePosted: "Date Posted",
-  Distance: "Distance",
+  Earliest: "Earliest",
+  Latest: "Latest",
+  Title: "Title",
+  Location: "Location",
+  Condition: "Condition",
 };

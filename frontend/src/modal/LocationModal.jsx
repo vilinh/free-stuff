@@ -1,4 +1,5 @@
 import { useLocationContext } from "../context/Location/LocationContext";
+import { useAuth } from "../context/Auth/AuthContext";
 import Modal from "@cloudscape-design/components/modal";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Spinner from "@cloudscape-design/components/spinner";
@@ -6,33 +7,48 @@ import Autocomplete from "react-google-autocomplete";
 import Icon from "@cloudscape-design/components/icon";
 import { useState } from "react";
 import Button from "@cloudscape-design/components/button";
-import './LocationModal.css'
+import "./LocationModal.css";
+import { updateUserById } from "../utils/userService";
 
 export const LocationModal = ({ show, onClose }) => {
+  const { currentUser } = useAuth();
   const [searchLoc, setSearchLoc] = useState("");
   const [searchPos, setSearchPos] = useState({});
-  const { findLocation, setAddress, setLocation, loading, address } = useLocationContext();
+  const { findLocation, setAddress, setLocation, loading, address } =
+    useLocationContext();
 
   const handlePlaceSelected = (place) => {
     const latitude = place.geometry.location.lat();
     const longitude = place.geometry.location.lng();
     const address = place.formatted_address;
-    console.log(latitude, longitude)
     const loc = {
       address,
       latitude,
       longitude,
     };
     setSearchLoc(address);
-    setSearchPos({latitude, longitude});
+    setSearchPos({ latitude, longitude });
   };
+
+  async function updateUserLocation(streetAddr, coords) {
+    const loc = {
+      location: {
+        address: streetAddr,
+        latitude: coords.lat,
+        longitude: coords.lng,
+      },
+    };
+    await updateUserById(currentUser.uid, loc);
+  }
 
   const confirmPlaceSelected = () => {
     setAddress(searchLoc);
-    setLocation(searchPos)
+    setLocation(searchPos);
+    const coords = { lat: searchPos.latitude, lng: searchPos.longitude };
+    updateUserLocation(searchLoc, coords);
     onClose();
     setSearchLoc("");
-    setSearchPos({})
+    setSearchPos({});
   };
 
   const handleFindLocation = () => {
