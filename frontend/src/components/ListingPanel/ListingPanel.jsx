@@ -110,8 +110,9 @@ export const ListingPanel = ({ listing }) => {
     }
 
     if (user.claimed_listings.indexOf(listing._id) === -1) {
+      console.log("here")
       user.claimed_listings.push(listing._id);
-      await updateUserById(user._id, user);
+      await updateUserById(user.uid, user);
     }
   };
 

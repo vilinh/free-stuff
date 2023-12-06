@@ -16,14 +16,9 @@ beforeAll(async () => {
 });
 
 test("test get image by id", async () => {
-  const result = await getImageById("654d2674124e992f8ebba99b");
+  const result = await getImageById("6570c72f61f40cecd2376e7a");
 
-  // expected = {
-  //   _id: ObjectId("654d2674124e992f8ebba99b"),
-  //   name: "brokeblessings.png"
-  // };
-
-  expect(result.name).toBe("brokeblessings.png");
+  expect(result.name).toBe("shirt.jpeg");
 });
 
 test("test add image", async () => {

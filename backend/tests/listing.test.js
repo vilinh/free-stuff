@@ -18,17 +18,17 @@ beforeAll(async () => {
 });
 
 test("test find listing by id", async () => {
-  const result = await findListingById("656a186f2dd1c886f83adac9");
+  const result = await findListingById("6570c72f61f40cecd2376e80");
 
-  expect(result.title).toBe("record");
-  expect(result.user_id).toBe("awbwSHGhSvbA35Msl1OG41nODxO2");
+  expect(result.title).toBe("green shirt");
+  expect(result.user_id).toBe("nVspFOWRfGbwRdnYu0NP6lJIdEr2");
 });
 
 test("test find listing by uid", async () => {
   const result = await findListingByUId("nVspFOWRfGbwRdnYu0NP6lJIdEr2");
 
-  expect(result[0].title).toBe("Bookssss");
-  expect(result[0].description).toBe("books");
+  expect(result[0].title).toBe("green shirt");
+  expect(result[0].description).toBe("a green shirt");
 });
 
 test("test add listing", async () => {
