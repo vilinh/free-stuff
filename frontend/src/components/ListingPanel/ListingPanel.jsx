@@ -61,7 +61,6 @@ export const ListingPanel = ({ listing }) => {
 
     const getDate = () => {
       const date = Date.parse(listing.details.posted_date);
-      console.log(date);
       setDatePosted(
         new Date(date).toLocaleDateString("en-US", {
           month: "long",
@@ -110,7 +109,6 @@ export const ListingPanel = ({ listing }) => {
     }
 
     if (user.claimed_listings.indexOf(listing._id) === -1) {
-      console.log("here")
       user.claimed_listings.push(listing._id);
       await updateUserById(user.uid, user);
     }
@@ -132,7 +130,7 @@ export const ListingPanel = ({ listing }) => {
 
     if (listingIdx !== -1) {
       user.claimed_listings.splice(listingIdx, 1);
-      await updateUserById(user._id, user);
+      await updateUserById(user.uid, user);
     }
   };
 
