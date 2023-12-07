@@ -36,8 +36,9 @@ const SignUp = ({ user }) => {
     setErr(false);
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
-      .then((cred) => {
-        makePostCall(cred.user, location);
+      .then(async (cred) => {
+        setDisabled(true);
+        await makePostCall(cred.user, location);
         navigate("/user");
       })
       .catch((error) => {
