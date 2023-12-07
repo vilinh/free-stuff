@@ -25,7 +25,7 @@ test("test find user by uid", async () => {
 
 test("test add user", async () => {
   const user = new userModel({
-    email: "test@gmail.com",
+    email: "newtest@gmail.com",
     uid: "ADSUKXrdEGQZQIEqUdUqIcGII3s2",
   });
   const add = await addUser(user);
@@ -37,7 +37,7 @@ test("test add user", async () => {
   //   email: "test@gmail.com",
   // };
 
-  expect(result.email).toBe("test@gmail.com");
+  expect(result.email).toBe("newtest@gmail.com");
   expect(result.uid).toBe("ADSUKXrdEGQZQIEqUdUqIcGII3s2");
 });
 
