@@ -4,6 +4,7 @@ import { getUserById } from "../../utils/userService";
 import { getListingById } from "../../utils/listingService";
 import { ListingPanel } from "../ListingPanel/ListingPanel";
 import { CircularProgress } from "@mui/material";
+import "./ClaimedListing.css"
 
 export default function ClaimedListing() {
 	const [listings, setListings] = useState();
@@ -28,7 +29,7 @@ export default function ClaimedListing() {
 	}, []);
 
 	return (
-		<div>
+		<div className="claimed-listings">
 			{listings ? (
 				listings.map((listing, key) => {
 					if (listing) {
