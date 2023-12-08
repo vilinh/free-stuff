@@ -7,10 +7,12 @@ import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { loadListings } from "../../utils/listingService";
+import { useAuth } from "../../context/Auth/AuthContext";
 
 export const UserPage = (uid) => {
   const auth = getAuth();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +50,7 @@ export const UserPage = (uid) => {
       </div>
       <div className="user-listings">
         {listings.map((listing, key) => (
-          <ListingThumbnail listing={listing} editListing={true} />
+          <ListingThumbnail listing={listing} editListing={profileUid === currentUser.uid} />
         ))}
       </div>
     </div>
